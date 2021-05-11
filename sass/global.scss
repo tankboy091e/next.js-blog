@@ -1,0 +1,88 @@
+@use './lib/mediaquery.scss' as mediaquery;
+@import './lib/color.scss';
+@import './lib/font.scss';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width : 100%;
+  height : 100%;
+  font-family: 'Chosun';
+  font-weight: 100;
+  color: $primary;
+  background-color: $background;
+  @include mediaquery.mobile {
+    font-size: 16px;
+  }
+  @include mediaquery.tablet {
+    font-size: 17px;
+  }
+  @include mediaquery.desktop {
+    font-size: 18px;
+  }
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+display: block;
+}
+
+* {
+  margin : 0;
+  padding : 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: $darkenPrimary;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+fieldset {
+  border: 0;
+}
+
+button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+strong,
+b {
+color: inherit;
+font-size: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+input, textarea {
+  font-family: inherit;
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=submit] {
+  cursor: pointer;
+}

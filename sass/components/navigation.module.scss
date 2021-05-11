@@ -1,0 +1,47 @@
+@import '../lib/color.scss';
+
+.container {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 250px;
+    height: 100%;
+    background-color: $darkenBackground;
+    transition: transform .5s;
+    padding: 1rem;
+    z-index: 99;
+    &.inactive {
+        transform: translateX(-100%);
+        .icon {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.button {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    padding: .5rem .5rem .5rem .2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    color: $darkenPrimary;
+    background-color: inherit;
+}
+
+.icon {
+    transition: transform .5s;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50%;
+}
+
+.menu {
+    font-size: 1.3rem;
+    padding: .5rem;
+}
