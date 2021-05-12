@@ -1,6 +1,14 @@
+@use '../lib/mediaquery.scss' as mediaquery;
+
 .main {
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3rem;
+    transition: padding-top 1s;
+    @include mediaquery.mobile {
+        padding-top: 3rem;
+    }
 }
 

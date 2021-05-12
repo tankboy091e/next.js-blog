@@ -32,7 +32,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx", "lib/db/admin.js",
   ],
   "exclude": [
     "node_modules"

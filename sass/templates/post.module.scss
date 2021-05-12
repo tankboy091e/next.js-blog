@@ -1,0 +1,6 @@
+@import '../lib/variables.scss';
+
+.container {
+    max-width: $breakpoint-mobile;
+    padding: 2rem;
+}

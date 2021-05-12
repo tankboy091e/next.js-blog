@@ -29,6 +29,7 @@ module.exports = {
     'no-plusplus': ['error', {
       allowForLoopAfterthoughts: true,
     }],
+    'no-shadow': 'off',
     'react/require-default-props': 'off',
     'react/jsx-filename-extension': [1, {
       extensions: ['.tsx'],

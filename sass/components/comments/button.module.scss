@@ -1,0 +1,8 @@
+@import '../../lib/color.scss';
+
+.button {
+    font-size: 1.1rem;
+    &:hover {
+        text-decoration: underline;
+    }
+}
