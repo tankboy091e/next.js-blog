@@ -20,6 +20,11 @@ export default function Book({
 }) {
   const url = `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_KEY}&itemIdType=ISBN&ItemId=${ISBN}&output=xml&Version=20131101`
   const { data } = useSWR<BookData>(url, fetcher)
+
+  if (!data) {
+    return <></>
+  }
+
   console.log(data)
   const { cover: coverSrc } = data
   return (
