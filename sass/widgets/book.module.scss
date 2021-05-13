@@ -1,0 +1,7 @@
+.image {
+    box-shadow: 1px 1px 4px rgba(black, .3);
+    transition: transform .5s;
+    &:hover {
+        transform: translateY(-4px);
+    }
+}

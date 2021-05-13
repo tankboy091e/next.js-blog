@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 export default function Navigation() {
   const [active, setActive] = useState(false)
+  let key = 0
 
   return (
     <nav className={getClassName(styles.container, active === false && styles.inactive)}>
@@ -15,8 +16,9 @@ export default function Navigation() {
       <ul className={styles.inner}>
         {menu.map((value) => {
           const href = `/${value}`
+          key += 1
           return (
-            <Link href={href}>
+            <Link href={href} key={key}>
               <a key={href} href="replace" className={styles.menu}>
                 {value}
               </a>

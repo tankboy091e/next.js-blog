@@ -1,0 +1,18 @@
+@use '../lib/mediaquery.scss' as mediaquery;
+
+.container {
+    display: grid;
+    gap: 2rem;
+    padding: 4rem 2rem;
+    max-width: 1024px;
+    width: 100%;
+    @include mediaquery.desktop {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @include mediaquery.tablet {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @include mediaquery.mobile {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
