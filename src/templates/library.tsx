@@ -8,7 +8,7 @@ export default function Library() {
     <div className={styles.container}>
       {[...Array(30)].map(() => {
         key += 1
-        return <Book key={key} />
+        return <Book key={key} ISBN={9788970132099} />
       })}
     </div>
   )
