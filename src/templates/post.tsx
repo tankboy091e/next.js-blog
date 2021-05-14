@@ -6,6 +6,7 @@ import fetcher from 'lib/api/fetcher'
 import styles from 'sass/templates/post.module.scss'
 import useSWR from 'swr'
 import PageNotFound from './404'
+import LoadingSection from './loadingSection'
 
 interface PostData {
   total: number,
@@ -30,7 +31,7 @@ export default function Post() {
   }
 
   if (!data) {
-    return <></>
+    return <LoadingSection />
   }
 
   return (

@@ -6,6 +6,8 @@ import Librarian from 'components/librarian'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
 import Book, { BookProps } from 'widgets/book'
+import LoadingSection from 'templates/loadingSection'
+import PageNotFound from 'templates/404'
 
 export default function Library() {
   // let key = 0
@@ -14,11 +16,11 @@ export default function Library() {
   const { data, error } = useSWR<BookProps[]>('/api/books', fetcher)
 
   if (error) {
-    return <></>
+    return <PageNotFound />
   }
 
   if (!data) {
-    return <></>
+    return <LoadingSection />
   }
 
   return (

@@ -1,0 +1,34 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.child {
+    border-radius: 50%;
+    background-color: color.$primary;
+    & + & {
+        margin-left: 1rem;
+    }
+    @for $i from 1 to 6 {
+        &:nth-child(#{$i}) {
+            animation: dance 1.2s infinite calc(#{$i - 1} * .2s) both;
+        }
+    }
+}
+
+@keyframes dance {
+    0% {
+        transform: scale(1);
+    }
+    35% {
+        transform: scale(0.7, 1.5);
+    }
+    70% {
+        transform: scale(1);
+    }
+}

@@ -56,7 +56,7 @@ export default function Book({
 
   return (
     <Link href={`/quotes/${isbn13}`}>
-      <a className={styles.container} href="404" target="_blank">
+      <a className={styles.container} href="404">
         <div className={styles.book}>
           <div>
             <img className={styles.front} src={front} alt="not found" />

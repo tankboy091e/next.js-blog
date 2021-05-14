@@ -1,7 +1,8 @@
-import { useRouter } from 'next/router'
 import { createContext, useContext } from 'react'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
+import usePageQuery from 'lib/hooks/pageQuery'
+import Loading from 'widgets/loading'
 import FormProvider from 'providers/formProvider'
 import Input from './input'
 import Comment, { commentData } from './comment'
@@ -19,11 +20,15 @@ export default function Inner({
 } : {
   doc: string
 }) {
-  const router = useRouter()
+  const { category, current } = usePageQuery()
   const { data, mutate } = useSWR<commentData[]>(
-    `/api/comments${router.asPath}`,
+    `/api/comments/${category}/${current}`,
     fetcher,
   )
+
+  if (!data) {
+    return <Loading size={10} />
+  }
 
   let key = 0
 
@@ -33,7 +38,7 @@ export default function Inner({
 
   return (
     <CommentsContext.Provider value={value}>
-      {data?.length > 0 && data.map((value) => {
+      {data.length > 0 && data.map((value) => {
         key += 1
         return <Comment key={key} data={value} />
       })}
