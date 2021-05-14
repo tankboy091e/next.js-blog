@@ -18,7 +18,7 @@ export default function Book({
   alt?: string
   ISBN: number
 }) {
-  const url = `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbtankboy09132120001&itemIdType=ISBN&ItemId=${ISBN}&output=JS&Version=20131101`
+  const url = `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=ttbtankboy09132120001&itemIdType=ISBN13&ItemId=${ISBN}&output=JS&Version=20131101`
   const { data } = useSWR<BookData>(url, fetcher)
 
   if (!data) {
