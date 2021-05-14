@@ -33,9 +33,9 @@ export default function Library() {
       <section className={styles.bookcase}>
         {data.map((value) => {
           const {
-            isbn13, cover, itemPage,
+            id, cover, itemPage,
           } = value
-          return <Book key={isbn13} cover={cover} itemPage={itemPage} isbn13={isbn13} />
+          return <Book key={id} cover={cover} itemPage={itemPage} isbn13={id} />
         })}
       </section>
     </div>

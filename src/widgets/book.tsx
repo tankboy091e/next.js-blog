@@ -9,7 +9,7 @@ export interface BookProps {
   publisher: string
   cover: string
   link: string
-  isbn13: string
+  id: string
   itemPage: number
 }
 
@@ -58,19 +58,17 @@ export default function Book({
     <Link href={`/quotes/${isbn13}`}>
       <a className={styles.container} href="404">
         <div className={styles.book}>
-          <div>
-            <img className={styles.front} src={front} alt="not found" />
-            <div className={styles.paper} style={{ width: pageWidth }} />
-            <img
-              className={styles.back}
-              src={back}
-              alt="not found"
-              style={{
-                transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
-              }}
-              onError={onError}
-            />
-          </div>
+          <img className={styles.front} src={front} alt="not found" />
+          <div className={styles.paper} style={{ width: pageWidth }} />
+          <img
+            className={styles.back}
+            src={back}
+            alt="not found"
+            style={{
+              transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
+            }}
+            onError={onError}
+          />
         </div>
       </a>
     </Link>

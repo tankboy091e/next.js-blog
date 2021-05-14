@@ -1,16 +1,15 @@
 .container {
     perspective: 1000px;
-    * {
-        transform-style: preserve-3d;
-    }
 }
 
 .book {
     position: relative;
     transition: transform .5s;
+    transform-style: preserve-3d;
     transform-origin: 50% 0;
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
     &:hover {
-        transform: translateX(-.5rem) rotateY(-25deg);
+        transform: translate3d(-.5rem, 0, 0) rotateX(0deg) rotateY(-25deg) rotateZ(0deg);
     }
 }
 
@@ -32,7 +31,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    transform-origin: right;
-    width: 0%;
-    height: 0%;
+    width: 100%;
+    height: 100%;
 }
