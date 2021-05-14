@@ -1,10 +1,8 @@
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import AuthProvider from 'providers/authProvider'
+import ModalProvider from 'providers/modalProvider'
 import 'sass/global.scss'
-
-const appContainerID = 'appContainer'
-const modalContainerID = 'modalContainer'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,19 +11,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <AuthProvider>
-        <div id={appContainerID}>
+        <ModalProvider>
           <Component {...pageProps} />
-        </div>
-        <div id={modalContainerID} />
+        </ModalProvider>
       </AuthProvider>
     </>
   )
-}
-
-export function getAppContainer() : HTMLElement {
-  return document.getElementById(appContainerID)
-}
-
-export function getModalContainer(): HTMLElement {
-  return document.getElementById(modalContainerID)
 }

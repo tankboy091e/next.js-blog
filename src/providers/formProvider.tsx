@@ -6,6 +6,7 @@ import React, {
   useContext,
   useState,
 } from 'react'
+import styles from 'sass/providers/formProvider.module.scss'
 
 export interface formState {
   status: 'default' | 'pending' | 'error' | 'success'
@@ -17,8 +18,8 @@ interface defaultProps {
   needToValidate?: RefObject<HTMLInputElement | HTMLTextAreaElement>[]
   backPath?: string
   transitionInterval?: number
-  onSuccess?: () => void
-  submitValue?: string
+  getResponse?: (data: any) => void
+  submitValue?: React.ReactNode
   containerClassName?: string
   innerClassName?: string
   submitClassName?: string
@@ -36,7 +37,7 @@ interface fetchProps {
 }
 
 interface submitProps {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>
+  onSubmit: (e?: FormEvent<HTMLFormElement>) => Promise<void>
   successDescription?: string
   failDescription?: string
 }
@@ -60,13 +61,14 @@ export default function FormProvider({
     onSubmit: null,
   })
   const [state, setState] = useState<formState>({ status: 'default' })
+  const [data, setData] = useState<any>(null)
 
   const {
     needToValidate,
     submitValue = 'Submit',
     backPath,
     transitionInterval = 2000,
-    onSuccess,
+    getResponse,
     containerClassName,
     innerClassName,
     submitClassName,
@@ -86,33 +88,41 @@ export default function FormProvider({
         status: 'success',
         message: successDescription || 'Processed Sucessfully.',
       })
-    } catch {
+    } catch (error) {
+      const message = error instanceof VailidationError
+        ? error.message
+        : failDescription || 'Something went wrong'
       setState({
         status: 'error',
-        message: failDescription || 'Something went wrong',
+        message,
       })
     }
   }
 
-  const handleFetch = async (input: RequestInfo, init: RequestInit) => {
+  const handleFetch = async (input: RequestInfo, init?: RequestInit) => {
     const res = await fetch(input, init)
     if (res.status === 201) {
-      const body = await res.json()
-      setState({
+      const { data, message } = await res.json()
+      setData(() => data)
+      setState(() => ({
         status: 'success',
-        message: body.message,
-      })
+        message,
+      }))
     } else {
-      const body = await res.json()
+      const { error } = await res.json()
       setState({
         status: 'error',
-        message: body.message,
+        message: error,
       })
     }
   }
 
   const onSubmitFetch = async ({ input, init }: defaultProps & fetchProps) => {
     handleFetch(input, init())
+  }
+
+  const onFetchWithGet = async ({ input }: defaultProps & formProps) => {
+    handleFetch(input)
   }
 
   const onSubmitFormData = async (
@@ -149,6 +159,8 @@ export default function FormProvider({
       onSubmitCustom(options, e)
     } else if ('init' in options) {
       onSubmitFetch(options)
+    } else if (options.method === 'GET') {
+      onFetchWithGet(options)
     } else {
       onSubmitFormData(options, e)
     }
@@ -167,9 +179,13 @@ export default function FormProvider({
       } else {
         setState({ status: 'default' })
       }
-      onSuccess?.call(null)
+      getResponse?.call(null, data)
     }, transitionInterval)
-    return <>saved sucessfully</>
+    return (
+      <div className={styles.successContainer}>
+        {state.message}
+      </div>
+    )
   }
 
   const value = {
@@ -180,18 +196,19 @@ export default function FormProvider({
     <FormContext.Provider value={value}>
       <form onSubmit={onSubmit} className={containerClassName}>
         {state.status === 'error' && (
-          <div>
+          <div className={styles.errorContainer}>
             {state.code}
             <p>{state.message}</p>
           </div>
         )}
         <div className={innerClassName}>
           {children}
-          <input
+          <button
             type="submit"
             className={submitClassName}
-            value={submitValue}
-          />
+          >
+            {submitValue}
+          </button>
         </div>
       </form>
     </FormContext.Provider>

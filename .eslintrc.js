@@ -25,6 +25,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'linebreak-style': 0,
     'no-use-before-define': 'off',
+    'no-underscore-dangle': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     'no-plusplus': ['error', {
       allowForLoopAfterthoughts: true,

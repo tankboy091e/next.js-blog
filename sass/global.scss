@@ -1,6 +1,7 @@
 @use './lib/mediaquery.scss' as mediaquery;
-@import './lib/color.scss';
+@use './lib/color.scss' as color;
 @import './lib/font.scss';
+@import './lib/scrollbar.scss';
 
 html,
 body {
@@ -10,8 +11,8 @@ body {
   height : 100%;
   font-family: 'Chosun';
   font-weight: 100;
-  color: $primary;
-  background-color: $background;
+  color: color.$primary;
+  background-color: color.$background;
   @include mediaquery.mobile {
     font-size: 16px;
   }
@@ -23,13 +24,9 @@ body {
   }
 }
 
-body::-webkit-scrollbar {
-    display: none;
-}
-
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-display: block;
+  display: block;
 }
 
 * {
@@ -39,7 +36,7 @@ display: block;
 }
 
 a {
-  color: $darkenPrimary;
+  color: color.$darkenPrimary;
   text-decoration: none;
   cursor: pointer;
 }
@@ -91,4 +88,36 @@ input, textarea {
 
 input[type=submit] {
   cursor: pointer;
+}
+
+#articleContent {
+  >div:not(.codeBlock) {
+    margin-bottom : .25rem;
+  }
+  ol {
+      padding-left : 2rem;
+  }
+  img {
+      display : block;
+      max-width : 100%;
+      margin : 0 auto;
+  }
+  ul {
+      padding-left : 2rem;
+  }
+  .codeBlock {
+    font-family: consolas;
+    font-size : .9rem;
+    line-height: 1.5;
+    width : 100%;
+    padding : .5rem 1rem;
+    color : color.$darkenPrimary;
+    background-color : color.$darkenBackground;
+  }
+  .codeBlock + .codeBlock {
+    padding : 0rem 1rem .5rem 1rem;
+  }
+  .codeBlock + div:not(.codeBlock){
+    margin-top: 1rem;
+  }
 }

@@ -5,7 +5,7 @@ import { useForm } from 'providers/formProvider'
 import { useComments } from './inner'
 
 export default function Input({
-  id,
+  doc,
   name = '',
   password = '',
   content = '',
@@ -14,7 +14,7 @@ export default function Input({
   submitValue,
   method,
 }: {
-  id?: string
+  doc: string
   name?: string
   password?: string
   content?: string
@@ -26,7 +26,6 @@ export default function Input({
   const router = useRouter()
   const { setOptions } = useForm()
   const { refresh } = useComments()
-
   const nameRef = useRef<HTMLInputElement>()
   const passwordRef = useRef<HTMLInputElement>()
   const contentRef = useRef<HTMLTextAreaElement>()
@@ -40,11 +39,11 @@ export default function Input({
       method,
       input: `/api/comments${router.asPath}`,
       extraBody: {
-        id,
+        doc,
       },
       needToValidate: [nameRef, passwordRef, contentRef],
       transitionInterval: 2000,
-      onSuccess: () => refresh(),
+      getResponse: () => refresh(),
       submitValue,
       containerClassName: styles.formContainer,
       innerClassName: styles.formInner,
@@ -71,6 +70,7 @@ export default function Input({
           type="password"
           placeholder="password"
           maxLength={25}
+          autoComplete="off"
         />
       </header>
       <textarea

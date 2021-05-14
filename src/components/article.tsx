@@ -1,13 +1,31 @@
-import data from 'public/json/text.json'
+import convertTimestamp from 'lib/util/date'
 import styles from 'sass/components/article.module.scss'
 
-export default function Article() {
-  const { title, content } = data
+export interface ArticleData {
+  title: string
+  subtitle: string
+  content: string
+  createdAt: string
+}
+
+export default function Article({ data }: { data: ArticleData }) {
+  const {
+    title, subtitle, content, createdAt,
+  } = data
+
+  const __html = content.replace(/–{2,}/g, '⸻').replace('<script>', '').replace('<iframe>', '')
+
   return (
     <article className={styles.container}>
       <p className={styles.title}>{title}</p>
-      <p className={styles.content}>{content}</p>
-      <time className={styles.date}>2021년 3월 16일</time>
+      {subtitle && (<p className={styles.subtitle}>{subtitle}</p>)}
+      <p
+        id="articleContent"
+        className={styles.content}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html }}
+      />
+      <time className={styles.date}>{convertTimestamp(createdAt)}</time>
     </article>
   )
 }

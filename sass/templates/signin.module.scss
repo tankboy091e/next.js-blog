@@ -1,0 +1,58 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    max-width: 768px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.formContainer {
+    width: 100%;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.legend {
+    font-size: 2rem;
+    padding: 1rem 0;
+}
+
+.field {
+    width: 100%;
+    padding: 1rem;
+    font-size: 2rem;
+    border: 1px solid color.$darkenPrimary;
+    & + & {
+        margin-top: .5rem;
+    }
+}
+
+.checkboxLabel {
+    margin-top: 1rem;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    margin-right: .3em;
+}
+
+.submit {
+    font-size: 2rem;
+    margin-top: 1rem;
+    width: 100%;
+    padding: 1rem 0;
+    border: none;
+    color: color.$background;
+    background-color: color.$primary;
+}

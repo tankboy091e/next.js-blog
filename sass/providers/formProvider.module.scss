@@ -1,0 +1,21 @@
+@use '../lib/color.scss' as color;
+
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorContainer {
+    border: 1px solid color.$alert;
+    color: color.$alert;
+    background-color: color.$lightenAlert;
+    padding: 1rem;
+    @include center();
+}
+
+.successContainer {
+    @include center();
+    padding: 2rem;
+    font-size: 1.5rem;
+}

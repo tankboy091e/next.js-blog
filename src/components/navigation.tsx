@@ -19,7 +19,7 @@ export default function Navigation() {
           key += 1
           return (
             <Link href={href} key={key}>
-              <a key={href} href="replace" className={styles.menu}>
+              <a key={href} href="/" className={styles.menu}>
                 {value}
               </a>
             </Link>

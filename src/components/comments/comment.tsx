@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
@@ -16,10 +17,8 @@ export interface commentData {
 }
 
 export default function Comment({
-  index,
   data,
 }: {
-  index: number
   data: commentData
 }) {
   const router = useRouter()
@@ -77,7 +76,7 @@ export default function Comment({
     return (
       <FormProvider>
         <Input
-          id={id}
+          doc={id}
           method="PUT"
           submitValue="Edit"
           name={name}
@@ -104,7 +103,7 @@ export default function Comment({
             className={styles.menuButton}
             onClick={() => setExtended(!extended)}
           >
-            <HiOutlineDotsVertical size={20} />
+            <HiOutlineDotsVertical size={16} />
           </button>
           {extended && (
             <div className={styles.menu}>
