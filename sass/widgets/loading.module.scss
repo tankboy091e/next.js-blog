@@ -16,7 +16,11 @@
     }
     @for $i from 1 to 6 {
         &:nth-child(#{$i}) {
-            animation: dance 1.2s infinite calc(#{$i - 1} * .2s) both;
+            animation-name: dance;
+            animation-duration: 1.2s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            animation-delay: calc(#{$i - 1} * .2s);
         }
     }
 }
