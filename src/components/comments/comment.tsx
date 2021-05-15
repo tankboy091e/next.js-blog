@@ -1,9 +1,10 @@
-/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react'
 import styles from 'sass/components/comments/comment.module.scss'
 import SpeechBubble from 'widgets/speech-bubble'
 import FormProvider from 'providers/form'
 import usePageQuery from 'lib/hooks/page-query'
+import { usePrompt } from 'providers/modal/prompt'
+import { useAlert } from 'providers/modal/alert'
 import Input from './input'
 import { useComments } from './inner'
 
@@ -23,8 +24,14 @@ export default function Comment({ data }: { data: commentData }) {
   const [password, setPassword] = useState(null)
   const { refresh } = useComments()
 
+  const { createPrompt } = usePrompt()
+  const { createAlert } = useAlert()
+
   const onEdit = async () => {
-    const password = prompt('비밀번호를 입력하세요.')
+    const password = await createPrompt({
+      message: '비밀번호를 입력하세요',
+      type: 'password',
+    })
     if (!password) {
       return
     }
@@ -43,12 +50,19 @@ export default function Comment({ data }: { data: commentData }) {
       setState('edit')
     } else {
       const { error } = await res.json()
-      alert(error)
+      createAlert({
+        message: error,
+        code: 'error',
+      })
     }
   }
 
   const onDelete = async () => {
-    const password = prompt('정말로 지우시겠습니까? 비밀번호를 입력하세요.')
+    const password = await createPrompt({
+      message: '비밀번호를 입력하세요',
+      code: '주의',
+      type: 'password',
+    })
     if (!password) {
       return
     }
@@ -66,7 +80,10 @@ export default function Comment({ data }: { data: commentData }) {
       refresh()
     } else {
       const { error } = await res.json()
-      alert(error)
+      createAlert({
+        message: error,
+        code: 'error',
+      })
     }
   }
 

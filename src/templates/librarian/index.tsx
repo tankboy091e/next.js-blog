@@ -15,9 +15,13 @@ export default function Librarian() {
       </FormProvider>
       {searchData && (
         <section className={styles.searchedContainer}>
-          {searchData.item.map((value: any) => (
-            <SearchedBook key={value.isbn13 || value.isbn} value={value} />
-          ))}
+          {searchData.item.length < 1 ? (
+            <p className={styles.result}>No result</p>
+          ) : (
+            searchData.item.map((value: any) => (
+              <SearchedBook key={value.isbn13 || value.isbn} value={value} />
+            ))
+          )}
         </section>
       )}
     </section>

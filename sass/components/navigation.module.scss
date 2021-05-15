@@ -27,6 +27,14 @@
     }
 }
 
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .mobileHeader {
     @include mediaquery.mobile {
         height: calc(32px + 1rem);
@@ -53,6 +61,7 @@
 }
 
 .inner {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;

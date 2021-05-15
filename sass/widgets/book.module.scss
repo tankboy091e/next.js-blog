@@ -8,13 +8,11 @@
     position: relative;
     transition: transform .5s;
     transform-style: preserve-3d;
-    transform-origin: 50% 0;
-    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
     @include mediaquerey.mobile {
-        transform: translate3d(-5%, 0, 0) rotateX(0deg) rotateY(-15deg) rotateZ(0deg);
+        transform: translateX(-.5rem) rotateY(-15deg);
     }
     &:hover {
-        transform: translate3d(-5%, 0, 0) rotateX(0deg) rotateY(-20deg) rotateZ(0deg);
+        transform: translateX(-.75rem) rotateY(-20deg);
     }
 }
 

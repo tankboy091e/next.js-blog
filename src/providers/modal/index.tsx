@@ -1,19 +1,22 @@
+import AlertProvider from 'providers/modal/alert'
+import PromptProvider from 'providers/modal/prompt'
 import { getClassName } from 'lib/util'
 import React, {
-  createContext, RefObject, useContext, useRef, useState,
+  createContext, RefObject, useContext, useEffect, useRef, useState,
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
+import ConfirmProvider from './confirm'
 
-interface ModalContextProps {
+interface ModalProviderContextProps {
     container : RefObject<HTMLDivElement>
     curtain: RefObject<HTMLDivElement>
     pull : () => void,
     pullBack : () => void,
 }
 
-const ModalContext = createContext<ModalContextProps>(null)
+const ModalProviderContext = createContext<ModalProviderContextProps>(null)
 
-export const useModalProvider = () => useContext(ModalContext)
+export const useModalProvider = () => useContext(ModalProviderContext)
 
 export default function ModalProvider({
   children,
@@ -42,12 +45,22 @@ export default function ModalProvider({
     pullBack,
   }
 
+  useEffect(() => {
+    pullBack()
+  })
+
   return (
-    <ModalContext.Provider value={value}>
-      {children}
+    <ModalProviderContext.Provider value={value}>
+      <AlertProvider>
+        <ConfirmProvider>
+          <PromptProvider>
+            {children}
+          </PromptProvider>
+        </ConfirmProvider>
+      </AlertProvider>
       <div className={styles.container} ref={container} style={{ zIndex: active ? 98 : -1 }}>
         <div className={getClassName(styles.curtain, active && styles.active)} ref={curtain} />
       </div>
-    </ModalContext.Provider>
+    </ModalProviderContext.Provider>
   )
 }

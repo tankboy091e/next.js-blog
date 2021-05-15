@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import styles from 'sass/components/navigation.module.scss'
 import { ImArrowLeft2 } from 'react-icons/im'
 import { useState } from 'react'
@@ -7,6 +8,14 @@ import Link from 'next/link'
 export default function Navigation() {
   const [active, setActive] = useState(false)
 
+  const onKeyDown = () => {
+    onClick()
+  }
+
+  const onClick = () => {
+    setActive(false)
+  }
+
   return (
     <div className={styles.container}>
       <nav
@@ -15,6 +24,15 @@ export default function Navigation() {
           active === false && styles.inactive,
         )}
       >
+        {active && (
+          <div
+            className={styles.background}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+            role="button"
+            tabIndex={0}
+          />
+        )}
         <button
           type="button"
           className={styles.button}
@@ -28,9 +46,7 @@ export default function Navigation() {
             return (
               <Link key={value} href={href}>
                 <a key={href} href="/">
-                  <li className={styles.menu}>
-                    {value}
-                  </li>
+                  <li className={styles.menu}>{value}</li>
                 </a>
               </Link>
             )

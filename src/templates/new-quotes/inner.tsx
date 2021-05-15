@@ -1,7 +1,7 @@
 import { useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
-import { useModal } from 'widgets/modal'
+import { useModal } from 'providers/modal/modal'
 
 interface DefaultQuotesProps {
   isbn: string | string[]

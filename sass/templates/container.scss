@@ -5,7 +5,10 @@
     max-height: inherit;
     max-width: calc(100vw - 2rem);
     margin: 1rem 0;
-    padding: 1rem;
+    @if $device == 'window' {
+        width: variables.$breakpoint-window;
+        max-width: calc(100vw - 8rem);
+    }
     @if $device == 'mobile' {
         width: variables.$breakpoint-mobile;
     }

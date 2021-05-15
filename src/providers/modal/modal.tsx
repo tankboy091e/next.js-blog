@@ -1,9 +1,10 @@
 import React, {
-  createContext, useContext, useEffect, useState,
+  createContext, SetStateAction, useContext, useEffect, useState,
 } from 'react'
 import { createPortal } from 'react-dom'
-import styles from 'sass/components/modal.module.scss'
+import styles from 'sass/providers/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
+import { VscChromeClose } from 'react-icons/vsc'
 
 interface ModalContextProps {
   turnOff: () => void
@@ -16,17 +17,20 @@ export const useModal = () => useContext(ModalContext)
 export default function Modal({
   children,
   initializer,
-  immediate = false,
+  immediate,
+  setImmediate,
+  off,
 }: {
   children: React.ReactNode
   initializer?: React.ReactNode
   immediate? : boolean
+  setImmediate?: React.Dispatch<SetStateAction<boolean>>
+  off? : () => void
 }) {
   if (typeof document === 'undefined') {
     return <></>
   }
-
-  const [active, setActive] = useState(immediate)
+  const [active, setActive] = setImmediate ? [immediate, setImmediate] : useState(immediate)
 
   const {
     container, curtain, pull, pullBack,
@@ -57,6 +61,7 @@ export default function Modal({
       fixBody()
     } else {
       pullBack()
+      off?.call(null)
       reset()
     }
   }, [active])
@@ -72,8 +77,13 @@ export default function Modal({
           {initializer}
         </button>
       )}
-      {createPortal(
-        active && <div className={styles.container}>{children}</div>,
+      {active && createPortal(
+        <div className={styles.wrapper}>
+          <button className={styles.close} type="button" onClick={() => setActive(false)}>
+            <VscChromeClose size={24} />
+          </button>
+          {children}
+        </div>,
         container.current,
       )}
     </ModalContext.Provider>

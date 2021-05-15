@@ -1,3 +1,7 @@
+@use '../lib/mediaquery.scss' as mediaquery;
+@use '../lib/color.scss' as color;
+@use '../templates/container.scss' as container;
+
 .container {
    position: fixed;
    top: 0;
@@ -17,5 +21,68 @@
     background-color : rgba(0, 0, 0, .5);
     &.active {
         display: block;
+    }
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-height: calc(100vh - 2rem);
+    @include mediaquery.mobile {
+        max-height: calc(100vh - 4rem);
+    }
+}
+
+.close {
+    position: absolute;
+    z-index: 1;
+    top: 1.5rem;
+    right: 1rem;
+    color: color.$darkenPrimary;
+}
+
+.window {
+    @include container.container('window');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    border-radius: 1.5rem;
+    font-size: 1.2rem;
+    background-color: color.$background;
+}
+
+
+.code {
+    padding: .5rem 0;
+}
+
+.message {
+    padding: .5rem;
+}
+
+.input {
+    width: 100%;
+    padding : .5rem 1rem;
+    margin: .5rem 1rem;
+    border: none;
+    border-radius : 1rem;
+    background-color: color.$darkenBackground;
+}
+
+.menu {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button {
+        width: 100%;
+        padding: .5rem 0;
+        &:hover {
+            background-color: lighten(color.$background, 10%);
+        }
     }
 }

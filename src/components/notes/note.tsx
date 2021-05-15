@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import styles from 'sass/components/notes.module.scss'
 import NewQuotes from 'templates/new-quotes'
-import Modal from 'widgets/modal'
+import Modal from 'providers/modal/modal'
 import SpeechBubble from 'widgets/speech-bubble'
+import { useAlert } from 'providers/modal/alert'
+import { useConfirm } from 'providers/modal/confirm'
 
 export interface NoteProps {
   id: string
@@ -25,13 +27,19 @@ export default function Note({
   const label = page.includes('-') ? 'pp' : 'p'
   const [state, setState] = useState<NoteState>('default')
 
+  const { createConfirm } = useConfirm()
+  const { createAlert } = useAlert()
+
   const onEdit = async () => {
     setState('edit')
   }
 
   const onDelete = async () => {
-    const isSure = window.confirm('정말 삭제하시겠습니까?')
-    if (!isSure) {
+    const confirm = await createConfirm({
+      message: '정말 삭제하시겠습니까',
+      code: '주의',
+    })
+    if (!confirm) {
       return
     }
     const res = await fetch(`/api/quotes/${isbn}`, {
@@ -48,23 +56,26 @@ export default function Note({
       mutate()
     } else {
       const { error } = await res.json()
-      alert(error)
+      createAlert({
+        message: error,
+        code: 'error',
+      })
     }
   }
 
-  const onEditCallback = () => {
+  const callback = () => {
     setState('default')
   }
 
   if (state === 'edit') {
     return (
-      <Modal immediate>
+      <Modal immediate off={callback}>
         <NewQuotes
           isbn={isbn}
           id={id}
           page={page}
           paragraph={paragraph}
-          callback={onEditCallback}
+          callback={callback}
           mutate={mutate}
         />
       </Modal>

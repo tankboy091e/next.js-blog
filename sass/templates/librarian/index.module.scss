@@ -2,7 +2,7 @@
 @use '../container.scss' as container;
 
 .container {
-    @include container.container('wide');
+    @include container.container('desktop');
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,14 +13,21 @@
 
 .legend {
     font-size: 1.5rem;
-    padding-bottom: .5rem;
+    padding-top: 1rem;
 }
 
 
 .searchedContainer {
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow: scroll;
     margin: .5rem;
     padding: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.result {
+    font-size: 2rem;
 }

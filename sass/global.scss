@@ -3,16 +3,16 @@
 @import './lib/font.scss';
 @import './lib/scrollbar.scss';
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  width : 100%;
-  height : 100%;
+* {
+  margin : 0;
+  padding : 0;
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
   font-family: 'Chosun';
-  font-weight: 100;
-  color: color.$primary;
-  background-color: color.$background;
   @include mediaquery.mobile {
     font-size: 14px;
   }
@@ -24,15 +24,17 @@ body {
   }
 }
 
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: color.$primary;
+  background-color: color.$background;
+}
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
-}
-
-* {
-  margin : 0;
-  padding : 0;
-  box-sizing: border-box;
 }
 
 a {
