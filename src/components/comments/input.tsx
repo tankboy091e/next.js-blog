@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
 import React, { useEffect, useRef } from 'react'
+import usePageQuery from 'lib/hooks/page-query'
 import styles from 'sass/components/comments/input.module.scss'
 import { useForm } from 'providers/form'
 import { useComments } from './inner'
@@ -12,7 +12,7 @@ export default function Input({
   nameDisabled = false,
   passwordDisabled = false,
   submitValue,
-  method,
+  method = 'POST',
 }: {
   doc: string
   name?: string
@@ -23,7 +23,7 @@ export default function Input({
   submitValue?: string
   method?: string
 }) {
-  const router = useRouter()
+  const { category, current } = usePageQuery()
   const { setOptions } = useForm()
   const { refresh } = useComments()
   const nameRef = useRef<HTMLInputElement>()
@@ -36,11 +36,19 @@ export default function Input({
     contentRef.current.value = content
 
     setOptions({
-      method,
-      input: `/api/comments${router.asPath}`,
-      extraBody: {
-        doc,
-      },
+      input: `/api/comments/${category}/${current}`,
+      init: () => ({
+        body: JSON.stringify({
+          doc,
+          name: nameRef.current.value,
+          password: passwordRef.current.value,
+          content: contentRef.current.value,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method,
+      }),
       needToValidate: [nameRef, passwordRef, contentRef],
       transitionInterval: 2000,
       getResponse: () => refresh(),

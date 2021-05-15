@@ -6,27 +6,38 @@ import Link from 'next/link'
 
 export default function Navigation() {
   const [active, setActive] = useState(false)
-  let key = 0
 
   return (
-    <nav className={getClassName(styles.container, active === false && styles.inactive)}>
-      <button type="button" className={styles.button} onClick={() => setActive(!active)}>
-        <ImArrowLeft2 className={styles.icon} size={32} />
-      </button>
-      <ul className={styles.inner}>
-        {menu.map((value) => {
-          const href = `/${value}`
-          key += 1
-          return (
-            <Link href={href} key={key}>
-              <a key={href} href="/" className={styles.menu}>
-                {value}
-              </a>
-            </Link>
-          )
-        })}
-      </ul>
-    </nav>
+    <div className={styles.container}>
+      <nav
+        className={getClassName(
+          styles.navigation,
+          active === false && styles.inactive,
+        )}
+      >
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => setActive(!active)}
+        >
+          <ImArrowLeft2 className={styles.icon} size={32} />
+        </button>
+        <ul className={styles.inner}>
+          {menu.map((value) => {
+            const href = `/${value}`
+            return (
+              <Link key={value} href={href}>
+                <a key={href} href="/">
+                  <li className={styles.menu}>
+                    {value}
+                  </li>
+                </a>
+              </Link>
+            )
+          })}
+        </ul>
+      </nav>
+    </div>
   )
 }
 

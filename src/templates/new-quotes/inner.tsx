@@ -3,26 +3,59 @@ import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
 import { useModal } from 'widgets/modal'
 
-export default function Inner({ isbn }: { isbn: string | string[] }) {
+interface DefaultQuotesProps {
+  isbn: string | string[]
+  mutate?: Function
+}
+
+interface EditQuotesProps extends DefaultQuotesProps {
+  id: string
+  page: string
+  paragraph: string
+  callback?: () => void
+}
+
+export type NewQuotesProps = DefaultQuotesProps | EditQuotesProps
+
+export default function Inner({ value } : { value : NewQuotesProps }) {
   const { setOptions } = useForm()
+  const { turnOff } = useModal()
+
   const pageRef = useRef<HTMLInputElement>()
   const paragraphRef = useRef<HTMLTextAreaElement>()
 
-  const { turnOff } = useModal()
+  const { isbn, mutate } = value
 
   const getResponse = () => {
     turnOff()
+    mutate?.call(null)
+    if ('id' in value) {
+      value.callback?.call(null)
+    }
   }
 
   useEffect(() => {
+    if ('id' in value) {
+      const { page, paragraph } = value
+      pageRef.current.value = page
+      paragraphRef.current.value = paragraph
+    }
+
+    const extraBody = 'id' in value ? { id: value.id } : { isbn }
+    const method = 'id' in value ? 'PUT' : 'POST'
+
     setOptions({
-      input: '/api/quotes',
+      input: `/api/quotes/${isbn}`,
       init: () => ({
         body: JSON.stringify({
-          isbn,
+          ...extraBody,
           page: pageRef.current.value,
           paragraph: paragraphRef.current.value,
         }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method,
       }),
       getResponse,
       needToValidate: [pageRef, paragraphRef],
@@ -36,7 +69,7 @@ export default function Inner({ isbn }: { isbn: string | string[] }) {
     <>
       <input
         className={styles.page}
-        type="number"
+        type="text"
         placeholder="page"
         name="page"
         ref={pageRef}

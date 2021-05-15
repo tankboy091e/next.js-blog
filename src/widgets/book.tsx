@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import Link from 'next/link'
 import { useState } from 'react'
 import styles from 'sass/widgets/book.module.scss'
@@ -59,8 +60,8 @@ export default function Book({
       <a
         className={styles.container}
         href={link}
-        target={link.includes('http') && '_blank'}
-        rel={link.includes('http') && 'noreferrer'}
+        target={link.includes('http') ? '_blank' : '_self'}
+        rel={link.includes('http') ? 'noreferrer' : ''}
       >
         <figure className={styles.figure}>
           <img className={styles.front} src={front} alt="not found" />

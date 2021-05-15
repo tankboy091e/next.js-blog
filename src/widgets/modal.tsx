@@ -6,7 +6,7 @@ import styles from 'sass/components/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
 
 interface ModalContextProps {
-  turnOff : () => void,
+  turnOff: () => void
 }
 
 const ModalContext = createContext<ModalContextProps>(null)
@@ -16,15 +16,17 @@ export const useModal = () => useContext(ModalContext)
 export default function Modal({
   children,
   initializer,
+  immediate = false,
 }: {
   children: React.ReactNode
-  initializer: React.ReactNode
+  initializer?: React.ReactNode
+  immediate? : boolean
 }) {
   if (typeof document === 'undefined') {
     return <></>
   }
 
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(immediate)
 
   const {
     container, curtain, pull, pullBack,
@@ -65,9 +67,11 @@ export default function Modal({
 
   return (
     <ModalContext.Provider value={value}>
-      <button type="button" onClick={() => setActive(true)}>
-        {initializer}
-      </button>
+      {initializer && (
+        <button type="button" onClick={() => setActive(true)}>
+          {initializer}
+        </button>
+      )}
       {createPortal(
         active && <div className={styles.container}>{children}</div>,
         container.current,

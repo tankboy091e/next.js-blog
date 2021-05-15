@@ -1,18 +1,13 @@
 import fetcher from 'lib/api/fetcher'
-import { useAuth } from 'providers/auth'
 import styles from 'sass/templates/quotes.module.scss'
 import useSWR from 'swr'
 import Book, { BookProps } from 'widgets/book'
-import Modal from 'widgets/modal'
-import AddButton from 'widgets/add-button'
-import NewQuotes from 'templates/new-quotes'
 import PageNotFound from 'templates/404'
 import LoadingSection from 'templates/loading'
 import BookDetails from 'widgets/book-details'
+import Notes from '../components/notes'
 
 export default function Quotes({ isbn }: { isbn: string | string[] }) {
-  const { user } = useAuth()
-
   const { data, error } = useSWR<BookProps>(`/api/books/${isbn}`, fetcher)
 
   if (error) {
@@ -22,10 +17,13 @@ export default function Quotes({ isbn }: { isbn: string | string[] }) {
   if (!data) {
     return <LoadingSection />
   }
-
   const {
     itemPage, cover, link,
   } = data
+
+  if (!cover) {
+    return <PageNotFound />
+  }
 
   return (
     <section className={styles.container}>
@@ -37,14 +35,7 @@ export default function Quotes({ isbn }: { isbn: string | string[] }) {
           <BookDetails value={data} />
         </address>
       </header>
-      <section>
-        <div />
-      </section>
-      {user && (
-        <Modal initializer={<AddButton />}>
-          <NewQuotes isbn={isbn} />
-        </Modal>
-      )}
+      <Notes isbn={isbn} />
     </section>
   )
 }

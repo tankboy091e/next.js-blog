@@ -1,3 +1,4 @@
+import { getClassName } from 'lib/util'
 import Router from 'next/router'
 import React, {
   createContext,
@@ -7,6 +8,7 @@ import React, {
   useState,
 } from 'react'
 import styles from 'sass/providers/form.module.scss'
+import Loading from 'widgets/loading'
 
 export interface formState {
   status: 'default' | 'pending' | 'error' | 'success'
@@ -166,12 +168,6 @@ export default function FormProvider({
     }
   }
 
-  // if (state.code === 'pending') {
-  //     return <Container>
-  //         <Loading/>
-  //     </Container>
-  // }
-
   if (state.status === 'success') {
     setTimeout(() => {
       if (backPath) {
@@ -181,11 +177,7 @@ export default function FormProvider({
       }
       getResponse?.call(null, data)
     }, transitionInterval)
-    return (
-      <div className={styles.successContainer}>
-        {state.message}
-      </div>
-    )
+    return <div className={styles.successContainer}>{state.message}</div>
   }
 
   const value = {
@@ -194,7 +186,14 @@ export default function FormProvider({
 
   return (
     <FormContext.Provider value={value}>
-      <form onSubmit={onSubmit} className={containerClassName}>
+      {state.status === 'pending' && <Loading />}
+      <form
+        onSubmit={onSubmit}
+        className={getClassName(
+          containerClassName,
+          state.status === 'pending' && styles.pending,
+        )}
+      >
         {state.status === 'error' && (
           <div className={styles.errorContainer}>
             {state.code}
@@ -203,10 +202,7 @@ export default function FormProvider({
         )}
         <div className={innerClassName}>
           {children}
-          <button
-            type="submit"
-            className={submitClassName}
-          >
+          <button type="submit" className={submitClassName}>
             {submitValue}
           </button>
         </div>

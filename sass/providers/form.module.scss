@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+.pending {
+    display: none;
+}
+
 .errorContainer {
     border: 1px solid color.$alert;
     color: color.$alert;
