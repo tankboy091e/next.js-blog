@@ -1,8 +1,8 @@
-@use './container.scss' as container;
-
 .container {
-    @include container.container('mobile');
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-height: calc(100vh - 2rem);
 }

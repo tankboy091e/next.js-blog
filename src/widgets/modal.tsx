@@ -1,8 +1,17 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useEffect, useState } from 'react'
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react'
 import { createPortal } from 'react-dom'
-import styles from 'sass/providers/modalProvider.module.scss'
-import { useModal } from '.'
+import styles from 'sass/components/modal.module.scss'
+import { useModalProvider } from 'providers/modal'
+
+interface ModalContextProps {
+  turnOff : () => void,
+}
+
+const ModalContext = createContext<ModalContextProps>(null)
+
+export const useModal = () => useContext(ModalContext)
 
 export default function Modal({
   children,
@@ -19,7 +28,7 @@ export default function Modal({
 
   const {
     container, curtain, pull, pullBack,
-  } = useModal()
+  } = useModalProvider()
 
   const turnOff = () => {
     setActive(false)
@@ -50,15 +59,19 @@ export default function Modal({
     }
   }, [active])
 
+  const value = {
+    turnOff,
+  }
+
   return (
-    <>
+    <ModalContext.Provider value={value}>
       <button type="button" onClick={() => setActive(true)}>
         {initializer}
       </button>
       {createPortal(
-        active && <div className={styles.child}>{children}</div>,
+        active && <div className={styles.container}>{children}</div>,
         container.current,
       )}
-    </>
+    </ModalContext.Provider>
   )
 }

@@ -2,7 +2,7 @@ import { getClassName } from 'lib/util'
 import React, {
   createContext, RefObject, useContext, useRef, useState,
 } from 'react'
-import styles from 'sass/providers/modalProvider.module.scss'
+import styles from 'sass/providers/modal.module.scss'
 
 interface ModalContextProps {
     container : RefObject<HTMLDivElement>
@@ -13,7 +13,7 @@ interface ModalContextProps {
 
 const ModalContext = createContext<ModalContextProps>(null)
 
-export const useModal = () => useContext(ModalContext)
+export const useModalProvider = () => useContext(ModalContext)
 
 export default function ModalProvider({
   children,

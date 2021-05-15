@@ -1,9 +1,9 @@
 import { createContext, useContext } from 'react'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
-import usePageQuery from 'lib/hooks/pageQuery'
+import usePageQuery from 'lib/hooks/page-query'
 import Loading from 'widgets/loading'
-import FormProvider from 'providers/formProvider'
+import FormProvider from 'providers/form'
 import Input from './input'
 import Comment, { commentData } from './comment'
 

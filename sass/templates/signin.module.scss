@@ -1,13 +1,11 @@
 @use '../lib/color.scss' as color;
+@use './container.scss' as container;
 
 .container {
+    @include container.container('mobile');
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    max-width: 768px;
-    width: 100%;
-    min-height: 100vh;
 }
 
 .formContainer {

@@ -6,7 +6,7 @@ import React, {
   useContext,
   useState,
 } from 'react'
-import styles from 'sass/providers/formProvider.module.scss'
+import styles from 'sass/providers/form.module.scss'
 
 export interface formState {
   status: 'default' | 'pending' | 'error' | 'success'

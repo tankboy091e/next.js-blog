@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import styles from 'sass/components/comments/comment.module.scss'
-import FormProvider from 'providers/formProvider'
+import FormProvider from 'providers/form'
 import Input from './input'
 import { useComments } from './inner'
 

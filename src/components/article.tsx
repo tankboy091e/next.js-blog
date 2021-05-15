@@ -1,4 +1,4 @@
-import convertTimestamp from 'lib/util/date'
+import { convertTimestamp } from 'lib/util/date'
 import styles from 'sass/components/article.module.scss'
 
 export interface ArticleData {

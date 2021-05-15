@@ -1,0 +1,18 @@
+@use '../lib/variables.scss' as variables;
+@use '../lib/mediaquery.scss' as mediaquery;
+
+@mixin container($device) {
+    max-height: inherit;
+    max-width: calc(100vw - 2rem);
+    margin: 1rem 0;
+    padding: 1rem;
+    @if $device == 'mobile' {
+        width: variables.$breakpoint-mobile;
+    }
+    @if $device == 'desktop' {
+        width: variables.$breakpoint-desktop;
+    }
+    @if $device == 'wide' {
+        width: variables.$breakpoint-wide;
+    }
+}

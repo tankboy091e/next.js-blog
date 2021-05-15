@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef } from 'react'
 import styles from 'sass/components/comments/input.module.scss'
-import { useForm } from 'providers/formProvider'
+import { useForm } from 'providers/form'
 import { useComments } from './inner'
 
 export default function Input({

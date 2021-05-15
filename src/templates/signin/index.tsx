@@ -1,4 +1,4 @@
-import FormProvider from 'providers/formProvider'
+import FormProvider from 'providers/form'
 import styles from 'sass/templates/signin.module.scss'
 import Inner from './inner'
 

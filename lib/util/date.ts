@@ -1,7 +1,12 @@
-export default function convertTimestamp(timestamp: string): string {
+export function convertTimestamp(timestamp: string): string {
   const [dow, month, date, year] = timestamp.split(' ')
 
   return `${year}년 ${months.indexOf(month) + 1}월 ${parseInt(date, 10)}일 ${dayOfWeek[dow]}요일`
+}
+
+export function convertBookDate(timestamp: string): string {
+  const [year, month, date] = timestamp.split('-')
+  return `${year}년 ${month}월 ${date}일`
 }
 
 const months = [

@@ -1,5 +1,5 @@
 import dynmaic from 'next/dynamic'
-import LoadingSection from 'templates/loadingSection'
+import LoadingSection from 'templates/loading'
 
 export default function Page() {
   const Layout = dynmaic(() => import('layouts/default'))

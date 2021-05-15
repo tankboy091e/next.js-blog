@@ -16,11 +16,11 @@ export interface BookProps {
 export default function Book({
   cover,
   itemPage = 100,
-  isbn13,
+  link,
 }: {
   cover: string
   itemPage?: number
-  isbn13: string,
+  link: string
 }) {
   const processCovers = (): {
     front: string
@@ -55,9 +55,14 @@ export default function Book({
   const { back, onError } = backOption
 
   return (
-    <Link href={`/quotes/${isbn13}`}>
-      <a className={styles.container} href="404">
-        <div className={styles.book}>
+    <Link href={link}>
+      <a
+        className={styles.container}
+        href={link}
+        target={link.includes('http') && '_blank'}
+        rel={link.includes('http') && 'noreferrer'}
+      >
+        <figure className={styles.figure}>
           <img className={styles.front} src={front} alt="not found" />
           <div className={styles.paper} style={{ width: pageWidth }} />
           <img
@@ -69,7 +74,7 @@ export default function Book({
             }}
             onError={onError}
           />
-        </div>
+        </figure>
       </a>
     </Link>
   )

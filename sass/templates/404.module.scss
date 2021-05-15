@@ -1,5 +1,7 @@
+@use './container.scss' as container;
+
 .container {
-    min-height: 100vh;
+    @include container.container('wide');
     display: flex;
     justify-content: center;
     align-items: center;

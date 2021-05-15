@@ -14,10 +14,10 @@ body {
   color: color.$primary;
   background-color: color.$background;
   @include mediaquery.mobile {
-    font-size: 16px;
+    font-size: 14px;
   }
   @include mediaquery.tablet {
-    font-size: 17px;
+    font-size: 16px;
   }
   @include mediaquery.desktop {
     font-size: 18px;
@@ -66,10 +66,14 @@ button {
   }
 }
 
+address {
+  font-style: normal;
+}
+
 strong,
 b {
-color: inherit;
-font-size: inherit;
+  color: inherit;
+  font-size: inherit;
 }
 
 table {
@@ -88,6 +92,12 @@ input, textarea {
 
 input[type=submit] {
   cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 #articleContent {

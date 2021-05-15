@@ -28,25 +28,34 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const {
-    isbn13,
+    isbn,
   } = req.body
 
+  const idType = isbn.length < 13 ? 'isbn' : 'isbn13'
+
   const data = await fetch(
-    `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_KEY}&itemIdType=ISBN13&cover=big&ItemId=${isbn13}&output=JS&Version=20131101`,
+    `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_KEY}&itemIdType=${idType}&cover=big&ItemId=${isbn}&output=JS&Version=20131101`,
   )
 
   if (!data.ok) {
-    res.status(400).json({ error: 'database error' })
+    res.status(500).json({ error: 'database error' })
   }
 
-  const { item } = await data.json()
+  const json = await data.json()
+
+  if (json.errorCode) {
+    res.status(400).json({ error: json.errorMessage })
+    return
+  }
+
+  const { item } = json
 
   const {
     title, author, pubDate, publisher, cover, link,
   } = item[0]
   const { itemPage } = item[0].subInfo
 
-  const docRef = firestore.collection('library').doc(isbn13)
+  const docRef = firestore.collection('library').doc(isbn)
 
   docRef
     .set({

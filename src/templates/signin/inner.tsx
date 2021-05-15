@@ -1,5 +1,5 @@
-import { useAuth } from 'providers/authProvider'
-import { getValue, useForm } from 'providers/formProvider'
+import { useAuth } from 'providers/auth'
+import { getValue, useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/signin.module.scss'
 

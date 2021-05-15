@@ -1,4 +1,4 @@
-import { useAuth } from 'providers/authProvider'
+import { useAuth } from 'providers/auth'
 import styles from 'sass/templates/dashboard.module.scss'
 import SignIn from './signin'
 

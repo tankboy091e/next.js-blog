@@ -1,6 +1,6 @@
-import { useForm } from 'providers/formProvider'
+import { useForm } from 'providers/form'
 import React, { SetStateAction, useEffect, useRef } from 'react'
-import styles from 'sass/components/librarian/search.module.scss'
+import styles from 'sass/templates/librarian/search.module.scss'
 import { GoSearch } from 'react-icons/go'
 
 export default function Search({

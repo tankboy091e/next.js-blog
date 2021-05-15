@@ -1,19 +1,9 @@
 @use '../lib/mediaquery.scss' as mediaquery;
 @use '../lib/color.scss' as color;
+@use './container.scss' as container;
 
 .container {
-    max-width: 1024px;
-    width: 100%;
-}
-
-.addButton {
-    position: fixed;
-    right: 1rem;
-    bottom: 1rem;
-    border-radius: 4rem;
-    padding: .5rem;
-    color: color.$background;
-    background-color: color.$primary;
+    @include container.container('wide');
 }
 
 .bookcase {
@@ -23,7 +13,7 @@
     padding: 4rem 2rem;
     width: 100%;
     @include mediaquery.desktop {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
     }
     @include mediaquery.tablet {
         grid-template-columns: repeat(4, 1fr);
