@@ -3,11 +3,14 @@ import { useLibrary } from 'templates/library'
 import Book from 'widgets/book'
 import BookDetails from 'widgets/book-details'
 import { useModal } from 'providers/modal/modal'
+import { useAlert } from 'providers/modal/alert'
 
 export default function SearchedBook({ value }: { value: any }) {
   const {
     link, cover, isbn13, isbn, itemPage,
   } = value
+
+  const { createAlert } = useAlert()
 
   const { mutate } = useLibrary()
   const { turnOff } = useModal()
@@ -23,8 +26,19 @@ export default function SearchedBook({ value }: { value: any }) {
       method: 'POST',
     })
     if (res.ok) {
+      const { message } = await res.json()
+      createAlert({
+        message,
+        code: 'success',
+      })
       mutate()
       turnOff()
+    } else {
+      const { error } = await res.json()
+      createAlert({
+        message: error,
+        code: 'error',
+      })
     }
   }
 

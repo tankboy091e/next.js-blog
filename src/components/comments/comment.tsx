@@ -77,6 +77,11 @@ export default function Comment({ data }: { data: commentData }) {
       method: 'DELETE',
     })
     if (res.ok) {
+      const { message } = await res.json()
+      createAlert({
+        message,
+        code: 'success',
+      })
       refresh()
     } else {
       const { error } = await res.json()

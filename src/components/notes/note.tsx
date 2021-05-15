@@ -53,6 +53,11 @@ export default function Note({
     })
 
     if (res.ok) {
+      const { message } = await res.json()
+      createAlert({
+        message,
+        code: 'success',
+      })
       mutate()
     } else {
       const { error } = await res.json()

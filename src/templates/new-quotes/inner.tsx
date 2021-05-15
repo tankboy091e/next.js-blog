@@ -2,6 +2,7 @@ import { useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
 import { useModal } from 'providers/modal/modal'
+import { useAlert } from 'providers/modal/alert'
 
 interface DefaultQuotesProps {
   isbn: string | string[]
@@ -21,12 +22,19 @@ export default function Inner({ value } : { value : NewQuotesProps }) {
   const { setOptions } = useForm()
   const { turnOff } = useModal()
 
+  const { createAlert } = useAlert()
+
   const pageRef = useRef<HTMLInputElement>()
   const paragraphRef = useRef<HTMLTextAreaElement>()
 
   const { isbn, mutate } = value
 
-  const getResponse = () => {
+  const getResponse = (data : any) => {
+    const { message } = data
+    createAlert({
+      message,
+      code: 'successs',
+    })
     turnOff()
     mutate?.call(null)
     if ('id' in value) {
