@@ -1,16 +1,13 @@
 import firebase from 'firebase/app'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
 
 const firebaseConfig = {
-  apiKey: publicRuntimeConfig.API_KEY,
-  authDomain: publicRuntimeConfig.AUTH_DOMAIN,
-  projectId: publicRuntimeConfig.PROJECT_ID,
-  storageBucket: publicRuntimeConfig.STORAGE_BUCKET,
-  messagingSenderId: publicRuntimeConfig.MESSAGING_SENDER_ID,
-  appId: publicRuntimeConfig.APP_ID,
-  measurementId: publicRuntimeConfig.MEASUREMENT_ID,
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 }
 
 if (!firebase.apps.length) {
