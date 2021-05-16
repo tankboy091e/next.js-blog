@@ -1,0 +1,47 @@
+@use './container.scss' as container;
+@use '../lib/color.scss' as color;
+
+.container {
+    @include container.container('mobile');
+    height: 100vh;
+    padding: 4rem 0;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.legend {
+    font-size: 3rem;
+    padding: 1rem 0;
+}
+
+@mixin input {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  border: 1px solid color.$darkenPrimary;
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.field {
+   @include input();
+}
+
+.content {
+   @include input();
+   flex: 1;
+   resize: none;
+}
+
+.submit {
+    width: 100%;
+    margin-top: .5rem;
+    padding: 1.5rem 2rem;
+    font-size: 1.5rem;
+    color: color.$background;
+    background-color: color.$primary;
+}

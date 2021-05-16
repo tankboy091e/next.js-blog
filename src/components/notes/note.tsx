@@ -5,6 +5,7 @@ import Modal from 'providers/modal/modal'
 import SpeechBubble from 'widgets/speech-bubble'
 import { useAlert } from 'providers/modal/alert'
 import { useConfirm } from 'providers/modal/confirm'
+import hermes from 'lib/api/hermes'
 
 export interface NoteProps {
   id: string
@@ -36,13 +37,13 @@ export default function Note({
 
   const onDelete = async () => {
     const confirm = await createConfirm({
-      message: '정말 삭제하시겠습니까',
+      message: '정말 삭제하시겠습니까?',
       code: '주의',
     })
     if (!confirm) {
       return
     }
-    const res = await fetch(`/api/quotes/${isbn}`, {
+    const res = await hermes(`/api/quotes/${isbn}`, {
       body: JSON.stringify({
         id,
       }),

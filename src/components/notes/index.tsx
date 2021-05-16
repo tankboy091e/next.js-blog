@@ -11,6 +11,7 @@ import Note, { NoteProps } from './note'
 export default function Notes({ isbn }: { isbn: string | string[] }) {
   const { data, error, mutate } = useSWR<NoteProps[]>(`/api/quotes/${isbn}`, fetcher)
   const { user } = useAuth()
+
   if (error) {
     return (
       <section className={styles.container}>

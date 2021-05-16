@@ -4,5 +4,5 @@ export async function sleep(ms: number) {
 
 export function getClassName(...args : string[]) {
   const clean = args.filter((value) => value !== null && value !== '')
-  return clean.join(' ')
+  return clean.join(' ').trim()
 }

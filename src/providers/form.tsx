@@ -178,7 +178,11 @@ export default function FormProvider({
       }
       getResponse?.call(null, data)
     }, transitionInterval)
-    return <div className={styles.successContainer}>{state.message}</div>
+    return (
+      <div className={containerClassName}>
+        <p className={styles.success}>{state.message}</p>
+      </div>
+    )
   }
 
   const value = {
@@ -187,10 +191,10 @@ export default function FormProvider({
 
   return (
     <FormContext.Provider value={value}>
-      {state.state === 'pending' && <Loading />}
       <form
         onSubmit={onSubmit}
         className={getClassName(
+          styles.container,
           containerClassName,
           state.state === 'pending' && styles.pending,
         )}
@@ -201,7 +205,8 @@ export default function FormProvider({
             <p>{state.message}</p>
           </div>
         )}
-        <div className={innerClassName}>
+        {state.state === 'pending' && <Loading />}
+        <div className={getClassName(styles.inner, innerClassName)}>
           {children}
           <button type="submit" className={submitClassName}>
             {submitValue}

@@ -1,12 +1,6 @@
 @use '../lib/mediaquery.scss' as mediaquery;
 @use '../lib/color.scss' as color;
 
-.container {
-    @include mediaquery.mobile {
-        padding-top: calc(32px + 1rem);
-    }
-}
-
 .navigation {
     position: fixed;
     display: flex;

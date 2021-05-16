@@ -3,7 +3,7 @@ import { getValue, useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/signin.module.scss'
 
-export default function Inner() {
+export default function SigninInner() {
   const email = useRef<HTMLInputElement>()
   const password = useRef<HTMLInputElement>()
   const remember = useRef<HTMLInputElement>()

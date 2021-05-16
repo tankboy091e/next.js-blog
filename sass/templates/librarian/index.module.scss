@@ -2,16 +2,15 @@
 @use '../container.scss' as container;
 
 .container {
-    @include container.container('desktop');
+    @include container.container('window-desktop');
     border-radius: 1rem;
     background-color: color.$background;
 }
 
 .legend {
     font-size: 1.5rem;
-    padding-top: 1rem;
+    padding-top: 2rem;
 }
-
 
 .searchedContainer {
     display: flex;

@@ -17,43 +17,41 @@ export default function Navigation() {
   }
 
   return (
-    <div className={styles.container}>
-      <nav
-        className={getClassName(
-          styles.navigation,
-          active === false && styles.inactive,
-        )}
+    <nav
+      className={getClassName(
+        styles.navigation,
+        active === false && styles.inactive,
+      )}
+    >
+      {active && (
+        <div
+          className={styles.background}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          role="button"
+          tabIndex={0}
+        />
+      )}
+      <button
+        type="button"
+        className={styles.button}
+        onClick={() => setActive(!active)}
       >
-        {active && (
-          <div
-            className={styles.background}
-            onClick={onClick}
-            onKeyDown={onKeyDown}
-            role="button"
-            tabIndex={0}
-          />
-        )}
-        <button
-          type="button"
-          className={styles.button}
-          onClick={() => setActive(!active)}
-        >
-          <ImArrowLeft2 className={styles.icon} size={32} />
-        </button>
-        <ul className={styles.inner}>
-          {menu.map((value) => {
-            const href = `/${value}`
-            return (
-              <Link key={value} href={href}>
-                <a key={href} href="/">
-                  <li className={styles.menu}>{value}</li>
-                </a>
-              </Link>
-            )
-          })}
-        </ul>
-      </nav>
-    </div>
+        <ImArrowLeft2 className={styles.icon} size={32} />
+      </button>
+      <ul className={styles.inner}>
+        {menu.map((value) => {
+          const href = `/${value}`
+          return (
+            <Link key={value} href={href}>
+              <a key={href} href="/">
+                <li className={styles.menu}>{value}</li>
+              </a>
+            </Link>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }
 

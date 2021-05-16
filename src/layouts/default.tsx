@@ -7,7 +7,7 @@ export const mainContainerID = 'main'
 export default function Layout({
   children,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode
 }) {
   return (
     <>

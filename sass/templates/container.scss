@@ -12,13 +12,19 @@
         width: variables.$breakpoint-window;
         max-width: calc(100vw - 8rem);
     }
-    @if $device == 'mobile' {
+    @if $device == 'mobile' or $device == 'window-mobile' {
         width: variables.$breakpoint-mobile;
     }
-    @if $device == 'desktop' {
+    @if $device == 'desktop' or $device == 'window-desktop' {
         width: variables.$breakpoint-desktop;
     }
     @if $device == 'wide' {
         width: variables.$breakpoint-wide;
+    }
+
+    @if $device != 'window' and $device != 'window-mobile' and $device != 'window-desktop' {
+        @include mediaquery.mobile {
+            padding-top: calc(4rem);
+        }
     }
 }
