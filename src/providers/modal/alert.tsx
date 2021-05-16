@@ -9,7 +9,7 @@ export interface AlertProps {
 }
 
 interface AlertContextProps {
-  createAlert: ({ ...props } : Props) => void
+  createAlert: ({ ...props } : Props) => Promise<void>
 }
 
 const AlertContext = createContext<AlertContextProps>(null)
@@ -26,22 +26,41 @@ export default function AlertProvider({ children }: AlertProps) {
   })
 
   const [active, setActive] = useState(false)
+  const [callbacks, setCallbacks] = useState<{close:() => void}>({ close: null })
 
   const createAlert = ({ message, code } : Props) => {
     setProps({ message, code })
     setActive(true)
+    return new Promise<void>((resolve) => {
+      const close = () => {
+        resolve()
+        finish()
+      }
+      setCallbacks({
+        close,
+      })
+    })
+  }
+
+  const finish = () => {
+    setCallbacks({
+      close: null,
+    })
+    setProps({
+      message: null,
+    })
+    setActive(false)
   }
 
   const { message, code } = props
-
+  const { close } = callbacks
   const value = {
     createAlert,
   }
-
   return (
     <AlertContext.Provider value={value}>
       {children}
-      <Modal immediate={active} setImmediate={setActive}>
+      <Modal immediate={active} setImmediate={setActive} off={close}>
         <section className={styles.window}>
           {code && <h4 className={styles.code}>{code.toLocaleUpperCase()}</h4>}
           {message && <p className={styles.message}>{message}</p>}

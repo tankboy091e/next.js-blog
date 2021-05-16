@@ -63,19 +63,21 @@ export default function Book({
         target={link.includes('http') ? '_blank' : '_self'}
         rel={link.includes('http') ? 'noreferrer' : ''}
       >
-        <figure className={styles.figure}>
-          <img className={styles.front} src={front} alt="not found" />
-          <div className={styles.paper} style={{ width: pageWidth }} />
-          <img
-            className={styles.back}
-            src={back}
-            alt="not found"
-            style={{
-              transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
-            }}
-            onError={onError}
-          />
-        </figure>
+        <div className={styles.wrapper}>
+          <figure className={styles.figure}>
+            <img className={styles.front} src={front} alt="not found" />
+            <div className={styles.paper} style={{ width: pageWidth }} />
+            <img
+              className={styles.back}
+              src={back}
+              alt="not found"
+              style={{
+                transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
+              }}
+              onError={onError}
+            />
+          </figure>
+        </div>
       </a>
     </Link>
   )

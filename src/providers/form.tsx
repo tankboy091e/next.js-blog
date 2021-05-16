@@ -1,3 +1,4 @@
+import hermes from 'lib/api/hermes'
 import { getClassName } from 'lib/util'
 import Router from 'next/router'
 import React, {
@@ -11,7 +12,7 @@ import styles from 'sass/providers/form.module.scss'
 import Loading from 'widgets/loading'
 
 export interface formState {
-  status: 'default' | 'pending' | 'error' | 'success'
+  state: 'default' | 'pending' | 'error' | 'success'
   code?: string
   message?: string
 }
@@ -62,7 +63,7 @@ export default function FormProvider({
   const [options, setOptions] = useState<options>({
     onSubmit: null,
   })
-  const [state, setState] = useState<formState>({ status: 'default' })
+  const [state, setState] = useState<formState>({ state: 'default' })
   const [data, setData] = useState<any>(null)
 
   const {
@@ -87,7 +88,7 @@ export default function FormProvider({
     try {
       await onSubmit(e)
       setState({
-        status: 'success',
+        state: 'success',
         message: successDescription || 'Processed Sucessfully.',
       })
     } catch (error) {
@@ -95,25 +96,25 @@ export default function FormProvider({
         ? error.message
         : failDescription || 'Something went wrong'
       setState({
-        status: 'error',
+        state: 'error',
         message,
       })
     }
   }
 
   const handleFetch = async (input: RequestInfo, init?: RequestInit) => {
-    const res = await fetch(input, init)
-    if (res.status === 201) {
+    const res = await hermes(input, init)
+    if (res.ok) {
       const { data, message } = await res.json()
       setData(() => data)
       setState(() => ({
-        status: 'success',
+        state: 'success',
         message,
       }))
     } else {
       const { error } = await res.json()
       setState({
-        status: 'error',
+        state: 'error',
         message: error,
       })
     }
@@ -145,14 +146,14 @@ export default function FormProvider({
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setState({ status: 'pending' })
+    setState({ state: 'pending' })
     try {
       if (needToValidate) {
         validateValues(...needToValidate)
       }
     } catch (error) {
       setState({
-        status: 'error',
+        state: 'error',
         message: error.message,
       })
       return
@@ -168,12 +169,12 @@ export default function FormProvider({
     }
   }
 
-  if (state.status === 'success') {
+  if (state.state === 'success') {
     setTimeout(() => {
       if (backPath) {
         Router.push(backPath)
       } else {
-        setState({ status: 'default' })
+        setState({ state: 'default' })
       }
       getResponse?.call(null, data)
     }, transitionInterval)
@@ -186,15 +187,15 @@ export default function FormProvider({
 
   return (
     <FormContext.Provider value={value}>
-      {state.status === 'pending' && <Loading />}
+      {state.state === 'pending' && <Loading />}
       <form
         onSubmit={onSubmit}
         className={getClassName(
           containerClassName,
-          state.status === 'pending' && styles.pending,
+          state.state === 'pending' && styles.pending,
         )}
       >
-        {state.status === 'error' && (
+        {state.state === 'error' && (
           <div className={styles.errorContainer}>
             {state.code}
             <p>{state.message}</p>

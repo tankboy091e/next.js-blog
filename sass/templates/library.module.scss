@@ -4,6 +4,7 @@
 
 .container {
     @include container.container('wide');
+    padding: 1rem 0;
 }
 
 .bookcase {

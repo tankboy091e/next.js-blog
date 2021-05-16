@@ -1,7 +1,8 @@
 import { convertTimestamp } from 'lib/util/date'
-import styles from 'sass/components/article.module.scss'
+import styles from 'sass/components/article/index.module.scss'
 
 export interface ArticleData {
+  doc: string,
   title: string
   subtitle: string
   content: string

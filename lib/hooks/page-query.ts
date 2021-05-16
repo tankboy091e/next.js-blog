@@ -42,3 +42,22 @@ export default function usePageQuery() : PageQuery {
     current,
   }
 }
+
+export function useEditorPageQuery() {
+  const router = useRouter()
+  const { asPath } = router
+
+  if (asPath.includes('category')) {
+    return {
+      router: null,
+      category: null,
+    }
+  }
+
+  const category = asPath.match(/[/](.*?)[/]/)[0].replaceAll('/', '')
+
+  return {
+    router,
+    category,
+  }
+}

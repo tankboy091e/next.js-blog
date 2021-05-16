@@ -1,12 +1,12 @@
 import dynmaic from 'next/dynamic'
-import PageNotFound from 'templates/404'
+import ErrorSection from 'templates/error-section'
 
 export default function Page() {
   const Layout = dynmaic(() => import('layouts/default'))
 
   return (
     <Layout>
-      <PageNotFound />
+      <ErrorSection message="Page Not Found" />
     </Layout>
   )
 }

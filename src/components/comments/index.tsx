@@ -6,8 +6,10 @@ import Inner from './inner'
 
 export default function Comments({
   doc,
+  sideWidget,
 } : {
-  doc: string
+  doc: string,
+  sideWidget?: React.ReactChild
 }) {
   const router = useRouter()
   const [active, setActive] = useState(false)
@@ -18,7 +20,10 @@ export default function Comments({
 
   return (
     <section className={styles.container}>
-      <Button active={active} setActive={setActive} />
+      <div className={styles.header}>
+        <Button active={active} setActive={setActive} />
+        {sideWidget}
+      </div>
       {active && <Inner doc={doc} />}
     </section>
   )

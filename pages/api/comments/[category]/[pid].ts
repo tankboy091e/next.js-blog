@@ -1,13 +1,18 @@
 import firebase from 'firebase-admin'
-import firestore from 'lib/db/firestore'
+import firestore, { getAutoIncrement } from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { isValidatedCategory } from '../../[category]/index'
+import validateCategory from 'lib/api/middleware/validate-category'
 
 const handler = getHandler()
 
+handler.use(validateCategory)
+
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const postId = await getPostID(req, res)
+  const { category, pid } = req.query
+
+  const postId = await getPostID(category as string, pid as string)
+
   await firestore
     .collection('comments')
     .where('belongsTo', '==', postId)
@@ -30,9 +35,11 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const postId = await getPostID(req, res)
+  const { category, pid } = req.query
+
+  const postId = await getPostID(category as string, pid as string)
   const docRef = firestore.collection('comments').doc()
-  console.log(req.body)
+
   docRef
     .set({
       ...req.body,
@@ -45,7 +52,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       })
     })
     .catch(() => {
-      res.status(400).json({
+      res.status(500).json({
         error: 'Database error',
       })
     })
@@ -65,7 +72,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       })
     })
     .catch(() => {
-      res.status(400).json({
+      res.status(500).json({
         error: 'Database error',
       })
     })
@@ -78,14 +85,14 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!docResult.exists) {
     res.status(404).json({
-      error: 'Not Found',
+      error: 'comment not Found',
     })
     return
   }
 
   if (docResult.data().password !== password) {
-    res.status(403).json({
-      error: 'Invaid Password',
+    res.status(401).json({
+      error: 'invaid Password',
     })
     return
   }
@@ -94,7 +101,7 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     .delete()
     .then(() => {
       res.status(201).json({
-        message: 'Deleted Sucessfully',
+        message: 'resource deleted Sucessfully',
       })
     })
     .catch(() => {
@@ -104,35 +111,11 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     })
 })
 
-async function getPostID(req: NextApiRequest, res: NextApiResponse) {
-  const { category, id } = req.query
-  if (!isValidatedCategory(category)) {
-    return res.status(404).json({
-      error: 'not Found',
-    })
-  }
+async function getPostID(category: string, pid: string) {
+  const colRef = firestore.collection(category as string)
+  const autoIncrement = await getAutoIncrement(colRef)
 
-  const docsColRef = firestore.collection(category as string)
-  const docsAutoIncrement = await docsColRef.doc('autoIncrement').get()
-  const docsTotal = docsAutoIncrement.data().value as number
-
-  if (docsTotal === 0) {
-    return res.status(404).json({
-      error: 'no docs',
-    })
-  }
-
-  const snapshot = await docsColRef
-    .where('id', '==', docsTotal - parseInt(id as string, 10) + 1)
-    .get()
-
-  if (snapshot.empty) {
-    return res.status(404).json({
-      error: 'no docs',
-    })
-  }
-
-  return snapshot.docs[0].id
+  return autoIncrement - parseInt(pid as string, 10) + 1
 }
 
 export default handler

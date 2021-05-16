@@ -54,6 +54,7 @@ module.exports = {
     JSX: true,
     RequestInfo: true,
     RequestInit: true,
+    FirebaseFirestore: true,
   },
   settings: {
     'import/resolver': {

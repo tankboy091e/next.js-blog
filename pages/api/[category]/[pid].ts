@@ -1,124 +1,150 @@
-import { verifyIdToken } from 'lib/db/admin'
-import firestore, { getCollectionRefwithID } from 'lib/db/firestore'
+import firestore, { decreaseAutoIncrement, getAutoIncrement, reorderCollection } from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { isValidatedCategory } from './index'
+import validateCategory from 'lib/api/middleware/validate-category'
+import verifyUid from 'lib/api/middleware/verify-uid'
+import storage from 'lib/db/storage'
 
 const handler = getHandler()
 
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const pid = req.query.pid as string
-  const { category } = req.query
+handler.use(validateCategory)
 
-  if (!isValidatedCategory(category)) {
-    return res.status(404).json({
-      error: 'not found',
-    })
-  }
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { category, pid } = req.query
 
   const colRef = firestore.collection(category as string)
-  const autoIncrement = await colRef.doc('autoIncrement').get()
-  const total = autoIncrement.data().value
+  const total = await getAutoIncrement(colRef)
 
   if (total === 0) {
-    return res.status(404).json({ error: 'not found' })
+    res.status(404).json({ error: 'no docs' })
+    return
   }
 
-  const snapshot = await colRef.where('id', '==', total - parseInt(pid, 10) + 1).get()
-  if (snapshot.empty) {
-    return res.status(404).json({ error: 'not found' })
-  }
+  const id = getDocumentId(total, pid as string)
 
-  const doc = snapshot.docs[0]
-  const { createdAt, subTitle, ...data } = doc.data()
-
-  return res.status(200).json({
-    ...data,
-    total,
-    doc: doc.id,
-    subtitle: subTitle,
-    createdAt: createdAt.toDate().toDateString(),
-  })
+  colRef
+    .where('id', '==', id)
+    .get()
+    .then((snapshots) => {
+      if (snapshots.empty) {
+        throw new Error('resource not found')
+      }
+      return snapshots.docs[0]
+    })
+    .then((doc) => {
+      const { createdAt, ...data } = doc.data()
+      res.status(200).json({
+        total,
+        ...data,
+        doc: doc.id,
+        createdAt: createdAt.toDate().toDateString(),
+      })
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error.message,
+      })
+    })
 })
 
+handler.use(verifyUid)
+
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
-
-  if (uid !== process.env.UID) {
-    res.status(403).json({
-      error: 'forbidden',
-    })
-    return
-  }
-
   const { category } = req.query
 
-  if (!isValidatedCategory(category)) {
-    res.status(404).json({
-      error: 'not found',
-    })
-    return
-  }
-
   const {
-    doc, title, subTitle, content,
+    doc, title, subtitle, content,
   } = req.body
 
-  const colRef = firestore.collection(category as string)
-  await colRef.doc(doc).update({
-    title,
-    subTitle,
-    content,
-  })
-
-  res.status(201).json({
-    message: 'Edited sucessfully',
-  })
+  await firestore
+    .collection(category as string)
+    .doc(doc)
+    .update({
+      title,
+      subtitle,
+      content,
+    })
+    .then(() => {
+      res.status(201).json({
+        message: 'edited sucessfully',
+      })
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error.message,
+      })
+    })
 })
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
+  const { category, pid } = req.query
 
-  if (uid !== process.env.UID) {
-    res.status(403).json({
-      error: 'forbidden',
-    })
+  const colRef = firestore.collection(category as string)
+  const total = await getAutoIncrement(colRef)
+
+  const id = getDocumentId(total, pid as string)
+
+  const snapshots = await colRef.where('id', '==', id).get()
+
+  if (snapshots.empty) {
+    res.status(404).json({ error: 'resrouce not found' })
     return
   }
 
-  const { category } = req.query
+  const doc = snapshots.docs[0]
 
-  const { colRef, id } = await getCollectionRefwithID(category)
+  const { content } = doc.data()
 
-  const snapshot = await colRef.where('id', '==', id).get()
+  let processError: string
 
-  if (snapshot.empty) {
-    res.status(404).json({
-      error: 'not found',
+  const imageUrls = (content as string)
+    .match(/img src="([^"]+)"/g)
+    ?.map((value) => value
+      .replace('img src=', '')
+      .replace(/"/g, '')
+      .replace(`https://storage.googleapis.com/${storage.name}/`, ''))
+
+  const imagePromises = imageUrls?.map((fileName) => storage.file(fileName).delete())
+
+  await Promise.all(imagePromises)
+    .catch((error) => {
+      processError += error
     })
-    return
-  }
 
-  await colRef.doc(snapshot.docs[0].id).delete()
+  const commentsPromises : Promise<any>[] = []
 
-  const everySnapshot = await colRef.orderBy('id', 'asc').get()
+  const commentSnapshots = await firestore
+    .collection('comments')
+    .where('belongsTo', '==', id)
+    .get()
 
-  if (everySnapshot.empty === true) {
-    res.status(200).json({
-      message: 'Deleted Sucessfully',
+  commentSnapshots.forEach((doc) => {
+    commentsPromises.push(doc.ref.delete())
+  })
+
+  await Promise.all(commentsPromises)
+    .catch((error) => {
+      processError += error
     })
-  }
 
-  //   const { docs } = everySnapshot
-  //   for (let i = 0; i < docs.length; i++) {
-  //     const doc = colRef.docs(docs[i].id)
-  //   }
-  //   const response = firestore.runTransaction(async (t) => {
-  //     t.getAll(firestore.collection(category))
-  //   })
-  //   return res.status(200).json({
-  //     message: 'Deleted Sucessfully',
-  //   })
+  doc.ref
+    .delete()
+    .then(() => decreaseAutoIncrement(colRef))
+    .then(() => reorderCollection(colRef))
+    .then(() => {
+      res.status(200).json({
+        message: 'resource deleted successfully',
+      })
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: `database error. ${processError}`,
+      })
+    })
 })
 
 export default handler
+
+function getDocumentId(total: number, pid: string): number {
+  return total - parseInt(pid, 10) + 1
+}

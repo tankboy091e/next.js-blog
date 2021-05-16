@@ -1,7 +1,7 @@
 import firestore from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { verifyIdToken } from 'lib/db/admin'
+import verifyUid from 'lib/api/middleware/verify-uid'
 
 const handler = getHandler()
 
@@ -24,14 +24,9 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     })
 })
 
+handler.use(verifyUid)
+
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
-
-  if (uid !== process.env.UID) {
-    res.status(403).json({ error: 'forbidden' })
-    return
-  }
-
   const { isbn, page, paragraph } = req.body
 
   const docRef = firestore.collection('quotes').doc()
@@ -51,13 +46,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
-
-  if (uid !== process.env.UID) {
-    res.status(403).json({ error: 'forbidden' })
-    return
-  }
-
   const { id, page, paragraph } = req.body
   const docRef = firestore.collection('quotes').doc(id)
   docRef
@@ -74,13 +62,6 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
-
-  if (uid !== process.env.UID) {
-    res.status(403).json({ error: 'forbidden' })
-    return
-  }
-
   const { id } = req.body
   const docRef = firestore.collection('quotes').doc(id)
   docRef

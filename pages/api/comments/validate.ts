@@ -9,17 +9,17 @@ handler.post(async (req :NextApiRequest, res: NextApiResponse) => {
 
   const docRef = await firestore.collection('comments').doc(id).get()
 
-  if (docRef.exists === false) {
-    return res.status(404).json({ error: 'no docs.' })
+  if (!docRef.exists) {
+    return res.status(404).json({ error: 'no docs' })
   }
 
   const result = docRef.data().password
 
   if (result !== password) {
-    return res.status(403).json({ error: 'Invalid password.' })
+    return res.status(403).json({ error: 'invalid password' })
   }
 
-  return res.status(200).json({ message: 'Validated.' })
+  return res.status(200).json({ message: 'validated' })
 })
 
 export default handler

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from 'sass/components/comments/comment.module.scss'
 import SpeechBubble from 'widgets/speech-bubble'
 import FormProvider from 'providers/form'
+import hermes from 'lib/api/hermes'
 import usePageQuery from 'lib/hooks/page-query'
 import { usePrompt } from 'providers/modal/prompt'
 import { useAlert } from 'providers/modal/alert'
@@ -35,7 +36,7 @@ export default function Comment({ data }: { data: commentData }) {
     if (!password) {
       return
     }
-    const res = await fetch('/api/comments/validate', {
+    const res = await hermes('/api/comments/validate', {
       body: JSON.stringify({
         id,
         password,
@@ -66,7 +67,7 @@ export default function Comment({ data }: { data: commentData }) {
     if (!password) {
       return
     }
-    const res = await fetch(`/api/comments/${category}/${current}`, {
+    const res = await hermes(`/api/comments/${category}/${current}`, {
       body: JSON.stringify({
         id,
         password,

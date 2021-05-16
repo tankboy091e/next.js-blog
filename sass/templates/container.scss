@@ -4,7 +4,10 @@
 @mixin container($device) {
     max-height: inherit;
     max-width: calc(100vw - 2rem);
-    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     @if $device == 'window' {
         width: variables.$breakpoint-window;
         max-width: calc(100vw - 8rem);

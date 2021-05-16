@@ -3,10 +3,6 @@
 
 .container {
     @include container.container('desktop');
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     border-radius: 1rem;
     background-color: color.$background;
 }

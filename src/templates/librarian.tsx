@@ -1,8 +1,8 @@
 import FormProvider from 'providers/form'
 import { useState } from 'react'
 import styles from 'sass/templates/librarian/index.module.scss'
-import SearchedBook from './searched-book'
-import Search from './search'
+import SearchedBook from '../widgets/searched-book'
+import Search from '../components/librarian-search'
 
 export default function Librarian() {
   const [searchData, setSearchData] = useState<any>(null)

@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 import firebase from 'lib/db'
 import 'firebase/auth'
 import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
 import nookies from 'nookies'
+import { useAlert } from './modal/alert'
 
 type User = firebase.User
 type UserCredential = firebase.auth.UserCredential
@@ -33,6 +35,7 @@ export default function AuthProvider({
   children: React.ReactNode
 }) {
   const [user, setUser] = useState<User>(null)
+  const { createAlert } = useAlert()
 
   const signin = (
     email: string,
@@ -49,6 +52,34 @@ export default function AuthProvider({
 
   const signout = () => firebase.auth().signOut()
 
+  const silentRefresh = async (firebaseUser?: User) => {
+    const res = await fetch('https://securetoken.googleapis.com/v1/token?key=AIzaSyCjXzzfZnv7AbJIqO_qM9oG1fxi3G2oRRs', {
+      body: JSON.stringify({
+        grant_type: 'refresh_token',
+        refresh_token: (user || firebaseUser).refreshToken,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    })
+    if (!res.ok) {
+      createAlert({
+        message: 'Silent refresh has failed.',
+      })
+      return
+    }
+    const data = await res.json()
+    const {
+      id_token = await (user || firebaseUser).getIdToken(),
+      expires_in = 3600,
+    } = data
+    nookies.set(undefined, 'token', id_token, {
+      maxAge: 60 * 59,
+    })
+    setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000)
+  }
+
   useEffect(() => {
     firebase.auth().onIdTokenChanged(async (firebaseUser) => {
       if (!firebaseUser) {
@@ -56,9 +87,8 @@ export default function AuthProvider({
         nookies.set(undefined, 'token', '')
         return
       }
-      const token = await firebaseUser.getIdToken()
       setUser(firebaseUser)
-      nookies.set(undefined, 'token', token)
+      silentRefresh(firebaseUser)
     })
   }, [])
 

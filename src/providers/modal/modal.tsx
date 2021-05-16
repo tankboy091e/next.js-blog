@@ -52,11 +52,11 @@ export default function Modal({
 
   useEffect(() => {
     curtain.current.addEventListener('click', turnOff)
-    return () => curtain.current.removeEventListener('click', turnOff)
+    return () => curtain.current?.removeEventListener('click', turnOff)
   }, [])
 
   useEffect(() => {
-    if (active === true) {
+    if (active) {
       pull()
       fixBody()
     } else {
@@ -79,8 +79,8 @@ export default function Modal({
       )}
       {active && createPortal(
         <div className={styles.wrapper}>
-          <button className={styles.close} type="button" onClick={() => setActive(false)}>
-            <VscChromeClose size={24} />
+          <button className={styles.close} type="button" onClick={turnOff}>
+            <VscChromeClose size={20} />
           </button>
           {children}
         </div>,

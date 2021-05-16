@@ -57,4 +57,4 @@ export default function Navigation() {
   )
 }
 
-const menu = ['sum', 'essais', 'quotes', 'dev', 'gallary']
+const menu = ['sum', 'essais', 'quotes', 'dev', 'contact']

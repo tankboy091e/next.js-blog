@@ -16,7 +16,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).json(data)
     })
     .catch(() => {
-      res.status(400).json({
+      res.status(500).json({
         error: 'database error',
       })
     })

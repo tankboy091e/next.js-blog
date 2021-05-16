@@ -1,5 +1,5 @@
 import getHandler from 'lib/api/handler'
-import { verifyIdToken } from 'lib/db/admin'
+import verifyUid from 'lib/api/middleware/verify-uid'
 import firestore from 'lib/db/firestore'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -19,45 +19,41 @@ handler.get(async (_: NextApiRequest, res: NextApiResponse) => {
   })
 })
 
+handler.use(verifyUid)
+
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { uid } = await verifyIdToken(req.cookies.token)
-
-  if (uid !== process.env.UID) {
-    res.status(403).json({ error: 'forbidden' })
-    return
-  }
-
   const {
     isbn,
   } = req.body
 
   const idType = isbn.length < 13 ? 'isbn' : 'isbn13'
 
-  const data = await fetch(
+  const bookData = await fetch(
     `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_KEY}&itemIdType=${idType}&cover=big&ItemId=${isbn}&output=JS&Version=20131101`,
   )
 
-  if (!data.ok) {
+  if (!bookData.ok) {
     res.status(500).json({ error: 'database error' })
-  }
-
-  const json = await data.json()
-
-  if (json.errorCode) {
-    res.status(400).json({ error: json.errorMessage })
     return
   }
 
-  const { item } = json
+  const data = await bookData.json()
+
+  if (data.errorCode) {
+    res.status(500).json({ error: data.errorMessage })
+    return
+  }
+
+  const { item } = data
 
   const {
     title, author, pubDate, publisher, cover, link,
   } = item[0]
+
   const { itemPage } = item[0].subInfo
 
-  const docRef = firestore.collection('library').doc(isbn)
-
-  docRef
+  firestore.collection('library')
+    .doc(isbn)
     .set({
       title,
       author,
@@ -71,7 +67,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(201).json({ message: 'Saved sucessfully' })
     })
     .catch(() => {
-      res.status(400).json({ error: 'database error' })
+      res.status(500).json({ error: 'database error' })
     })
 })
 

@@ -4,6 +4,7 @@ import Book from 'widgets/book'
 import BookDetails from 'widgets/book-details'
 import { useModal } from 'providers/modal/modal'
 import { useAlert } from 'providers/modal/alert'
+import hermes from 'lib/api/hermes'
 
 export default function SearchedBook({ value }: { value: any }) {
   const {
@@ -16,7 +17,7 @@ export default function SearchedBook({ value }: { value: any }) {
   const { turnOff } = useModal()
 
   const onClick = async () => {
-    const res = await fetch('/api/books', {
+    const res = await hermes('/api/books', {
       body: JSON.stringify({
         isbn: isbn13 || isbn,
       }),

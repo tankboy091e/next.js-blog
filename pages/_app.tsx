@@ -11,11 +11,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>오진수의 블로그</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <AuthProvider>
-        <ModalProvider>
+      <ModalProvider>
+        <AuthProvider>
           <Component {...pageProps} />
-        </ModalProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ModalProvider>
     </>
   )
 }
