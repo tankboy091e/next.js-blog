@@ -2,10 +2,10 @@ import emailjs from 'emailjs-com'
 import { FormEvent } from 'react'
 
 const sendEmail = async (e: FormEvent<HTMLFormElement>) => emailjs.sendForm(
-  process.env.EMAILJS_SERVICE_ID,
-  process.env.EMAILJS_TEMPLATE_ID,
+  'fromBlog',
+  'template_ued8hvt',
   e.currentTarget,
-  process.env.EMAILJS_USER_ID,
+  'user_8xAaUCdPIJZt4XCJfeOqk',
 )
 
 export default sendEmail
