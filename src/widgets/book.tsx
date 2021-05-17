@@ -23,6 +23,11 @@ export default function Book({
   itemPage?: number
   link: string
 }) {
+  const preload = () => {
+    const image = new Image()
+    image.src = link
+  }
+
   const processCovers = (): {
     front: string
     pageWidth: number
@@ -52,6 +57,8 @@ export default function Book({
       onError: null,
     }),
   })
+
+  preload()
 
   const { back, onError } = backOption
 
