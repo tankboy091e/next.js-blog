@@ -27,6 +27,7 @@ export default function Book({
   onload?: () => void
 }) {
   const { load, onImageLoad } = useImageLoad(2)
+
   const processCovers = (): {
     front: string
     pageWidth: number
@@ -37,9 +38,7 @@ export default function Book({
     const back = `${cover
       .replace('cover', 'letslook')
       .substring(0, lastDot + 1)}b${cover.substring(lastDot - 1)}`
-
     const pageWidth = Math.round(itemPage / 8)
-
     return {
       front,
       pageWidth,
@@ -77,7 +76,7 @@ export default function Book({
         <div className={styles.wrapper}>
           <figure className={styles.figure}>
             <img className={styles.front} src={front} alt="not found" onLoad={onImageLoad} />
-            {load && <div className={styles.paper} style={{ width: pageWidth }} />}
+            <div className={styles.paper} style={{ width: pageWidth }} />
             <img
               className={styles.back}
               src={back}

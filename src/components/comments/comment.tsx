@@ -51,7 +51,7 @@ export default function Comment({ data }: { data: commentData }) {
       setState('edit')
     } else {
       const { error } = await res.json()
-      createAlert({
+      await createAlert({
         message: error,
         code: 'error',
       })
@@ -79,14 +79,14 @@ export default function Comment({ data }: { data: commentData }) {
     })
     if (res.ok) {
       const { message } = await res.json()
-      createAlert({
+      await createAlert({
         message,
         code: 'success',
       })
       refresh()
     } else {
       const { error } = await res.json()
-      createAlert({
+      await createAlert({
         message: error,
         code: 'error',
       })
@@ -101,7 +101,7 @@ export default function Comment({ data }: { data: commentData }) {
     return (
       <FormProvider>
         <Input
-          doc={id}
+          id={id}
           method="PUT"
           submitValue="Edit"
           name={name}

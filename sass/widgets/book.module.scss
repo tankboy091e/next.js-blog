@@ -10,6 +10,9 @@
 }
 
 .figure {
+    display: flex;
+    justify-content: center;
+    
     position: relative;
     transition: transform .5s;
     transform-style: preserve-3d;
@@ -24,6 +27,7 @@
 
 .front {
     position: relative;
+    width: 100%;
 }
 
 .paper {

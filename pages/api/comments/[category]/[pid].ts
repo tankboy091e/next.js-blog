@@ -13,9 +13,21 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const postId = await getPostID(category as string, pid as string)
 
-  await firestore
+  const snapshots = await firestore
+    .collection(category as string)
+    .where('id', '==', postId)
+    .get()
+
+  if (snapshots.empty) {
+    res.status(500).json({ error: 'database error' })
+    return
+  }
+
+  const { id } = snapshots.docs[0]
+
+  firestore
     .collection('comments')
-    .where('belongsTo', '==', postId)
+    .where('doc', '==', id)
     .get()
     .then((snapshots) => {
       const data = snapshots.docs.map((value) => {
@@ -35,16 +47,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { category, pid } = req.query
-
-  const postId = await getPostID(category as string, pid as string)
   const docRef = firestore.collection('comments').doc()
-
+  const data = req.body
   docRef
     .set({
-      ...req.body,
+      ...data,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      belongsTo: postId,
     })
     .then(() => {
       res.status(201).json({
@@ -59,8 +67,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { doc, content } = req.body
-  const docRef = firestore.collection('comments').doc(doc)
+  const { id, content } = req.body
+  const docRef = firestore.collection('comments').doc(id)
 
   docRef
     .update({

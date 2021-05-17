@@ -6,6 +6,7 @@ import { useComments } from './inner'
 
 export default function Input({
   doc,
+  id,
   name = '',
   password = '',
   content = '',
@@ -14,7 +15,8 @@ export default function Input({
   submitValue,
   method = 'POST',
 }: {
-  doc: string
+  doc?: string
+  id?: string
   name?: string
   password?: string
   content?: string
@@ -40,6 +42,7 @@ export default function Input({
       init: () => ({
         body: JSON.stringify({
           doc,
+          id,
           name: nameRef.current.value,
           password: passwordRef.current.value,
           content: contentRef.current.value,
