@@ -33,18 +33,17 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     })
     .then((doc) => {
       const { createdAt, ...data } = doc.data()
-      res.status(200).json({
+      return {
         total,
         ...data,
         doc: doc.id,
         createdAt: createdAt.toDate().toDateString(),
-      })
+      }
     })
-    .catch((error) => {
-      res.status(500).json({
-        error: error.message,
-      })
-    })
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(500).json({
+      error: error.message,
+    }))
 })
 
 handler.use(verifyUid)
@@ -64,16 +63,12 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       subtitle,
       content,
     })
-    .then(() => {
-      res.status(201).json({
-        message: 'edited sucessfully',
-      })
-    })
-    .catch((error) => {
-      res.status(500).json({
-        error: error.message,
-      })
-    })
+    .then(() => res.status(201).json({
+      message: 'resource edited sucessfully',
+    }))
+    .catch((error) => res.status(500).json({
+      error: error.message,
+    }))
 })
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -131,16 +126,12 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     .delete()
     .then(() => decreaseAutoIncrement(colRef))
     .then(() => reorderCollection(colRef))
-    .then(() => {
-      res.status(200).json({
-        message: 'resource deleted successfully',
-      })
-    })
-    .catch(() => {
-      res.status(500).json({
-        error: `database error. ${processError}`,
-      })
-    })
+    .then(() => res.status(200).json({
+      message: 'resource deleted successfully',
+    }))
+    .catch(() => res.status(500).json({
+      error: `database error. ${processError}`,
+    }))
 })
 
 export default handler

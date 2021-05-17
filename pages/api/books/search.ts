@@ -12,14 +12,8 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   request
     .then((response) => response.json())
-    .then((data) => {
-      res.status(200).json(data)
-    })
-    .catch(() => {
-      res.status(500).json({
-        error: 'database error',
-      })
-    })
+    .then((data) => res.status(200).json(data))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 export default handler

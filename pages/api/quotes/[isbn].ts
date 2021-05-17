@@ -19,16 +19,12 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       if (pA < pB) return -1
       return 0
     }))
-    .then((docs) => {
-      const data = docs.map((value) => ({
-        id: value.id,
-        ...value.data(),
-      }))
-      res.status(200).json(data)
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'database error' })
-    })
+    .then((docs) => docs.map((value) => ({
+      id: value.id,
+      ...value.data(),
+    })))
+    .then((data) => res.status(200).json(data))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 handler.use(verifyUid)
@@ -47,12 +43,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       paragraph,
       annotation,
     })
-    .then(() => {
-      res.status(201).json({ message: 'saved sucessfully' })
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'database error' })
-    })
+    .then(() => res.status(201).json({ message: 'saved sucessfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -63,12 +55,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
       page,
       paragraph,
     })
-    .then(() => {
-      res.status(201).json({ message: 'edited successfully' })
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'database error' })
-    })
+    .then(() => res.status(201).json({ message: 'edited successfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -76,12 +64,8 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const docRef = firestore.collection('quotes').doc(id)
   docRef
     .delete()
-    .then(() => {
-      res.status(201).json({ message: 'deleted successfully' })
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'database error' })
-    })
+    .then(() => res.status(201).json({ message: 'deleted successfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 export default handler

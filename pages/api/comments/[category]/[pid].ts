@@ -13,37 +13,40 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const postId = await getPostID(category as string, pid as string)
 
-  const snapshots = await firestore
+  const postSnapshots = await firestore
     .collection(category as string)
     .where('id', '==', postId)
     .get()
 
-  if (snapshots.empty) {
+  if (postSnapshots.empty) {
     res.status(500).json({ error: 'database error' })
     return
   }
 
-  const { id } = snapshots.docs[0]
+  const { id } = postSnapshots.docs[0]
 
   firestore
     .collection('comments')
     .where('doc', '==', id)
     .get()
-    .then((snapshots) => {
-      const data = snapshots.docs.map((value) => {
-        const { name, content, createdAt } = value.data()
-        return {
-          id: value.id,
-          name,
-          content,
-          createdAt: createdAt?.toDate().toDateString(),
-        }
-      })
-      res.status(200).json(data)
-    })
-    .catch(() => {
-      res.status(500).json({ error: 'database ereror' })
-    })
+    .then((snapshots) => snapshots.docs.sort((a, b) => {
+      const { createdAt: timestampA } = a.data()
+      const { createdAt: timestampB } = b.data()
+      if (timestampA > timestampB) return 1
+      if (timestampA < timestampB) return -1
+      return 0
+    }))
+    .then((docs) => docs.map((value) => {
+      const { name, content, createdAt } = value.data()
+      return {
+        id: value.id,
+        name,
+        content,
+        createdAt: createdAt?.toDate().toDateString(),
+      }
+    }))
+    .then((data) => res.status(200).json(data))
+    .catch(() => res.status(500).json({ error: 'database ereror' }))
 })
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -54,16 +57,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       ...data,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
-    .then(() => {
-      res.status(201).json({
-        message: 'Saved Sucessfully',
-      })
-    })
-    .catch(() => {
-      res.status(500).json({
-        error: 'Database error',
-      })
-    })
+    .then(() => res.status(201).json({ message: 'resource saved sucessfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -74,16 +69,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     .update({
       content,
     })
-    .then(() => {
-      res.status(201).json({
-        message: 'Edited Sucessfully',
-      })
-    })
-    .catch(() => {
-      res.status(500).json({
-        error: 'Database error',
-      })
-    })
+    .then(() => res.status(201).json({ message: 'resource edited sucessfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -107,16 +94,8 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 
   docRef
     .delete()
-    .then(() => {
-      res.status(201).json({
-        message: 'resource deleted Sucessfully',
-      })
-    })
-    .catch(() => {
-      res.status(500).json({
-        error: 'database error',
-      })
-    })
+    .then(() => res.status(201).json({ message: 'resource deleted sucessfully' }))
+    .catch(() => res.status(500).json({ error: 'database error' }))
 })
 
 async function getPostID(category: string, pid: string) {

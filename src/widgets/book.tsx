@@ -75,12 +75,12 @@ export default function Book({
       >
         <div className={styles.wrapper}>
           <figure className={styles.figure}>
-            <img className={styles.front} src={front} alt="not found" onLoad={onImageLoad} />
+            <img className={styles.front} src={front} alt="도서 전면" onLoad={onImageLoad} />
             <div className={styles.paper} style={{ width: pageWidth }} />
             <img
               className={styles.back}
               src={back}
-              alt="not found"
+              alt="도서 후면"
               style={{
                 transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
               }}

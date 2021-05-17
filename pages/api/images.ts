@@ -29,6 +29,7 @@ handler.post((req: NextApiRequest & { file : any }, res: NextApiResponse) => {
       res.status(201).json({ url: file.publicUrl() })
     })
   })
+
   stream.end(req.file.buffer)
 })
 
