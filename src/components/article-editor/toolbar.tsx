@@ -1,4 +1,4 @@
-import React, { ChangeEvent, SetStateAction } from 'react'
+import React, { ChangeEvent } from 'react'
 import {
   BsJustifyLeft,
   BsJustify,
@@ -33,13 +33,9 @@ export interface CommandState {
   }
 
 export default function ToolBar({
-  states,
-  setStates,
   imageUploader,
   onCommand,
 }: {
-  states : CommandState[]
-  setStates : React.Dispatch<SetStateAction<CommandState[]>>
   imageUploader : (e: ChangeEvent<HTMLInputElement>) => Promise<void>
   onCommand : (cmd: command, index: number, message: string) => Promise<void>
 }) {
@@ -57,15 +53,7 @@ export default function ToolBar({
                 type="file"
                 id="imagePicker"
                 accept="image/*"
-                onChange={(e) => {
-                  setStates(
-                    states.map(({ command, active }) => ({
-                      command,
-                      active: command === cmd ? !active : active,
-                    })),
-                  )
-                  imageUploader(e)
-                }}
+                onChange={(e) => imageUploader(e)}
                 style={{
                   width: iconSize,
                   height: iconSize,
@@ -80,7 +68,6 @@ export default function ToolBar({
             className={styles.tool}
             type="button"
             onClick={(e) => {
-              e.preventDefault()
               onCommand(cmd, index, message)
             }}
           >

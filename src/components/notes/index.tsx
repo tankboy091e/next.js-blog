@@ -6,6 +6,7 @@ import { useAuth } from 'providers/auth'
 import Modal from 'providers/modal/modal'
 import AddButton from 'widgets/add-button'
 import NewQuotes from 'templates/new-quotes'
+import Loading from 'widgets/loading'
 import Note, { NoteProps } from './note'
 
 export default function Notes({ isbn }: { isbn: string | string[] }) {
@@ -22,7 +23,7 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
 
   if (!data) {
     return (
-      <></>
+      <Loading />
     )
   }
 

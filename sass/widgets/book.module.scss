@@ -2,13 +2,6 @@
 
 .container {
     perspective: 1000px;
-    @for $i from 1 to 1000 {
-        &:nth-child(#{$i}) {
-            .wrapper {
-                animation: pop-up 1s both calc(#{$i} * .05s);
-            }
-        }
-    }
 }
 
 .wrapper {
@@ -16,21 +9,11 @@
     transform-style: preserve-3d;
 }
 
-@keyframes pop-up {
-    from {
-        opacity: 0;
-        transform: translateX(-.75rem) rotateY(-20deg);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0rem) rotateY(0deg);
-    }
-}
-
 .figure {
     position: relative;
     transition: transform .5s;
     transform-style: preserve-3d;
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0);
     @include mediaquerey.mobile {
         transform: translateX(-.4rem) rotateY(-15deg);
     }

@@ -11,6 +11,7 @@ export interface NoteProps {
   id: string
   page: string
   paragraph: string
+  annotation: string
 }
 
 type NoteState = 'default' | 'edit'
@@ -24,7 +25,9 @@ export default function Note({
   mutate: Function
   value: NoteProps
 }) {
-  const { id, page, paragraph } = value
+  const {
+    id, page, paragraph, annotation,
+  } = value
   const label = page.includes('-') ? 'pp' : 'p'
   const [state, setState] = useState<NoteState>('default')
 
@@ -92,7 +95,19 @@ export default function Note({
     <SpeechBubble
       key={paragraph}
       head={<p className={styles.page}>{`${label}.${page}`}</p>}
-      word={paragraph}
+      body={
+        (
+          <>
+            <p className={styles.paragraph}>{paragraph}</p>
+            {annotation && (
+              <details className={styles.details}>
+                <summary className={styles.summary}>메모</summary>
+                <p className={styles.annotation}>{annotation}</p>
+              </details>
+            )}
+          </>
+        )
+      }
       onEdit={onEdit}
       onDelete={onDelete}
     />

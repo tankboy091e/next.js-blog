@@ -1,7 +1,18 @@
+@use '../lib/color.scss' as color;
+
 .container {
+    width: 100%;
     padding: 1rem 0;
 }
 
 .page {
     margin-right: 1rem;
+}
+
+.details {
+    padding-top: .5rem;
+}
+
+.summary {
+    cursor: pointer;
 }

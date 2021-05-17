@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
+import useImageLoad from 'lib/hooks/image-load'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from 'sass/widgets/book.module.scss'
 
 export interface BookProps {
@@ -18,16 +19,14 @@ export default function Book({
   cover,
   itemPage = 100,
   link,
+  onload,
 }: {
   cover: string
   itemPage?: number
   link: string
+  onload?: () => void
 }) {
-  const preload = () => {
-    const image = new Image()
-    image.src = link
-  }
-
+  const { load, onImageLoad } = useImageLoad(2)
   const processCovers = (): {
     front: string
     pageWidth: number
@@ -48,6 +47,13 @@ export default function Book({
     }
   }
 
+  useEffect(() => {
+    if (!load) {
+      return
+    }
+    onload?.call(null)
+  }, [load])
+
   const { front, pageWidth, back: backSrc } = processCovers()
 
   const [backOption, setBackSrc] = useState({
@@ -57,8 +63,6 @@ export default function Book({
       onError: null,
     }),
   })
-
-  preload()
 
   const { back, onError } = backOption
 
@@ -72,8 +76,8 @@ export default function Book({
       >
         <div className={styles.wrapper}>
           <figure className={styles.figure}>
-            <img className={styles.front} src={front} alt="not found" />
-            <div className={styles.paper} style={{ width: pageWidth }} />
+            <img className={styles.front} src={front} alt="not found" onLoad={onImageLoad} />
+            {load && <div className={styles.paper} style={{ width: pageWidth }} />}
             <img
               className={styles.back}
               src={back}
@@ -81,6 +85,7 @@ export default function Book({
               style={{
                 transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
               }}
+              onLoad={onImageLoad}
               onError={onError}
             />
           </figure>

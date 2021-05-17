@@ -116,7 +116,7 @@ export default function Comment({ data }: { data: commentData }) {
   return (
     <SpeechBubble
       head={<span className={styles.name}>{name}</span>}
-      word={content}
+      body={content}
       onEdit={onEdit}
       onDelete={onDelete}
       needsAuth={false}

@@ -23,6 +23,7 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
 
   const pageRef = useRef<HTMLInputElement>()
   const paragraphRef = useRef<HTMLTextAreaElement>()
+  const annotationRef = useRef<HTMLTextAreaElement>()
 
   const { isbn, mutate } = value
 
@@ -51,6 +52,7 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
           ...extraBody,
           page: pageRef.current.value,
           paragraph: paragraphRef.current.value,
+          annotation: annotationRef.current.value,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -72,6 +74,7 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
         type="text"
         placeholder="page"
         name="page"
+        autoComplete="off"
         ref={pageRef}
       />
       <textarea
@@ -79,6 +82,12 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
         placeholder="paragraph"
         name="paragraph"
         ref={paragraphRef}
+      />
+      <textarea
+        className={styles.paragraph}
+        placeholder="annotation"
+        name="annotation"
+        ref={annotationRef}
       />
     </>
   )

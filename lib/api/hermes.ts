@@ -6,7 +6,6 @@ export default async function hermes(
 ) : Promise<Response> {
   const { token } = nookies.get()
   const { headers, ...props } = init
-
   return fetch(input, {
     ...props,
     headers: {

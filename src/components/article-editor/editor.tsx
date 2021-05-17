@@ -152,8 +152,6 @@ export default function Editor({
       <input className={styles.subtitle} ref={subtitle} placeholder="부제" autoComplete="off" />
       <div className={styles.divider} />
       <ToolBar
-        states={states}
-        setStates={setStates}
         imageUploader={imageUploader}
         onCommand={onCommand}
       />

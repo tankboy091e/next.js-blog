@@ -5,13 +5,13 @@ import EditDeleteMenu from './edit-delete-menu'
 
 export default function SpeechBubble({
   head,
-  word,
+  body,
   onEdit,
   onDelete,
   needsAuth = true,
 }: {
   head: React.ReactNode
-  word: string
+  body: React.ReactNode
   onEdit: () => Promise<void>
   onDelete: () => Promise<void>
   needsAuth?: boolean
@@ -24,7 +24,7 @@ export default function SpeechBubble({
         <div className={styles.arrow} />
       </header>
       <div className={styles.body}>
-        <p className={styles.content}>{word}</p>
+        <div className={styles.content}>{body}</div>
         {(needsAuth ? user : true) && (
           <EditDeleteMenu
             onEdit={onEdit}

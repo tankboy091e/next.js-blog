@@ -12,12 +12,19 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   docRef
     .get()
-    .then((snapshots) => {
-      const data = snapshots.docs.map((value) => ({
+    .then((snapshots) => snapshots.docs.sort((a, b) => {
+      const { page: pA } = a.data()
+      const { page: pB } = b.data()
+      if (pA > pB) return 1
+      if (pA < pB) return -1
+      return 0
+    }))
+    .then((docs) => {
+      const data = docs.map((value) => ({
         id: value.id,
         ...value.data(),
       }))
-      res.status(201).json(data)
+      res.status(200).json(data)
     })
     .catch(() => {
       res.status(500).json({ error: 'database error' })
@@ -27,7 +34,9 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.use(verifyUid)
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { isbn, page, paragraph } = req.body
+  const {
+    isbn, page, paragraph, annotation,
+  } = req.body
 
   const docRef = firestore.collection('quotes').doc()
 
@@ -36,6 +45,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       isbn,
       page,
       paragraph,
+      annotation,
     })
     .then(() => {
       res.status(201).json({ message: 'saved sucessfully' })
