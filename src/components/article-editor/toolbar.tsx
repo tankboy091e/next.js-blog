@@ -12,6 +12,12 @@ import {
   BsLink,
   BsCode,
 } from 'react-icons/bs'
+import {
+  BiHeading,
+} from 'react-icons/bi'
+import {
+  ImQuotesLeft,
+} from 'react-icons/im'
 import styles from 'sass/components/article-editor.module.scss'
 
 export type command =
@@ -20,6 +26,8 @@ export type command =
   | 'justifyRight'
   | 'bold'
   | 'italic'
+  | 'heading'
+  | 'formatBlock'
   | 'insertOrderedList'
   | 'insertUnorderedList'
   | 'underline'
@@ -37,18 +45,22 @@ export default function ToolBar({
   onCommand,
 }: {
   imageUploader : (e: ChangeEvent<HTMLInputElement>) => Promise<void>
-  onCommand : (cmd: command, index: number, message: string) => Promise<void>
+  onCommand : (cmd: command, prompt: boolean, message: string) => Promise<void>
 }) {
   return (
     <div className={styles.toolbar}>
-      {tools.map((value, index) => {
-        const { command: cmd, message, icon } = value
-        if (cmd === 'insertImage') {
+      {tools.map(({
+        command,
+        message,
+        prompt,
+        icon,
+      }) => {
+        if (command === 'insertImage') {
           return (
-            <label key={cmd} className={styles.imagePickerLabel} htmlFor="imagePicker">
+            <label key="insertImage" className={styles.imagePickerLabel} htmlFor="imagePicker">
               {icon}
               <input
-                key={cmd}
+                key={command}
                 className={styles.imagePicker}
                 type="file"
                 id="imagePicker"
@@ -64,11 +76,11 @@ export default function ToolBar({
         }
         return (
           <button
-            key={cmd}
+            key={`${command}${message}`}
             className={styles.tool}
             type="button"
             onClick={(e) => {
-              onCommand(cmd, index, message)
+              onCommand(command, prompt, message)
             }}
           >
             {icon}
@@ -84,61 +96,85 @@ const iconSize = 24
 export const tools: {
   command: command
   icon: JSX.Element
+  prompt: boolean,
   message: string
 }[] = [
   {
-    command: 'justifyLeft',
-    icon: <BsJustifyLeft size={iconSize} />,
-    message: null,
-  },
-  {
-    command: 'justifyFull',
-    icon: <BsJustify size={iconSize} />,
-    message: null,
-  },
-  {
-    command: 'justifyRight',
-    icon: <BsJustifyRight size={iconSize} />,
-    message: null,
+    command: 'formatBlock',
+    icon: <BiHeading size={iconSize} />,
+    prompt: false,
+    message: 'H3',
   },
   {
     command: 'bold',
     icon: <BsTypeBold size={iconSize} />,
+    prompt: false,
     message: null,
   },
   {
     command: 'italic',
     icon: <BsTypeItalic size={iconSize} />,
+    prompt: false,
     message: null,
   },
   {
     command: 'underline',
     icon: <BsTypeUnderline size={iconSize} />,
+    prompt: false,
+    message: null,
+  },
+  {
+    command: 'justifyLeft',
+    icon: <BsJustifyLeft size={iconSize} />,
+    prompt: false,
+    message: null,
+  },
+  {
+    command: 'justifyFull',
+    icon: <BsJustify size={iconSize} />,
+    prompt: false,
+    message: null,
+  },
+  {
+    command: 'justifyRight',
+    icon: <BsJustifyRight size={iconSize} />,
+    prompt: false,
     message: null,
   },
   {
     command: 'insertOrderedList',
     icon: <BsListOl size={iconSize} />,
+    prompt: false,
     message: null,
   },
   {
     command: 'insertUnorderedList',
     icon: <BsListUl size={iconSize} />,
+    prompt: false,
     message: null,
   },
   {
-    command: 'showCode',
+    command: 'formatBlock',
+    icon: <ImQuotesLeft size={iconSize} />,
+    prompt: false,
+    message: 'BLOCKQUOTE',
+  },
+  {
+    command: 'formatBlock',
     icon: <BsCode size={iconSize} />,
-    message: null,
+    prompt: false,
+    message: 'PRE',
   },
   {
     command: 'insertImage',
     icon: <BsImage size={iconSize} />,
-    message: 'Enter Link here',
+    prompt: false,
+    message: null,
   },
   {
     command: 'createLink',
     icon: <BsLink size={iconSize} />,
+    prompt: true,
     message: 'Enter Link here',
   },
 ]

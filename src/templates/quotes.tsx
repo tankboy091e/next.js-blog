@@ -28,7 +28,6 @@ export default function Quotes({ isbn }: { isbn: string | string[] }) {
   if (!cover) {
     return <ErrorSection />
   }
-
   return (
     <section className={styles.container}>
       <header className={styles.header}>

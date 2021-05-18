@@ -61,37 +61,22 @@ export default function Editor({
     }
   }
 
-  const showCode = () => {
-    const document = content.current.contentDocument
-    const code = document.createElement('div')
-    code.className = 'codeBlock'
-    code.innerHTML = '...'
-    document.body.append(code)
-  }
-
-  const endCode = () => {
-    const document = content.current.contentDocument
-    const code = document.createElement('div')
-    const br = document.createElement('br')
-    code.innerHTML = ' '
-    document.body.append(code)
-    code.appendChild(br)
-  }
-
-  const onCommand = async (cmd: command, index: number, message: string) => {
+  const onCommand = async (cmd: command, prompt: boolean, message: string) => {
     switch (cmd) {
-      case 'showCode':
-        if (states[index].active === false) {
-          showCode()
-        } else {
-          endCode()
-        }
+      case 'formatBlock':
+        content.current.contentDocument.execCommand(
+          cmd,
+          false,
+          states.find(({ command }) => command === cmd).active
+            ? 'DIV'
+            : message,
+        )
         break
       default:
         content.current.contentDocument.execCommand(
           cmd,
           false,
-          message && (await createPrompt({ message })),
+          prompt ? (await createPrompt({ message })) : message,
         )
         break
     }
@@ -162,50 +147,71 @@ export default function Editor({
 
 const iframeCSS = `
       @font-face {
-          font-family: 'Chosun';
-          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
-          font-weight: normal;
-          font-style: normal;
+        font-family: 'Chosun';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing : border-box;
       }
       html {
-          font-family: 'Chosun';
-          width : 100%;
-          height : 100%;
+        font-family: 'Chosun';
+        font-size: 14px;
+        width : 100%;
+        height : 100%;
       }
+
       body {
-          position : relative;
-          width : 100%;
-          height : 100%;
-          font-size : 1.2rem; 
-          color: #faf3f3;
-          line-height : 2;
-          margin: 0; 
-          padding: 0; 
-          postion : relative;
+        position : relative;
+        width : 100%;
+        height : 100%;
+        color: #faf3f3;
+        line-height : 1.5;
+        margin: 0; 
+        padding: 0; 
+        postion : relative;
       }
       body>div:not(.codeBlock) {
-          margin-bottom : .25rem;
+        margin-bottom : .25rem;
       }
-      .codeBlock {
-          font-family : consolas;
-          font-size : 1rem;
-          width : 100%;
-          padding : 1rem 2rem;
-          color : #afaaaa;
-          background-color : #0e0e0e;
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: .5rem;
       }
-      .codeBlock + .codeBlock {
-        padding : 0rem 1rem .5rem 1rem;
+      ul {
+        padding-left: 2rem;
       }
-      .codeBlock + div:not(.codeBlock){
-        margin-top: 1rem;
+      blockquote {
+        padding : 1rem 0rem 1rem 2rem;
+      }
+      blockquote + blockquote {
+        padding : 0rem 0rem 1rem 2rem;
+      }
+      code {
+        font-family : consolas;
+      }
+      pre {
+        font-family : consolas;
+        background-color : #0e0e0e;
+        padding : 1rem 1.5rem;
+      }
+      pre + pre {
+        padding : 0rem 1.5rem 1rem 1.5rem;
+      }
+      pre + div {
+        margin-top: .5rem;
+      }
+      pre, blockquote {
+        font-size: .9em;
+        color : #afaaaa;
+        width : 100%;
       }
       img {
-          display : block;
-          max-width : 100%;
-          margin : 0 auto;
-      }
-      div {
-          box-sizing : border-box;
+        display : block;
+        max-width : 100%;
+        margin : 0 auto;
       }
   `

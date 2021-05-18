@@ -18,8 +18,8 @@ export default function Article({ data }: { data: ArticleData }) {
 
   return (
     <article className={styles.container}>
-      <p className={styles.title}>{title}</p>
-      {subtitle && (<p className={styles.subtitle}>{subtitle}</p>)}
+      <h1 className={styles.title}>{title}</h1>
+      {subtitle && (<h2 className={styles.subtitle}>{subtitle}</h2>)}
       <p
         id="articleContent"
         className={styles.content}

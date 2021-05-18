@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import validateCategory from 'lib/api/middleware/validate-category'
 import verifyUid from 'lib/api/middleware/verify-uid'
 import storage from 'lib/db/storage'
+import { processContent } from '.'
 
 const handler = getHandler()
 
@@ -55,13 +56,15 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     doc, title, subtitle, content,
   } = req.body
 
+  const processed = processContent(content)
+
   await firestore
     .collection(category as string)
     .doc(doc)
     .update({
       title,
       subtitle,
-      content,
+      content: processed,
     })
     .then(() => res.status(201).json({
       message: 'resource edited sucessfully',

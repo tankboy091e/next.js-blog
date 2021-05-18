@@ -13,8 +13,8 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   docRef
     .get()
     .then((snapshots) => snapshots.docs.sort((a, b) => {
-      const { page: pA } = a.data()
-      const { page: pB } = b.data()
+      const pA = parseInt(a.data().page.split('-')[0], 10)
+      const pB = parseInt(b.data().page.split('-')[0], 10)
       if (pA > pB) return 1
       if (pA < pB) return -1
       return 0

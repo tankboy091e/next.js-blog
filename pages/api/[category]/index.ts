@@ -18,13 +18,15 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const colRef = firestore.collection(category as string)
   const newId = await getAutoIncrement(colRef) + 1
 
+  const processed = processContent(content)
+
   colRef
     .doc()
     .set({
       id: newId,
       title,
       subtitle,
-      content,
+      content: processed,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then(() => {
@@ -39,3 +41,16 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 export default handler
+
+export function processContent(content: string) : string {
+  const codeInjected = content.replace(/<pre>.*?<\/pre>/g, (substring) => {
+    if (/<code>.*?<\/code>/g.test(content)) {
+      return substring
+    }
+    return substring
+      .replace('<pre>', '<pre><code>')
+      .replace('</pre>', '</code></pre>')
+  })
+  return codeInjected
+    .replace(/font-size([^"]+)[rem|px];/g, '')
+}
