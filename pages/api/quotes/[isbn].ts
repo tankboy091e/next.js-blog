@@ -48,12 +48,15 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id, page, paragraph } = req.body
+  const {
+    id, page, paragraph, annotation,
+  } = req.body
   const docRef = firestore.collection('quotes').doc(id)
   docRef
     .update({
       page,
       paragraph,
+      annotation,
     })
     .then(() => res.status(201).json({ message: 'edited successfully' }))
     .catch(() => res.status(500).json({ error: 'database error' }))

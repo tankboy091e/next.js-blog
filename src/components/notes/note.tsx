@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import { useState } from 'react'
 import styles from 'sass/components/notes.module.scss'
 import NewQuotes from 'templates/new-quotes'
@@ -84,6 +85,7 @@ export default function Note({
           id={id}
           page={page}
           paragraph={paragraph}
+          annotation={annotation}
           callback={callback}
           mutate={mutate}
         />
@@ -98,7 +100,12 @@ export default function Note({
       body={
         (
           <>
-            <p className={styles.paragraph}>{paragraph}</p>
+            <p
+              className={styles.paragraph}
+              dangerouslySetInnerHTML={{
+                __html: paragraph.replace(/\n/g, '<br/>'),
+              }}
+            />
             {annotation && (
               <details className={styles.details}>
                 <summary className={styles.summary}>메모</summary>

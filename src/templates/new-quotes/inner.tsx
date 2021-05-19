@@ -2,6 +2,7 @@ import { useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
 import { useModal } from 'providers/modal/modal'
+import { NoteProps } from 'components/notes/note'
 
 interface DefaultQuotesProps {
   isbn: string | string[]
@@ -9,13 +10,10 @@ interface DefaultQuotesProps {
 }
 
 interface EditQuotesProps extends DefaultQuotesProps {
-  id: string
-  page: string
-  paragraph: string
   callback?: () => void
 }
 
-export type NewQuotesProps = DefaultQuotesProps | EditQuotesProps
+export type NewQuotesProps = DefaultQuotesProps | (EditQuotesProps & NoteProps)
 
 export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
   const { setOptions } = useForm()
@@ -37,9 +35,10 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
 
   useEffect(() => {
     if ('id' in value) {
-      const { page, paragraph } = value
+      const { page, paragraph, annotation } = value
       pageRef.current.value = page
       paragraphRef.current.value = paragraph
+      annotationRef.current.value = annotation
     }
 
     const extraBody = 'id' in value ? { id: value.id } : { isbn }
