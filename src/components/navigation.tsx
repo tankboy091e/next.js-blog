@@ -4,9 +4,13 @@ import { ImArrowLeft2 } from 'react-icons/im'
 import { useState } from 'react'
 import { getClassName } from 'lib/util'
 import Link from 'next/link'
+import usePageQuery from 'lib/hooks/page-query'
+import { useAuth } from 'providers/auth'
 
 export default function Navigation() {
   const [active, setActive] = useState(false)
+  const { category } = usePageQuery()
+  const { user } = useAuth()
 
   const onKeyDown = () => {
     onClick()
@@ -15,6 +19,11 @@ export default function Navigation() {
   const onClick = () => {
     setActive(false)
   }
+
+  const menu = ['sum', 'essais', 'quotes', 'dev']
+    .concat(user
+      ? ['write', 'admin']
+      : ['contact'])
 
   return (
     <nav
@@ -41,11 +50,22 @@ export default function Navigation() {
       </button>
       <ul className={styles.inner}>
         {menu.map((value) => {
-          const href = `/${value}`
+          const href = value === 'write'
+            ? `/${category}/new`
+            : `/${value}`
+          if (value === category) {
+            return (
+              <li className={styles.selected}>
+                {value}
+              </li>
+            )
+          }
           return (
             <Link key={value} href={href}>
               <a key={href} href="/">
-                <li className={styles.menu}>{value}</li>
+                <li className={styles.menu}>
+                  {value}
+                </li>
               </a>
             </Link>
           )
@@ -54,5 +74,3 @@ export default function Navigation() {
     </nav>
   )
 }
-
-const menu = ['sum', 'essais', 'quotes', 'dev', 'contact']

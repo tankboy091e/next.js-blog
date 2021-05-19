@@ -68,12 +68,21 @@
     }
 }
 
-.menu {
+@mixin menu {
     font-size: 1.3rem;
     list-style: none;
-    color: color.$primary;
     padding: 1.5rem 1rem;
+}
+
+.menu {
+    @include menu();
+    color: color.$primary;
     &:hover {
-        background-color: lighten(color.$darkenBackground, 10%);
+        background-color: color.$background;
     }
+}
+
+.selected {
+    @include menu();
+    color: color.$accent;
 }

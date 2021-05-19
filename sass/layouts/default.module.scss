@@ -4,12 +4,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    &.fill {
-        height: 100vh;
-        .main {
-            flex: 1;
-        }
-    }
 }
 
 .main {
