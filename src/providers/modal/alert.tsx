@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
 import Modal from 'providers/modal/modal'
+import getPascalCase from 'lib/util/uppercase'
 
 export interface AlertProps {
   children?: React.ReactNode
@@ -26,25 +27,25 @@ export default function AlertProvider({ children }: AlertProps) {
   })
 
   const [active, setActive] = useState(false)
-  const [callbacks, setCallbacks] = useState<{close:() => void}>({ close: null })
+  const [callbacks, setCallbacks] = useState<{cancle:() => void}>({ cancle: null })
 
   const createAlert = ({ message, code } : Props) => {
     setProps({ message, code })
     setActive(true)
     return new Promise<void>((resolve) => {
-      const close = () => {
+      const cancle = () => {
         resolve()
         finish()
       }
       setCallbacks({
-        close,
+        cancle,
       })
     })
   }
 
   const finish = () => {
     setCallbacks({
-      close: null,
+      cancle: null,
     })
     setProps({
       message: null,
@@ -53,17 +54,22 @@ export default function AlertProvider({ children }: AlertProps) {
   }
 
   const { message, code } = props
-  const { close } = callbacks
+  const { cancle } = callbacks
   const value = {
     createAlert,
   }
   return (
     <AlertContext.Provider value={value}>
       {children}
-      <Modal immediate={active} setImmediate={setActive} off={close}>
+      <Modal immediate={active} setImmediate={setActive} off={cancle}>
         <section className={styles.window}>
-          {code && <h4 className={styles.code}>{code.toLocaleUpperCase()}</h4>}
+          <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
           {message && <p className={styles.message}>{message}</p>}
+          <div className={styles.menu}>
+            <button type="button" onClick={() => cancle()}>
+              취소
+            </button>
+          </div>
         </section>
       </Modal>
     </AlertContext.Provider>

@@ -9,7 +9,6 @@
     align-items: center;
     justify-content: center;
     @if $device == 'window' {
-        width: variables.$breakpoint-window;
         max-width: calc(100vw - 8rem);
     }
     @if $device == 'mobile' or $device == 'window-mobile' {

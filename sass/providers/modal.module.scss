@@ -36,50 +36,56 @@
     }
 }
 
-.close {
-    position: absolute;
-    z-index: 1;
-    top: .8rem;
-    right: .8rem;
-    color: color.$darkenPrimary;
-}
-
 .window {
     @include container.container('window');
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 1.5rem 2rem 1.5rem 2rem;
-    border-radius: 1.5rem;
-    font-size: 1.2rem;
-    background-color: color.$background;
+    align-items: flex-start;
+    padding: 1.2rem 1rem .5rem 1.2rem;
+    border-radius: .5rem;
+    color: color.$background;
+    background-color: color.$primary;
+    box-shadow: 0px 0px 4px 2px rgba(black, .5);
+}
+
+.code {
+    font-size: 1.1rem;
+}
+.message {
+    padding-right: .5rem;
 }
 
 .message {
-    padding: 1rem;
+    font-size: .9rem;
+    width: 100%;
+    padding-top: 1rem;
+    margin-bottom: .5rem;
 }
 
 .input {
+    align-self: center;
     width: 100%;
     padding : .5rem 1rem;
     margin: .5rem 1rem;
     border: none;
     border-radius : 1rem;
-    background-color: color.$darkenBackground;
+    background-color: lighten(color.$accent, 50%);
 }
 
 .menu {
-    margin-top: 1rem;
-    font-size: 1rem;
+    margin-top: .5rem;
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: row-reverse;
     button {
-        width: 100%;
-        padding: .5rem 0;
+        padding: .5rem;
+        color: color.$accent;
         &:hover {
-            background-color: lighten(color.$background, 10%);
+            background-color: lighten(color.$accent, 50%);
         }
+    }
+    button + button {
+        margin-right: .5rem;
     }
 }

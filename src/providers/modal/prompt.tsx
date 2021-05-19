@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
 import Modal from 'providers/modal/modal'
+import getPascalCase from 'lib/util/uppercase'
 
 export interface PromptProps {
   children?: React.ReactNode
@@ -84,12 +85,15 @@ export default function PromptProvider({ children }: PromptProps) {
       {children}
       <Modal immediate={active} setImmediate={setActive} off={cancle}>
         <form className={styles.window} onSubmit={ok}>
-          {code && <h4 className={styles.code}>{code}</h4>}
+          <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
           {message && <p className={styles.message}>{message}</p>}
           <input className={styles.input} type={type} ref={inputRef} autoComplete="off" />
           <div className={styles.menu}>
             <button type="submit">
               확인
+            </button>
+            <button type="button" onClick={() => cancle()}>
+              취소
             </button>
           </div>
         </form>

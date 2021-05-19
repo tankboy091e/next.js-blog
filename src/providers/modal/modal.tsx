@@ -4,7 +4,6 @@ import React, {
 import { createPortal } from 'react-dom'
 import styles from 'sass/providers/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
-import { VscChromeClose } from 'react-icons/vsc'
 
 interface ModalContextProps {
   turnOff: () => void
@@ -79,9 +78,6 @@ export default function Modal({
       )}
       {active && createPortal(
         <div className={styles.wrapper}>
-          <button className={styles.close} type="button" onClick={turnOff}>
-            <VscChromeClose size={20} />
-          </button>
           {children}
         </div>,
         container.current,
