@@ -1,80 +1,48 @@
+import Dialog from 'components/dialog'
 import React, {
   createContext, useContext, useRef, useState,
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
-import Modal from 'providers/modal/modal'
-import getPascalCase from 'lib/util/uppercase'
-
-export interface PromptProps {
-  children?: React.ReactNode
-}
+import DialogProvider, {
+  useDialog, DialogMessageProps,
+} from './dialog'
 
 interface PromptContextProps {
-  createPrompt: ({ ...props } : Props) => Promise<string>
+  createPrompt: ({ ...props }: PromptMessageProps) => Promise<void | string>
 }
 
 const PromptContext = createContext<PromptContextProps>(null)
 export const usePrompt = () => useContext(PromptContext)
 
-interface Props {
-  message: string
-  code?: string
-  type?: inputType
+type InputType = 'text' | 'password'
+
+interface PromptMessageProps extends DialogMessageProps {
+  inputType: InputType
 }
 
-interface CallbackProps {
-  ok: (e: React.FormEvent) => void
-  cancle: () => void
+export default function PromptProvider({ children }: {
+  children?: React.ReactNode
+}) {
+  return (
+    <DialogProvider>
+      <Inner>
+        {children}
+      </Inner>
+    </DialogProvider>
+  )
 }
 
-type inputType = 'text' | 'password'
-
-export default function PromptProvider({ children }: PromptProps) {
-  const [props, setProps] = useState<Props>({
-    message: null,
-  })
-  const [callbacks, setCallbacks] = useState<CallbackProps>({
-    ok: null,
-    cancle: null,
-  })
-
-  const [active, setActive] = useState(false)
-
+function Inner({ children }: {
+  children?: React.ReactNode
+}) {
+  const { requests, createRefDialog } = useDialog()
+  const [inputType, setInputType] = useState<InputType>('text')
   const inputRef = useRef<HTMLInputElement>()
 
-  const createPrompt = ({ message, code, type } : Props) => {
-    setProps({ message, code, type })
-    setActive(true)
-    return new Promise<string>((resolve) => {
-      const ok = (e : React.FormEvent) => {
-        e.preventDefault()
-        resolve(inputRef.current.value)
-        finish()
-      }
-      const cancle = () => {
-        resolve(null)
-        finish()
-      }
-      setCallbacks({
-        ok,
-        cancle,
-      })
-    })
+  const createPrompt = async ({ inputType, ...props }: PromptMessageProps) => {
+    setInputType(inputType)
+    return (await createRefDialog<HTMLInputElement>(props, inputRef)).value
   }
-
-  const finish = () => {
-    setCallbacks({
-      ok: null,
-      cancle: null,
-    })
-    setProps({
-      message: null,
-    })
-    setActive(false)
-  }
-
-  const { message, code, type } = props
-  const { ok, cancle } = callbacks
 
   const value = {
     createPrompt,
@@ -83,21 +51,20 @@ export default function PromptProvider({ children }: PromptProps) {
   return (
     <PromptContext.Provider value={value}>
       {children}
-      <Modal immediate={active} setImmediate={setActive} off={cancle}>
-        <form className={styles.window} onSubmit={ok}>
-          <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
-          {message && <p className={styles.message}>{message}</p>}
-          <input className={styles.input} type={type} ref={inputRef} autoComplete="off" />
-          <div className={styles.menu}>
-            <button type="submit">
-              확인
-            </button>
-            <button type="button" onClick={() => cancle()}>
-              취소
-            </button>
-          </div>
-        </form>
-      </Modal>
+      {requests.map((request) => (
+        <Dialog
+          key={request.message}
+          request={request}
+          showOk
+        >
+          <input
+            className={styles.input}
+            type={inputType}
+            ref={inputRef}
+            autoComplete="off"
+          />
+        </Dialog>
+      ))}
     </PromptContext.Provider>
   )
 }

@@ -31,7 +31,7 @@ export default function Comment({ data }: { data: commentData }) {
   const onEdit = async () => {
     const password = await createPrompt({
       message: '비밀번호를 입력하세요',
-      type: 'password',
+      inputType: 'password',
     })
     if (!password) {
       return
@@ -62,7 +62,7 @@ export default function Comment({ data }: { data: commentData }) {
     const password = await createPrompt({
       message: '비밀번호를 입력하세요',
       code: '주의',
-      type: 'password',
+      inputType: 'password',
     })
     if (!password) {
       return
@@ -86,7 +86,6 @@ export default function Comment({ data }: { data: commentData }) {
       refresh()
     } else {
       const { error } = await res.json()
-      createAlert({ message: '걍', code: ' 해봄' })
       await createAlert({
         message: error,
         code: 'error',

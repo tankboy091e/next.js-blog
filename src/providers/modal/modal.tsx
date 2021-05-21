@@ -6,6 +6,7 @@ import styles from 'sass/providers/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
 
 interface ModalContextProps {
+  active: boolean
   turnOff: () => void
 }
 
@@ -56,6 +57,7 @@ export default function Modal({
   }, [active])
 
   const value = {
+    active,
     turnOff,
   }
 

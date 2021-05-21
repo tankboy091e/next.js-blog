@@ -1,10 +1,11 @@
+import Dialog from 'components/dialog'
 import React, {
   createContext, useContext,
 } from 'react'
-import DialogProvider, { Dialog, useDialog } from './dialog'
+import DialogProvider, { useDialog } from './dialog'
 
 interface AlertContextProps {
-  createAlert: ({ ...props }: Props) => Promise<void>
+  createAlert: ({ ...props }: Props) => Promise<void | boolean>
 }
 
 const AlertContext = createContext<AlertContextProps>(null)
@@ -30,7 +31,7 @@ export default function AlertProvider({ children }: {
 function Inner({ children }: {
   children?: React.ReactNode
 }) {
-  const { getRequests, createDialog } = useDialog()
+  const { requests, createDialog } = useDialog()
 
   const createAlert = ({ ...props }: Props) => createDialog(props)
 
@@ -41,8 +42,8 @@ function Inner({ children }: {
   return (
     <AlertContext.Provider value={value}>
       {children}
-      {getRequests().map((request) => (
-        <Dialog request={request} />
+      {requests.map((request) => (
+        <Dialog key={request.message} request={request} />
       ))}
     </AlertContext.Provider>
   )
