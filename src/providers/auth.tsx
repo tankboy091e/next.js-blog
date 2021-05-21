@@ -52,11 +52,11 @@ export default function AuthProvider({
 
   const signout = () => firebase.auth().signOut()
 
-  const silentRefresh = async (firebaseUser?: User) => {
+  const silentRefresh = async (user : User) => {
     const res = await fetch('https://securetoken.googleapis.com/v1/token?key=AIzaSyCjXzzfZnv7AbJIqO_qM9oG1fxi3G2oRRs', {
       body: JSON.stringify({
         grant_type: 'refresh_token',
-        refresh_token: (user || firebaseUser).refreshToken,
+        refresh_token: user.refreshToken,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -71,13 +71,13 @@ export default function AuthProvider({
     }
     const data = await res.json()
     const {
-      id_token = await (user || firebaseUser).getIdToken(),
+      id_token = await user.getIdToken(),
       expires_in = 3600,
     } = data
     nookies.set(undefined, 'token', id_token, {
-      maxAge: 60 * 59,
+      maxAge: expires_in,
     })
-    setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000)
+    setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000, user)
   }
 
   useEffect(() => {
@@ -88,9 +88,15 @@ export default function AuthProvider({
         return
       }
       setUser(firebaseUser)
-      silentRefresh(firebaseUser)
     })
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      return
+    }
+    silentRefresh(user)
+  }, [user])
 
   const value = {
     user, signin, register, signout,

@@ -21,7 +21,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {},
     }
   } catch {
-    nookies.destroy(context, 'token')
     return {
       redirect: {
         destination: '/',
