@@ -1,13 +1,7 @@
 import React, {
-  createContext, useContext, useEffect, useState,
+  createContext, useContext,
 } from 'react'
-import styles from 'sass/providers/modal.module.scss'
-import Modal from 'providers/modal/modal'
-import getPascalCase from 'lib/util/uppercase'
-
-export interface AlertProps {
-  children?: React.ReactNode
-}
+import DialogProvider, { Dialog, useDialog } from './dialog'
 
 interface AlertContextProps {
   createAlert: ({ ...props }: Props) => Promise<void>
@@ -21,24 +15,24 @@ interface Props {
   code?: string
 }
 
-interface AlertRequest {
-  prop: Props
-  callback: () => void
+export default function AlertProvider({ children }: {
+  children?: React.ReactNode
+}) {
+  return (
+    <DialogProvider>
+      <Inner>
+        {children}
+      </Inner>
+    </DialogProvider>
+  )
 }
 
-export default function AlertProvider({ children }: AlertProps) {
-  const [requests, setRequests] = useState<AlertRequest[]>([])
+function Inner({ children }: {
+  children?: React.ReactNode
+}) {
+  const { getRequests, createDialog } = useDialog()
 
-  const createAlert = ({ message, code }: Props) => new Promise<void>((resolve) => {
-    const request = {
-      prop: { message, code },
-      callback: () => {
-        resolve()
-        setRequests((requests) => requests.filter((value) => value !== request))
-      },
-    }
-    setRequests((requests) => requests.concat(request))
-  })
+  const createAlert = ({ ...props }: Props) => createDialog(props)
 
   const value = {
     createAlert,
@@ -47,43 +41,9 @@ export default function AlertProvider({ children }: AlertProps) {
   return (
     <AlertContext.Provider value={value}>
       {children}
-      {requests.map((request) => (
-        <Alert
-          key={request.prop.message}
-          request={request}
-        />
+      {getRequests().map((request) => (
+        <Dialog request={request} />
       ))}
     </AlertContext.Provider>
-  )
-}
-
-function Alert({ request }: { request: AlertRequest }) {
-  const [active, setActive] = useState(true)
-  const { prop, callback } = request
-  const { code, message } = prop
-
-  const close = () => {
-    setActive(false)
-  }
-
-  useEffect(() => {
-    if (active) {
-      return
-    }
-    callback()
-  }, [active])
-
-  return (
-    <Modal key={message} immediate={active} setImmediate={setActive} callback={close}>
-      <section className={styles.window}>
-        <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
-        {message && <p className={styles.message}>{message}</p>}
-        <div className={styles.menu}>
-          <button type="button" onClick={close}>
-            취소
-          </button>
-        </div>
-      </section>
-    </Modal>
   )
 }

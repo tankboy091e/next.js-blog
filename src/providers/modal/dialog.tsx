@@ -1,22 +1,17 @@
 import React, {
-  createContext, MutableRefObject, useContext, useEffect, useRef, useState,
+  createContext, useContext, useEffect, useState,
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
 import Modal from 'providers/modal/modal'
 import getPascalCase from 'lib/util/uppercase'
 
-interface DialogProps<T> {
-  children?: React.ReactNode
-  dialogs: React.ReactElement<T>
-}
-
-interface AlertContextProps<T extends DialogMessageProps> {
-  requests: MutableRefObject<(T & DialogCallbackProps)[]>
+interface DialogContextProps<T extends DialogMessageProps> {
+  getRequests: () => (T & DialogCallbackProps)[]
   createDialog: (props : T) => Promise<void>
 }
 
-const AlertContext = createContext<AlertContextProps<DialogMessageProps>>(null)
-export const useAlert = () => useContext(AlertContext)
+const DialogContext = createContext<DialogContextProps<DialogMessageProps>>(null)
+export const useDialog = () => useContext(DialogContext)
 
 export interface DialogMessageProps {
   message: string
@@ -27,10 +22,13 @@ interface DialogCallbackProps {
   close: () => void
 }
 
-export default function DialogProvider<T extends DialogMessageProps>({
+export default function DialogProvider<T extends DialogMessageProps = DialogMessageProps>({
   children,
   dialogs,
-}: DialogProps<T>) {
+}: {
+  children?: React.ReactNode
+  dialogs?: React.ReactElement<T>
+}) {
   const [requests, setRequests] = useState<(T & DialogCallbackProps)[]>([])
 
   const createDialog = (props : T) => new Promise<void>((resolve) => {
@@ -44,18 +42,16 @@ export default function DialogProvider<T extends DialogMessageProps>({
     setRequests((requests) => requests.concat(request))
   })
 
-  const requestsRef = useRef(requests)
-
   const value = {
-    requests: requestsRef,
+    getRequests: () => requests,
     createDialog,
   }
 
   return (
-    <AlertContext.Provider value={value}>
+    <DialogContext.Provider value={value}>
       {children}
       {dialogs}
-    </AlertContext.Provider>
+    </DialogContext.Provider>
   )
 }
 
@@ -63,7 +59,7 @@ export function Dialog<T extends DialogMessageProps>({
   children,
   request,
 }: {
-  children: React.ReactNode,
+  children?: React.ReactNode,
   request: T & DialogCallbackProps
 }) {
   const [active, setActive] = useState(true)
