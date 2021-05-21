@@ -78,7 +78,7 @@ export default function ConfirmProvider({ children }: ConfirmProps) {
   return (
     <PromptContext.Provider value={value}>
       {children}
-      <Modal immediate={active} setImmediate={setActive} off={cancle}>
+      <Modal immediate={active} setImmediate={setActive} callback={cancle}>
         <form className={styles.window} onSubmit={ok}>
           <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
           {message && <p className={styles.message}>{message}</p>}

@@ -86,6 +86,7 @@ export default function Comment({ data }: { data: commentData }) {
       refresh()
     } else {
       const { error } = await res.json()
+      createAlert({ message: '걍', code: ' 해봄' })
       await createAlert({
         message: error,
         code: 'error',

@@ -38,16 +38,30 @@ export default function ModalProvider({
     setActive(false)
   }
 
+  const fixBody = () => {
+    document.body.style.cssText = `position:fixed; top:-${window.scrollY}px;`
+  }
+
+  const reset = () => {
+    const scrollY = document.body.style.top
+    document.body.style.cssText = 'position: relative; top:"";'
+    window.scrollTo(0, -1 * parseInt(scrollY || '0', 10))
+  }
+
+  useEffect(() => {
+    if (active) {
+      fixBody()
+    } else {
+      reset()
+    }
+  }, [active])
+
   const value = {
     container,
     curtain,
     pull,
     pullBack,
   }
-
-  useEffect(() => {
-    pullBack()
-  })
 
   return (
     <ModalProviderContext.Provider value={value}>

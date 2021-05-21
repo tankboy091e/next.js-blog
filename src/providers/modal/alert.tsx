@@ -1,5 +1,5 @@
 import React, {
-  createContext, useContext, useState,
+  createContext, useContext, useEffect, useState,
 } from 'react'
 import styles from 'sass/providers/modal.module.scss'
 import Modal from 'providers/modal/modal'
@@ -10,7 +10,7 @@ export interface AlertProps {
 }
 
 interface AlertContextProps {
-  createAlert: ({ ...props } : Props) => Promise<void>
+  createAlert: ({ ...props }: Props) => Promise<void>
 }
 
 const AlertContext = createContext<AlertContextProps>(null)
@@ -21,57 +21,69 @@ interface Props {
   code?: string
 }
 
+interface AlertRequest {
+  prop: Props
+  callback: () => void
+}
+
 export default function AlertProvider({ children }: AlertProps) {
-  const [props, setProps] = useState<Props>({
-    message: null,
+  const [requests, setRequests] = useState<AlertRequest[]>([])
+
+  const createAlert = ({ message, code }: Props) => new Promise<void>((resolve) => {
+    const request = {
+      prop: { message, code },
+      callback: () => {
+        resolve()
+        setRequests((requests) => requests.filter((value) => value !== request))
+      },
+    }
+    setRequests((requests) => requests.concat(request))
   })
 
-  const [active, setActive] = useState(false)
-  const [callbacks, setCallbacks] = useState<{cancle:() => void}>({ cancle: null })
-
-  const createAlert = ({ message, code } : Props) => {
-    setProps({ message, code })
-    setActive(true)
-    return new Promise<void>((resolve) => {
-      const cancle = () => {
-        resolve()
-        finish()
-      }
-      setCallbacks({
-        cancle,
-      })
-    })
-  }
-
-  const finish = () => {
-    setCallbacks({
-      cancle: null,
-    })
-    setProps({
-      message: null,
-    })
-    setActive(false)
-  }
-
-  const { message, code } = props
-  const { cancle } = callbacks
   const value = {
     createAlert,
   }
+
   return (
     <AlertContext.Provider value={value}>
       {children}
-      <Modal immediate={active} setImmediate={setActive} off={cancle}>
-        <section className={styles.window}>
-          <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
-          {message && <p className={styles.message}>{message}</p>}
-          <div className={styles.menu}>
-            <button type="button" onClick={() => cancle()}>
-              취소
-            </button>
-          </div>
-        </section>
-      </Modal>
+      {requests.map((request) => (
+        <Alert
+          key={request.prop.message}
+          request={request}
+        />
+      ))}
     </AlertContext.Provider>
+  )
+}
+
+function Alert({ request }: { request: AlertRequest }) {
+  const [active, setActive] = useState(true)
+  const { prop, callback } = request
+  const { code, message } = prop
+
+  const close = () => {
+    setActive(false)
+  }
+
+  useEffect(() => {
+    if (active) {
+      return
+    }
+    callback()
+  }, [active])
+
+  return (
+    <Modal key={message} immediate={active} setImmediate={setActive} callback={close}>
+      <section className={styles.window}>
+        <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
+        {message && <p className={styles.message}>{message}</p>}
+        <div className={styles.menu}>
+          <button type="button" onClick={close}>
+            취소
+          </button>
+        </div>
+      </section>
+    </Modal>
   )
 }
