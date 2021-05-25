@@ -76,7 +76,7 @@ export default function Editor({
         content.current.contentDocument.execCommand(
           cmd,
           false,
-          prompt ? (await createPrompt({ message })) : message,
+          prompt ? (await createPrompt({ message }) as string || '') : message,
         )
         break
     }

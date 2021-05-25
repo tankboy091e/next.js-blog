@@ -17,7 +17,7 @@ export const usePrompt = () => useContext(PromptContext)
 type InputType = 'text' | 'password'
 
 interface PromptMessageProps extends DialogMessageProps {
-  inputType: InputType
+  inputType?: InputType
 }
 
 export default function PromptProvider({ children }: {
@@ -39,7 +39,7 @@ function Inner({ children }: {
   const [inputType, setInputType] = useState<InputType>('text')
   const inputRef = useRef<HTMLInputElement>()
 
-  const createPrompt = async ({ inputType, ...props }: PromptMessageProps) => {
+  const createPrompt = async ({ inputType = 'text', ...props }: PromptMessageProps) => {
     setInputType(inputType)
     return (await createRefDialog<HTMLInputElement>(props, inputRef)).value
   }

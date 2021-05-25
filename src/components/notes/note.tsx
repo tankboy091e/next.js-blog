@@ -79,7 +79,7 @@ export default function Note({
 
   if (state === 'edit') {
     return (
-      <Modal immediate off={callback}>
+      <Modal immediate callback={callback}>
         <NewQuotes
           isbn={isbn}
           id={id}
