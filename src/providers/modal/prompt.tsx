@@ -2,7 +2,7 @@ import Dialog from 'components/dialog'
 import React, {
   createContext, useContext, useRef, useState,
 } from 'react'
-import styles from 'sass/providers/modal.module.scss'
+import styles from 'sass/components/dialog.module.scss'
 import DialogProvider, {
   useDialog, DialogMessageProps,
 } from './dialog'

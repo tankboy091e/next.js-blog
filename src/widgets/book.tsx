@@ -33,12 +33,19 @@ export default function Book({
     pageWidth: number
     back: string
   } => {
+    const pageWidth = Math.round(itemPage / 8)
+    if (cover.includes('firebasestorage')) {
+      return {
+        front: cover,
+        pageWidth,
+        back: cover,
+      }
+    }
     const front = cover.replace('cover', 'cover500') as string
     const lastDot = cover.lastIndexOf('.') + 1
     const back = `${cover
       .replace('cover', 'letslook')
       .substring(0, lastDot + 1)}b${cover.substring(lastDot - 1)}`
-    const pageWidth = Math.round(itemPage / 8)
     return {
       front,
       pageWidth,
@@ -65,13 +72,15 @@ export default function Book({
 
   const { back, onError } = backOption
 
+  // eslint-disable-next-line no-script-url
+  const voidHref = 'javascript:void(0)'
   return (
-    <Link href={link}>
+    <Link href={link || voidHref}>
       <a
         className={styles.container}
-        href={link}
-        target={link.includes('http') ? '_blank' : '_self'}
-        rel={link.includes('http') ? 'noreferrer' : ''}
+        href={link || voidHref}
+        target={link?.includes('http') ? '_blank' : '_self'}
+        rel={link?.includes('http') ? 'noreferrer' : ''}
       >
         <div className={styles.wrapper}>
           <figure className={styles.figure}>

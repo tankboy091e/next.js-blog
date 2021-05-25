@@ -2,7 +2,7 @@ import getPascalCase from 'lib/util/uppercase'
 import { DialogProviderProps } from 'providers/modal/dialog'
 import Modal, { useModal } from 'providers/modal/modal'
 import React from 'react'
-import styles from 'sass/providers/modal.module.scss'
+import styles from 'sass/components/dialog.module.scss'
 
 interface DialogProps {
   children?: React.ReactNode
