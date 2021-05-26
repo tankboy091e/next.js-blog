@@ -8,7 +8,7 @@ import DialogProvider, {
 } from './dialog'
 
 interface PromptContextProps {
-  createPrompt: ({ ...props }: PromptMessageProps) => Promise<void | string>
+  createPrompt: ({ ...props }: PromptMessageProps) => Promise<string>
 }
 
 const PromptContext = createContext<PromptContextProps>(null)

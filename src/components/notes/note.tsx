@@ -96,11 +96,11 @@ export default function Note({
   return (
     <SpeechBubble
       key={paragraph}
-      head={<p className={styles.page}>{`${label}.${page}`}</p>}
+      head={<span className={styles.page}>{`${label}.${page}`}</span>}
       body={
         (
           <>
-            <p
+            <q
               className={styles.paragraph}
               dangerouslySetInnerHTML={{
                 __html: paragraph.replace(/\n/g, '<br/>'),
@@ -109,6 +109,7 @@ export default function Note({
             {annotation && (
               <details className={styles.details}>
                 <summary className={styles.summary}>메모</summary>
+                <hr className={styles.divider} />
                 <p className={styles.annotation}>{annotation}</p>
               </details>
             )}

@@ -64,7 +64,7 @@ export default function Input({
 
   return (
     <section className={styles.container}>
-      <header className={styles.header}>
+      <section className={styles.header}>
         <input
           ref={nameRef}
           className={styles.headerField}
@@ -83,7 +83,7 @@ export default function Input({
           maxLength={25}
           autoComplete="off"
         />
-      </header>
+      </section>
       <textarea
         ref={contentRef}
         className={styles.content}

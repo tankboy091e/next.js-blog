@@ -10,10 +10,25 @@
     white-space: nowrap;
 }
 
+.paragraph {
+    &::after,
+    &::before {
+        content: '';
+    }
+}
+
 .details {
     padding-top: .5rem;
 }
 
 .summary {
     cursor: pointer;
+}
+
+.divider {
+    border: none;
+    margin-top: .25rem;
+    margin-bottom: .5rem;
+    height: 1px;
+    background-color: lighten(color.$background, 50%);
 }

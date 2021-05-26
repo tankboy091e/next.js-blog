@@ -28,12 +28,13 @@ export default function Quotes({ isbn }: { isbn: string | string[] }) {
   if (!cover) {
     return <ErrorSection />
   }
+
   return (
     <section className={styles.container}>
       <header className={styles.header}>
-        <div className={styles.window}>
+        <section className={styles.window}>
           <Book link={link} cover={cover} itemPage={itemPage} onload={onImageLoad} />
-        </div>
+        </section>
         {load && (
           <address className={styles.info}>
             <BookDetails value={data} />

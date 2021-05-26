@@ -48,7 +48,7 @@ export default function ToolBar({
   onCommand : (cmd: command, prompt: boolean, message: string) => Promise<void>
 }) {
   return (
-    <div className={styles.toolbar}>
+    <section className={styles.toolbar}>
       {tools.map(({
         command,
         message,
@@ -87,7 +87,7 @@ export default function ToolBar({
           </button>
         )
       })}
-    </div>
+    </section>
   )
 }
 

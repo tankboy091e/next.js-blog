@@ -18,20 +18,20 @@ export default function SpeechBubble({
 }) {
   const { user } = useAuth()
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
+    <figure className={styles.container}>
+      <section className={styles.header}>
         {head}
         <div className={styles.arrow} />
-      </header>
-      <div className={styles.body}>
-        <div className={styles.content}>{body}</div>
+      </section>
+      <blockquote className={styles.body}>
+        <section className={styles.content}>{body}</section>
         {(needsAuth ? user : true) && (
           <EditDeleteMenu
             onEdit={onEdit}
             onDelete={onDelete}
           />
         )}
-      </div>
-    </div>
+      </blockquote>
+    </figure>
   )
 }

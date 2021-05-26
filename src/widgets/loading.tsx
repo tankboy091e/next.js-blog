@@ -6,10 +6,10 @@ export default function Loading({
   size? : number
 }) {
   return (
-    <div className={styles.container}>
-      <div className={styles.child} style={{ width: size, height: size }} />
-      <div className={styles.child} style={{ width: size, height: size }} />
-      <div className={styles.child} style={{ width: size, height: size }} />
-    </div>
+    <section className={styles.container}>
+      <i className={styles.child} style={{ width: size, height: size }} />
+      <i className={styles.child} style={{ width: size, height: size }} />
+      <i className={styles.child} style={{ width: size, height: size }} />
+    </section>
   )
 }

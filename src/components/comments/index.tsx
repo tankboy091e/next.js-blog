@@ -20,10 +20,10 @@ export default function Comments({
 
   return (
     <section className={styles.container}>
-      <div className={styles.header}>
+      <section className={styles.header}>
         <Button active={active} setActive={setActive} />
         {sideWidget}
-      </div>
+      </section>
       {active && <Inner doc={doc} />}
     </section>
   )

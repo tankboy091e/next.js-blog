@@ -23,7 +23,7 @@ export default function EditDeleteMenu({
   const [active, setActive] = useState(false)
 
   return (
-    <div className={getClassName(styles.container, containerClassName)}>
+    <section className={getClassName(styles.container, containerClassName)}>
       <button
         type="button"
         className={getClassName(styles.menuButton, menuButtonClassName)}
@@ -32,7 +32,7 @@ export default function EditDeleteMenu({
         <HiOutlineDotsVertical size={menuButtonSize} />
       </button>
       {active && (
-        <div className={getClassName(styles.popup, popupClassName)}>
+        <section className={getClassName(styles.popup, popupClassName)}>
           <div className={getClassName(styles.buttonWrapper, buttonWrapperClassName)}>
             <button type="button" onClick={onEdit}>
               수정
@@ -43,8 +43,8 @@ export default function EditDeleteMenu({
               삭제
             </button>
           </div>
-        </div>
+        </section>
       )}
-    </div>
+    </section>
   )
 }

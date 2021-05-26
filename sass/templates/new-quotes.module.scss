@@ -4,7 +4,6 @@
 .container {
     @include container.container('window-mobile');
     height: 100vh;
-    display: flex;
     border-radius: 1rem;
     padding: 1rem;
     background-color: color.$background;

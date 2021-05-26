@@ -14,7 +14,7 @@ export default function Pagenation({
   const next = current < total ? current + 1 : null
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       {prev && (
         <Link href={`/${category}/${prev}`}>
           <a href="replace">이전</a>
@@ -25,6 +25,6 @@ export default function Pagenation({
           <a href="replace">다음</a>
         </Link>
       )}
-    </div>
+    </section>
   )
 }

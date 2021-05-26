@@ -76,7 +76,7 @@ export default function Editor({
         content.current.contentDocument.execCommand(
           cmd,
           false,
-          prompt ? (await createPrompt({ message }) as string || '') : message,
+          prompt ? (await createPrompt({ message })) : message,
         )
         break
     }
@@ -135,7 +135,7 @@ export default function Editor({
     <>
       <input className={styles.title} ref={title} placeholder="제목" name="title" autoComplete="off" />
       <input className={styles.subtitle} ref={subtitle} placeholder="부제" autoComplete="off" />
-      <div className={styles.divider} />
+      <hr className={styles.divider} />
       <ToolBar
         imageUploader={imageUploader}
         onCommand={onCommand}

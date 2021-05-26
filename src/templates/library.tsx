@@ -39,7 +39,7 @@ export default function Library() {
 
   return (
     <LibraryContext.Provider value={value}>
-      <div className={styles.container}>
+      <section className={styles.container}>
         {user && (
           <Modal initializer={<AddButton />}>
             <Librarian />
@@ -53,7 +53,7 @@ export default function Library() {
             return <Book key={id} cover={cover} itemPage={itemPage} link={`/quotes/${id}`} />
           })}
         </section>
-      </div>
+      </section>
     </LibraryContext.Provider>
   )
 }

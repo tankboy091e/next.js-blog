@@ -6,7 +6,14 @@ export function convertTimestamp(timestamp: string): string {
 
 export function convertBookDate(timestamp: string): string {
   const [year, month, date] = timestamp.split('-')
-  return `${year}년 ${month}월 ${date}일`
+  return `${year}년 ${parseInt(month, 10)}월 ${parseInt(date, 10)}일`
+}
+
+export function convetDatetime(timestamp: string): string {
+  // eslint-disable-next-line no-unused-vars
+  const [_, month, date, year] = timestamp.split(' ')
+
+  return `${year}-${months.indexOf(month) + 1}-${parseInt(date, 10)}`
 }
 
 const months = [

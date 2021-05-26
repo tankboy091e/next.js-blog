@@ -30,12 +30,12 @@ export function Inner({ children, request, showOk }: DialogProps) {
       <h4 className={styles.code}>{getPascalCase(code || '안내')}</h4>
       {message && <p className={styles.message}>{message}</p>}
       {children}
-      <div className={styles.menu}>
+      <section className={styles.menu}>
         {showOk && <button type="submit">확인</button>}
         <button type="button" onClick={turnOff}>
           취소
         </button>
-      </div>
+      </section>
     </form>
   )
 }

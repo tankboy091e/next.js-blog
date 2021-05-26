@@ -179,9 +179,9 @@ export default function FormProvider({
       getResponse?.call(null, data)
     }, transitionInterval)
     return (
-      <div className={containerClassName}>
+      <section className={containerClassName}>
         <p className={styles.success}>{state.message}</p>
-      </div>
+      </section>
     )
   }
 
@@ -200,18 +200,18 @@ export default function FormProvider({
         )}
       >
         {state.state === 'error' && (
-          <div className={styles.errorContainer}>
+          <section className={styles.errorContainer}>
             {state.code}
             <p>{state.message}</p>
-          </div>
+          </section>
         )}
         {state.state === 'pending' && <Loading />}
-        <div className={getClassName(styles.inner, innerClassName)}>
+        <section className={getClassName(styles.inner, innerClassName)}>
           {children}
           <button type="submit" className={submitClassName}>
             {submitValue}
           </button>
-        </div>
+        </section>
       </form>
     </FormContext.Provider>
   )

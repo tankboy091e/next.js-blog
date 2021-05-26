@@ -61,13 +61,13 @@ export default function Navigation() {
             )
           }
           return (
-            <Link key={value} href={href}>
-              <a key={href} href="/">
-                <li className={styles.menu}>
+            <li key={value} className={styles.menu}>
+              <Link href={href}>
+                <a className={styles.menuAnchor} href="/">
                   {value}
-                </li>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </li>
           )
         })}
       </ul>
