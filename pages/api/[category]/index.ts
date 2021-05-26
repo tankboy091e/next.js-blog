@@ -9,6 +9,24 @@ const handler = getHandler()
 
 handler.use(validateCategory)
 
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { category } = req.query
+  firestore
+    .collection(category as string)
+    .get()
+    .then((snapshots) => snapshots.docs)
+    .then((docs) => docs.map((doc) => {
+      const { createdAt, ...data } = doc.data()
+      return {
+        ...data,
+        doc: doc.id,
+        createdAt: createdAt.toDate().toDateString(),
+      }
+    }))
+    .then((data) => res.status(200).json(data))
+    .catch((error) => res.status(500).json({ error: error.message }))
+})
+
 handler.use(verifyUid)
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -29,15 +47,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       content: processed,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
-    .then(() => {
-      increaseAutoIncrement(colRef)
-    })
-    .then(() => {
-      res.status(201).json({ message: 'Saved sucessfully' })
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message })
-    })
+    .then(() => increaseAutoIncrement(colRef))
+    .then(() => res.status(201).json({ message: 'Saved sucessfully' }))
+    .catch((error) => res.status(500).json({ error: error.message }))
 })
 
 export default handler
