@@ -53,9 +53,8 @@ const getCategoryMap = async () => {
       <loc>${`${domain}/${categoryList[categoryIndex]}/${postIndex}`}</loc>
       <lastmod>${date}</lastmod>
       <priority>0.8</priority>
-    </url>
-    `,
-  )).join('')
+    </url>`,
+  ).join('')).join('')
 }
 
 const getLibraryMap = async () => {
@@ -67,8 +66,7 @@ const getLibraryMap = async () => {
       <loc>${`${domain}/quotes/${id}`}</loc>
       <lastmod>${date}</lastmod>
       <priority>0.8</priority>
-    </url>
-  `).join('')
+    </url>`).join('')
 }
 
 const execute = async () => {
@@ -87,7 +85,7 @@ const execute = async () => {
   const formattedSitemap = processFormat(generatedSitemap)
 
   fs.writeFileSync(
-    path.join(__dirname, '../public/sitemap-common.xml'),
+    path.join(__dirname, '../public/sitemap.xml'),
     formattedSitemap,
     'utf8',
   )
