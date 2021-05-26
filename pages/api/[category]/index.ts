@@ -20,9 +20,9 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       return {
         ...data,
         doc: doc.id,
-        createdAt: createdAt.toDate().toDateString(),
+        createdAt: createdAt?.toDate().toDateString(),
       }
-    }))
+    }).filter((value : any) => value.title))
     .then((data) => res.status(200).json(data))
     .catch((error) => res.status(500).json({ error: error.message }))
 })
