@@ -1,5 +1,6 @@
 const fs = require('fs')
 const prettier = require('prettier')
+const path = require('path')
 const fetch = require('node-fetch')
 
 const date = new Date().toISOString()
@@ -12,6 +13,22 @@ const categoryList = ['sum', 'essais', 'dev']
 const getStaticMap = async () => {
   console.log('generating static map ...')
   return `
+    <url>
+      <loc>${domain}/sum</loc>
+      <lastmod>${date}</lastmod>
+    </url>
+    <url>
+      <loc>${domain}/essais</loc>
+      <lastmod>${date}</lastmod>
+    </url>
+    <url>
+      <loc>${domain}/dev</loc>
+      <lastmod>${date}</lastmod>
+    </url>
+    <url>
+      <loc>${domain}/quotes</loc>
+      <lastmod>${date}</lastmod>
+    </url>
     <url>
       <loc>${domain}/contact</loc>
       <lastmod>${date}</lastmod>
@@ -29,7 +46,6 @@ const getCategoryMap = async () => {
   }
 
   const categories = await Promise.all(promises)
-  console.log(categories)
   return categories.map((posts, categoryIndex) => posts.map(
     (_, postIndex) => `
     <url>
@@ -38,7 +54,7 @@ const getCategoryMap = async () => {
       <priority>0.8</priority>
     </url>
     `,
-  ))
+  )).join('')
 }
 
 const getLibraryMap = async () => {
@@ -51,7 +67,7 @@ const getLibraryMap = async () => {
       <lastmod>${date}</lastmod>
       <priority>0.8</priority>
     </url>
-  `)
+  `).join('')
 }
 
 const execute = async () => {
@@ -61,10 +77,7 @@ const execute = async () => {
 
   const generatedSitemap = `
   <?xml version="1.0" encoding="UTF-8"?>
-  <urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${staticMap}
     ${categoryMap}
     ${libraryMap}
@@ -73,10 +86,11 @@ const execute = async () => {
   const formattedSitemap = processFormat(generatedSitemap)
 
   fs.writeFileSync(
-    '../public/sitemap/sitemap-common.xml',
+    path.join(__dirname, '../public/sitemap-common.xml'),
     formattedSitemap,
     'utf8',
   )
+  console.log('complete')
 }
 
 execute()
