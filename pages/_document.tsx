@@ -7,9 +7,8 @@ export default class RootDocument extends Document {
     return (
       <Html>
         <Head>
-          <meta charSet="UTF-8" />
           <meta name="description" content="오진수의 블로그입니다" />
-          <meta name="naver-site-verification" content="4e98818e5c8c71fa168b9b1e97cc963fb411ad63" />
+          <meta name="naver-site-verification" content="43995adbe05824d8b385033f26cb35ee2df4dc7a" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
