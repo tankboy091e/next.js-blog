@@ -63,7 +63,7 @@ export default function Navigation() {
           return (
             <li key={value} className={styles.menu}>
               <Link href={href}>
-                <a className={styles.menuAnchor} href="/">
+                <a className={styles.menuAnchor} href={href}>
                   {value}
                 </a>
               </Link>

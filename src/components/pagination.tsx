@@ -12,17 +12,18 @@ export default function Pagenation({
 }) {
   const prev = current > 1 ? current - 1 : null
   const next = current < total ? current + 1 : null
-
+  const prevHref = `/${category}${prev === 1 ? '' : `/${prev}`}`
+  const nextHref = `/${category}/${next}`
   return (
     <section className={styles.container}>
       {prev && (
-        <Link href={`/${category}/${prev}`}>
-          <a href="replace">이전</a>
+        <Link href={prevHref}>
+          <a href={prevHref}>이전</a>
         </Link>
       )}
       {next && (
-        <Link href={`/${category}/${next}`}>
-          <a href="replace">다음</a>
+        <Link href={nextHref}>
+          <a href={nextHref}>다음</a>
         </Link>
       )}
     </section>

@@ -41,7 +41,7 @@ function Inner({ children }: {
 
   const createPrompt = async ({ inputType = 'text', ...props }: PromptMessageProps) => {
     setInputType(inputType)
-    return (await createRefDialog<HTMLInputElement>(props, inputRef)).value
+    return (await createRefDialog<HTMLInputElement>(props, inputRef))?.value
   }
 
   const value = {
@@ -62,6 +62,8 @@ function Inner({ children }: {
             type={inputType}
             ref={inputRef}
             autoComplete="off"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
           />
         </Dialog>
       ))}

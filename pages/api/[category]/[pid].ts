@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import validateCategory from 'lib/api/middleware/validate-category'
 import verifyUid from 'lib/api/middleware/verify-uid'
 import storage from 'lib/db/storage'
-import { processContent } from '.'
+import { processContent, processFootnote } from '.'
 
 const handler = getHandler()
 
@@ -53,10 +53,11 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const { category } = req.query
 
   const {
-    doc, title, subtitle, content,
+    doc, title, subtitle, content, footnote,
   } = req.body
 
-  const processed = processContent(content)
+  const processedContent = processContent(content)
+  const processedFootnote = processFootnote(footnote)
 
   await firestore
     .collection(category as string)
@@ -64,7 +65,8 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     .update({
       title,
       subtitle,
-      content: processed,
+      content: processedContent,
+      footnote: processedFootnote,
     })
     .then(() => res.status(201).json({
       message: 'resource edited sucessfully',

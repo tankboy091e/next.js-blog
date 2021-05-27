@@ -13,6 +13,7 @@ import {
   BsCode,
 } from 'react-icons/bs'
 import {
+  BiBracket,
   BiHeading,
 } from 'react-icons/bi'
 import {
@@ -30,6 +31,7 @@ export type command =
   | 'formatBlock'
   | 'insertOrderedList'
   | 'insertUnorderedList'
+  | 'superscript'
   | 'underline'
   | 'createLink'
   | 'insertImage'
@@ -154,8 +156,14 @@ export const tools: {
     message: null,
   },
   {
-    command: 'formatBlock',
+    command: 'superscript',
     icon: <ImQuotesLeft size={iconSize} />,
+    prompt: false,
+    message: null,
+  },
+  {
+    command: 'formatBlock',
+    icon: <BiBracket size={iconSize} />,
     prompt: false,
     message: 'BLOCKQUOTE',
   },

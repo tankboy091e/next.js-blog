@@ -19,12 +19,11 @@ interface PostData {
 type Data = PostData & ArticleData
 
 export default function Post() {
-  const pageQuery = usePageQuery()
+  const { category, current } = usePageQuery()
 
-  if (!pageQuery) {
+  if (!category) {
     return <></>
   }
-  const { category, current } = pageQuery
 
   const { data, error } = useSWR<Data>(`/api/${category}/${current}`, fetcher)
 

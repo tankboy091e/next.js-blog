@@ -6,7 +6,6 @@ const handler = getHandler()
 
 handler.get(async ({ query }: NextApiRequest, res: NextApiResponse) => {
   const { isbn } = query
-
   firestore.collection('library')
     .doc(isbn as string)
     .get()
