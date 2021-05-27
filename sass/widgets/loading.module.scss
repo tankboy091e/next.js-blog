@@ -19,31 +19,15 @@
     }
 }
 
-.child {
-    border-radius: 50%;
-    background-color: color.$primary;
-    & + & {
-        margin-left: 1rem;
-    }
-    @for $i from 1 to 6 {
-        &:nth-child(#{$i}) {
-            animation-name: dance;
-            animation-duration: 1.2s;
-            animation-iteration-count: infinite;
-            animation-fill-mode: both;
-            animation-delay: calc(#{$i - 1} * .2s);
-        }
-    }
+.spinner {
+    animation: spin 1s both linear infinite;
 }
 
-@keyframes dance {
+@keyframes spin {
     0% {
-        transform: scale(1);
+        transform: rotate(0deg);
     }
-    35% {
-        transform: scale(0.7, 1.5);
-    }
-    70% {
-        transform: scale(1);
+    100% {
+        transform: rotate(360deg);
     }
 }

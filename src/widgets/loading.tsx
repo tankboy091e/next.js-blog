@@ -1,15 +1,14 @@
 import styles from 'sass/widgets/loading.module.scss'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 export default function Loading({
-  size = 16,
+  size = 48,
 }: {
   size? : number
 }) {
   return (
     <section className={styles.container}>
-      <i className={styles.child} style={{ width: size, height: size }} />
-      <i className={styles.child} style={{ width: size, height: size }} />
-      <i className={styles.child} style={{ width: size, height: size }} />
+      <AiOutlineLoading className={styles.spinner} size={size} />
     </section>
   )
 }
