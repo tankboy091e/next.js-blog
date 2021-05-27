@@ -3,7 +3,7 @@
 @use './container.scss' as container;
 
 .container {
-    @include container.container('desktop');
+    @include container.container('wide');
     padding: 1rem 0;
 }
 

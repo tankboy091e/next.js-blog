@@ -13,7 +13,11 @@ export default function usePageQuery() : PageQuery {
   const { asPath } = router
 
   if (asPath.includes('pid')) {
-    return null
+    return {
+      router,
+      category: null,
+      current: null,
+    }
   }
 
   if (asPath === '/') {
