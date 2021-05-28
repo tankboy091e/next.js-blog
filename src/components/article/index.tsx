@@ -42,7 +42,7 @@ export default function Article({ data }: { data: ArticleData }) {
       })
     })
     noteList.forEach((node, index) => {
-      node.addEventListener('click', () => {
+      node.querySelector('a')?.addEventListener('click', () => {
         // eslint-disable-next-line no-restricted-syntax
         for (const sup of supList) {
           if (parseInt(sup.innerText, 10) === index + 1) {

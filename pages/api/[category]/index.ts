@@ -70,8 +70,8 @@ export function processContent(content: string) : string {
       .replace('<pre>', '<pre><code>')
       .replace('</pre>', '</code></pre>')
   })
-  const result = codeInjected.replace(/<span style="vertical-align: super;">.*?<\/span>/g, (substring) => substring
-    .replace('<span style="vertical-align: super;">', '<sup>')
+  const result = codeInjected.replace(/<span style="vertical-align: super;.*?<\/span>/g, (substring) => substring
+    .replace(/<span.*?">/, '<sup>')
     .replace('</span>', '</sup>'))
   return result
     .replace(/font-size([^"]+)[rem|px];/g, '')

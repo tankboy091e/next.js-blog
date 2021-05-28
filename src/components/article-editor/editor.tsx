@@ -92,7 +92,7 @@ export default function Editor({
         })
         const { author, translator, editor } = getAuthor(authorquery)
         const [date] = pubDate.split('-')
-        li.innerHTML = `${author}, <cite>『${title}』</cite>,${translator && ` ${translator} 옮김,`}${editor && ` ${editor} 엮음,`} ${publisher}, ${date}, ${page}쪽`
+        li.innerHTML = `<a href="javascript:void(0)">[${length + 1}]</a> ${author}, <cite>『${title}』</cite>,${translator ? ` ${translator} 옮김,` : ''}${editor ? ` ${editor} 엮음,` : ''} ${publisher}, ${date}, ${page}쪽`
       } else {
         const { error } = await res.json()
         await createAlert({
@@ -221,10 +221,14 @@ const commonStyle = `
     font-style: normal;
   }
 
-  *:not(ol, ul) {
+  * {
     margin: 0;
     padding: 0;
     box-sizing : border-box;
+  }
+
+  ol, ul {
+    list-style: none;
   }
 
   html {

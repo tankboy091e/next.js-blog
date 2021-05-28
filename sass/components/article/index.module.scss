@@ -73,22 +73,26 @@
       padding : 0rem 0rem 1rem 2rem;
     }
     sup {
+      color: color.$lightneAccent;
       cursor: pointer;
     }
 }
 
 .footnote {
     border-top: 1px solid color.$darkenPrimary;
-    padding: 1rem 0;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
     line-height: 1.5;
-    font-size: .8rem;
+    font-size: .9rem;
     text-align: justify;
     ol {
-      list-style-position: inside;
+      list-style: none;
     }
     li {
       width: fit-content;
-      cursor: pointer;
+      a {
+        color: color.$lightneAccent;
+      }
     }
     cite {
       font-style: normal;
