@@ -50,7 +50,7 @@ export default function Library() {
             const {
               id, cover, itemPage,
             } = value
-            return <Book key={id} cover={cover} itemPage={itemPage} link={`/quotes/${id}`} />
+            return <Book key={id} cover={cover} itemPage={itemPage} link={`/library/${id}`} />
           })}
         </section>
       </section>

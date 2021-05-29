@@ -20,7 +20,7 @@ export default function Navigation() {
     setActive(false)
   }
 
-  const menu = ['sum', 'essais', 'quotes', 'dev']
+  const menu = ['sum', 'essais', 'library', 'dev']
     .concat(user
       ? ['write', 'admin']
       : ['contact'])
