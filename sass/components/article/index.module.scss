@@ -59,7 +59,7 @@
     blockquote {
       line-height: 2;
       color : lighten(color.$darkenPrimary, 10%);
-      padding : 1rem 0rem 1rem 2rem;
+      padding : 1rem;
     }
     pre, blockquote {
       text-indent: 0;
@@ -70,7 +70,7 @@
       padding : 0rem 0rem 1rem 1.5rem;
     }
     blockquote + blockquote {
-      padding : 0rem 0rem 1rem 2rem;
+      padding : 0rem 1rem 1rem 1rem;
     }
     sup {
       color: color.$lightneAccent;

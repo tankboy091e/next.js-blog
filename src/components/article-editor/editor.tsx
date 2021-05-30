@@ -264,10 +264,10 @@ const contentStyle = `
     margin-bottom: .5rem;
   }
   blockquote {
-    padding : 1rem 0rem 1rem 2rem;
+    padding : 1rem;
   }
   blockquote + blockquote {
-    padding : 0rem 0rem 1rem 2rem;
+    padding : 0rem 1rem 1rem 1rem;
   }
   code {
     font-family : consolas;
