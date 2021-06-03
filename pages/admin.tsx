@@ -1,8 +1,7 @@
-import dynmaic from 'next/dynamic'
+import Layout from 'layouts/default'
 import Dashboard from 'templates/dashboard'
 
 export default function Page() {
-  const Layout = dynmaic(() => import('layouts/default'))
   return (
     <Layout>
       <Dashboard />

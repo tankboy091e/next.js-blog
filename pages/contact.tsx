@@ -1,8 +1,7 @@
-import dynmaic from 'next/dynamic'
+import Layout from 'layouts/default'
 import Contact from 'templates/contact'
 
 export default function Page() {
-  const Layout = dynmaic(() => import('layouts/default'))
   return (
     <Layout>
       <Contact />

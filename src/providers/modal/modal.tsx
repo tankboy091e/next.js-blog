@@ -29,9 +29,6 @@ export default function Modal({
   setImmediate?: React.Dispatch<SetStateAction<boolean>>
   callback? : () => void
 }) {
-  if (typeof document === 'undefined') {
-    return <></>
-  }
   const [active, setActive] = setImmediate ? [immediate, setImmediate] : useState(immediate)
 
   const {

@@ -16,24 +16,10 @@ interface PostData {
   id: number
 }
 
-type Data = PostData & ArticleData
+export type PostProps = PostData & ArticleData
 
-export default function Post() {
-  const { category, current } = usePageQuery()
-
-  if (!category) {
-    return <></>
-  }
-
-  const { data, error } = useSWR<Data>(`/api/${category}/${current}`, fetcher)
-
-  if (error) {
-    return <ErrorSection message="Page Not Found" />
-  }
-
-  if (!data) {
-    return <LoadingSection />
-  }
+export default function Post({ props } : { props : PostProps }) {
+  console.log(props)
 
   return (
     <section className={styles.container}>

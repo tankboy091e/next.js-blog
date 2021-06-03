@@ -1,11 +1,16 @@
-import dynmaic from 'next/dynamic'
-import Post from 'templates/post'
+import { GetServerSideProps } from 'next'
 
 export default function Page() {
-  const Layout = dynmaic(() => import('layouts/default'))
   return (
-    <Layout>
-      <Post />
-    </Layout>
+    <></>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => (
+  {
+    redirect: {
+      destination: '/sum',
+      permanent: false,
+    },
+  }
+)

@@ -1,10 +1,11 @@
 import { AppProps } from 'next/app'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import AuthProvider from 'providers/auth'
-import ModalProvider from 'providers/modal'
 import 'sass/global.scss'
 
 export default function App({ Component, pageProps }: AppProps) {
+  const ModalProvider = dynamic(() => import('providers/modal'))
+  const AuthProvider = dynamic(() => import('providers/auth'))
   return (
     <>
       <Head>

@@ -37,7 +37,18 @@ export default function usePageQuery() : PageQuery {
     }
   }
 
-  const category = asPath.match(/[/](.*?)[/]/)[0].replaceAll('/', '')
+  const path = asPath.match(/[/](.*?)[/]/)
+
+  if (!path) {
+    return {
+      router,
+      category: null,
+      current: null,
+    }
+  }
+
+  const category = path[0].replace(/\//g, '')
+
   const current = parseInt(query, 10)
 
   return {
@@ -58,7 +69,16 @@ export function useEditorPageQuery() {
     }
   }
 
-  const category = asPath.match(/[/](.*?)[/]/)[0].replaceAll('/', '')
+  const path = asPath.match(/[/](.*?)[/]/)
+
+  if (!path) {
+    return {
+      router,
+      category: null,
+    }
+  }
+
+  const category = path[0].replace(/\//g, '')
 
   return {
     router,
