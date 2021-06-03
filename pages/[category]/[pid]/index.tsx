@@ -11,7 +11,7 @@ import isValidCategory from 'lib/util/category'
 
 interface Data {
   category: string
-  pid: number
+  pid: string
   total: number
   doc: string
   id: number
@@ -31,7 +31,7 @@ export default function Page(props: Props) {
         </Head>
         <Article data={props} />
         <Comments doc={doc} sideWidget={<ArticleMenu />} />
-        <Pagenation category={category} current={pid} total={total} />
+        <Pagenation category={category} pid={pid} total={total} />
       </section>
     </Layout>
   )

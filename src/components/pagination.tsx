@@ -3,15 +3,16 @@ import Link from 'next/link'
 
 export default function Pagenation({
   category,
-  current,
+  pid,
   total,
 }: {
   category: string
-  current: number
+  pid: string
   total: number
 }) {
-  const prev = current > 1 ? current - 1 : null
-  const next = current < total ? current + 1 : null
+  const id = parseInt(pid, 10)
+  const prev = id > 1 ? id - 1 : null
+  const next = id < total ? id + 1 : null
   const prevHref = `/${category}${prev === 1 ? '' : `/${prev}`}`
   const nextHref = `/${category}/${next}`
   return (
