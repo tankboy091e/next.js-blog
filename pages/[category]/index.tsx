@@ -1,8 +1,7 @@
-import { PostProps } from 'templates/post'
 import { GetServerSideProps } from 'next'
 import isValidCategory from 'lib/util/category'
 
-export default function Page(props : PostProps) {
+export default function Page() {
   return (
     <></>
   )
