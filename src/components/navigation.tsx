@@ -55,7 +55,7 @@ export default function Navigation() {
             : `/${value}`
           if (value === category) {
             return (
-              <li key={href} className={styles.selected}>
+              <li key={value} className={styles.selected}>
                 {value}
               </li>
             )

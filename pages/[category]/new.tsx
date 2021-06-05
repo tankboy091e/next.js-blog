@@ -1,6 +1,5 @@
 import { verifyIdToken } from 'lib/db/admin'
 import { GetServerSideProps } from 'next'
-import nookies from 'nookies'
 import Layout from 'layouts/default'
 import ArticleWriter from 'templates/article-writer'
 import isValidCategory from 'lib/util/category'
@@ -24,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
   try {
-    const cookies = nookies.get(context)
+    const { cookies } = context.req
     await verifyIdToken(cookies.token)
     return {
       props: {},

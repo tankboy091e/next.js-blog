@@ -17,7 +17,6 @@
     "next": "^10.0.0",
     "next-connect": "^0.10.1",
     "node-fetch": "^2.6.1",
-    "nookies": "^2.5.2",
     "prettier": "^2.3.0",
     "react": "17.0.1",
     "react-dom": "^17.0.2",

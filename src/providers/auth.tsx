@@ -4,7 +4,7 @@ import 'firebase/auth'
 import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
-import nookies from 'nookies'
+import { deleteCookie, getCookie, setCookie } from 'lib/util/cookie'
 import { useAlert } from './modal/alert'
 
 type User = firebase.User
@@ -74,9 +74,8 @@ export default function AuthProvider({
       id_token = await user.getIdToken(),
       expires_in = 3600,
     } = data
-    nookies.set(undefined, 'token', id_token, {
-      maxAge: expires_in,
-    })
+    setCookie('token', id_token, expires_in * 1000)
+    console.log(getCookie('token'))
     setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000, user)
   }
 
@@ -84,7 +83,7 @@ export default function AuthProvider({
     firebase.auth().onIdTokenChanged(async (firebaseUser) => {
       if (!firebaseUser) {
         setUser(null)
-        nookies.set(undefined, 'token', '')
+        deleteCookie('token')
         return
       }
       setUser(firebaseUser)
