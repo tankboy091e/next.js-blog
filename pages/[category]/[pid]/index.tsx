@@ -2,12 +2,11 @@ import Article, { ArticleData } from 'components/article'
 import Layout from 'layouts/default'
 import getOrigin from 'lib/util/origin'
 import { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import ArticleMenu from 'components/article/menu'
 import Comments from 'components/comments'
-import Pagenation from 'components/pagination'
 import styles from 'sass/templates/post.module.scss'
 import isValidCategory from 'lib/util/category'
+import Link from 'next/link'
 
 interface Data {
   category: string
@@ -21,17 +20,19 @@ export type Props = Data & ArticleData
 
 export default function Page(props: Props) {
   const {
-    title, doc, category, pid, total,
+    title, subtitle, doc, category,
   } = props
   return (
-    <Layout>
+    <Layout
+      title={title}
+      description={subtitle}
+    >
       <section className={styles.container}>
-        <Head>
-          <title>{title}</title>
-        </Head>
+        <Link href={`/${category}`}>
+          <a href={`/${category}`} className={styles.back}>{category}</a>
+        </Link>
         <Article data={props} />
         <Comments doc={doc} sideWidget={<ArticleMenu />} />
-        <Pagenation category={category} pid={pid} total={total} />
       </section>
     </Layout>
   )

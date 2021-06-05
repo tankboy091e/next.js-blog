@@ -1,12 +1,16 @@
 @use '../lib/mediaquery.scss' as mediaquerey;
 
-.container {
-    perspective: 1000px;
-}
-
 .wrapper {
     perspective: 1000px;
     transform-style: preserve-3d;
+    &.tilt {
+        .figure {
+            transform: translateX(-.4rem) rotateY(-15deg);
+            &:hover {
+                transform: translateX(-.5rem) rotateY(-20deg);
+            }
+        }
+    }
 }
 
 .figure {

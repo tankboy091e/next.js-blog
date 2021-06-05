@@ -1,0 +1,14 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    margin-top: 1rem;
+}
+
+.title {
+    font-size: 1.2rem;
+}
+
+.introduce {
+    padding: 1rem 0;
+    color: darken(color.$primary, 15%);
+}

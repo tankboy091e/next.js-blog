@@ -3,26 +3,34 @@
 .container {
     list-style: none;
     width: 100%;
+    padding-right: 1rem;
 }
 
 .doc {
     position: relative;
     width: 100%;
-    padding: 1rem 0;
+    padding-top : .8rem;
+    padding-bottom: .9rem;
     & + & {
         border-top: 1px solid rgba(color.$darkenPrimary, .3);
+    }
+    a {
+        color: inherit;
     }
 }
 
 .title {
-    color: color.$primary;
+    font-size: 1.1rem;
+    color: inherit;
+    line-height: 1.5;
 }
 
 .date {
-    color: color.$darkenPrimary;
+    color: inherit;
     display: block;
     font-size: .8rem;
-    margin-top: 1rem;
+    margin-top: .5rem;
+    opacity: .5;
 }
 
 .month {
@@ -32,6 +40,7 @@
     left: 100%;
     position: absolute;
     font-size: .8rem;
-    color: color.$darkenPrimary;
+    color: inherit;
+    opacity: .5;
     transform: translateY(50%);
 }

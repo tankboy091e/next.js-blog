@@ -53,9 +53,9 @@ const getCategoryMap = async () => {
 
   const categories = await Promise.all(promises)
   return categories.map((posts, categoryIndex) => posts.map(
-    (_, postIndex) => `
+    (value) => `
     <url>
-      <loc>${`${domain}/${categoryList[categoryIndex]}/${postIndex}`}</loc>
+      <loc>${`${domain}/${categoryList[categoryIndex]}/${value.doc}`}</loc>
       <lastmod>${date}</lastmod>
       <priority>0.8</priority>
     </url>`,

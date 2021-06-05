@@ -3,7 +3,9 @@ import Contact from 'templates/contact'
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout
+      title="contact"
+    >
       <Contact />
     </Layout>
   )

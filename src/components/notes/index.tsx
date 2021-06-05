@@ -24,6 +24,10 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
     return <></>
   }
 
+  if (data.length === 0) {
+    return <></>
+  }
+
   return (
     <section className={styles.container}>
       {data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}

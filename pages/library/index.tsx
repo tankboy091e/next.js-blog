@@ -3,7 +3,9 @@ import Library from 'templates/library'
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout
+      title="library"
+    >
       <Library />
     </Layout>
   )

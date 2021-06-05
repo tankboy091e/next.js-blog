@@ -3,7 +3,9 @@ import ErrorSection from 'templates/error-section'
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout
+      title="404"
+    >
       <ErrorSection message="Page Not Found" />
     </Layout>
   )

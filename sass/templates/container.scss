@@ -3,7 +3,7 @@
 
 @mixin container($device) {
     max-height: inherit;
-    max-width: calc(100vw - 2rem);
+    max-width: calc(100vw - 3rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,11 +19,5 @@
     }
     @if $device == 'wide' {
         width: variables.$breakpoint-wide;
-    }
-
-    @if $device != 'window' and $device != 'window-mobile' and $device != 'window-desktop' {
-        @include mediaquery.mobile {
-            padding-top: calc(4rem);
-        }
     }
 }

@@ -3,7 +3,9 @@ import Dashboard from 'templates/dashboard'
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout
+      title="admin"
+    >
       <Dashboard />
     </Layout>
   )

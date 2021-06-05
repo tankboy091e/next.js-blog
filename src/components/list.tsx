@@ -1,4 +1,3 @@
-import usePageQuery from 'lib/hooks/page-query'
 import { getDateArray } from 'lib/util/date'
 import Link from 'next/link'
 import styles from 'sass/components/list.module.scss'
@@ -13,18 +12,22 @@ export interface Data {
 export default function List({
   data,
   length,
+  category,
+  monthDivider = true,
 }: {
   data: Data[],
   length?: number,
+  category: string,
+  monthDivider?: boolean
 }) {
-  const { category } = usePageQuery()
   const total = length || data.length
   return (
     <ol className={styles.container}>
       {data.slice(0, total).map(({ title, doc, createdAt }, index) => {
         const href = `/${category}/${doc}`
         const { month } = getDateArray(createdAt)
-        const needMonth = index !== total - 1
+        const needMonth = monthDivider
+          && index !== total - 1
           && month !== getDateArray(data[index + 1].createdAt).month
         return (
           <li key={doc} className={styles.doc}>

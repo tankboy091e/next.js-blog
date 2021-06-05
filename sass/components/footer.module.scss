@@ -5,11 +5,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: color.$darkenBackground;
-    padding: 1rem;
+    // background-color: color.$darkenBackground;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
     font-size: .8rem;
 }
 
+.home {
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
 .copyright {
-    padding: 1rem;
+    letter-spacing: .25rem;
+    margin-top: 1.5rem;
 }

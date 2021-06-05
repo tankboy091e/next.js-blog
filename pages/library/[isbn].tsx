@@ -9,7 +9,9 @@ export default function Page() {
 
   if (!isbn) {
     return (
-      <Layout>
+      <Layout
+        title="library"
+      >
         <LoadingSection />
       </Layout>
     )

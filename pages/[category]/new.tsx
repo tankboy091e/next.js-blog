@@ -6,7 +6,9 @@ import isValidCategory from 'lib/util/category'
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout
+      title="write"
+    >
       <ArticleWriter />
     </Layout>
   )

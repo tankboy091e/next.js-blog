@@ -1,7 +1,14 @@
 @use './container.scss' as container;
+@use '../lib/color.scss' as color;
 
 .container {
     @include container.container('mobile');
     min-height: 100vh;
     padding: 1rem 0;
+}
+
+.back {
+    font-size: 1.3rem;
+    align-self: flex-start;
+    margin-bottom: 1rem;
 }

@@ -1,6 +1,7 @@
+import firebase from 'firebase-admin'
+import firestore from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import verifyUid from 'lib/api/middleware/verify-uid'
-import firestore from 'lib/db/firestore'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = getHandler()
@@ -68,6 +69,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       cover,
       link,
       itemPage,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then(() => res.status(201).json({ message: 'Saved sucessfully' }))
     .catch(() => res.status(500).json({ error: 'database error' }))

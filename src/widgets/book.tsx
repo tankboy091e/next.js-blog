@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 import useImageLoad from 'lib/hooks/image-load'
+import { getClassName } from 'lib/util'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import styles from 'sass/widgets/book.module.scss'
@@ -19,15 +20,15 @@ export default function Book({
   cover,
   itemPage = 100,
   link,
+  tilt,
   onload,
 }: {
   cover: string
   itemPage?: number
   link: string
+  tilt?: boolean
   onload?: () => void
 }) {
-  const { load, onImageLoad } = useImageLoad(2)
-
   const processCovers = (): {
     front: string
     pageWidth: number
@@ -53,13 +54,6 @@ export default function Book({
     }
   }
 
-  useEffect(() => {
-    if (!load) {
-      return
-    }
-    onload?.call(null)
-  }, [load])
-
   const { front, pageWidth, back: backSrc } = processCovers()
 
   const [backOption, setBackSrc] = useState({
@@ -72,33 +66,78 @@ export default function Book({
 
   const { back, onError } = backOption
 
-  // eslint-disable-next-line no-script-url
-  const voidHref = 'javascript:void(0)'
+  if (!link) {
+    return (
+      <Inner
+        tilt={tilt}
+        front={front}
+        back={back}
+        pageWidth={pageWidth}
+        onload={onload}
+        onError={onError}
+      />
+    )
+  }
   return (
-    <Link href={link || voidHref}>
+    <Link href={link}>
       <a
-        className={styles.container}
-        href={link || voidHref}
+        href={link}
         target={link?.includes('http') ? '_blank' : '_self'}
         rel={link?.includes('http') ? 'noreferrer' : ''}
       >
-        <div className={styles.wrapper}>
-          <figure className={styles.figure}>
-            <img className={styles.front} src={front} alt="도서 전면" onLoad={onImageLoad} />
-            <div className={styles.paper} style={{ width: pageWidth }} />
-            <img
-              className={styles.back}
-              src={back}
-              alt="도서 후면"
-              style={{
-                transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
-              }}
-              onLoad={onImageLoad}
-              onError={onError}
-            />
-          </figure>
-        </div>
+        <Inner
+          tilt={tilt}
+          front={front}
+          back={back}
+          pageWidth={pageWidth}
+          onload={onload}
+          onError={onError}
+        />
       </a>
     </Link>
+  )
+}
+
+function Inner({
+  tilt,
+  front,
+  back,
+  pageWidth,
+  onload,
+  onError,
+}: {
+  tilt: boolean
+  front: string
+  back: string
+  pageWidth: number
+  onload: () => void
+  onError: () => void
+}) {
+  const { load, onImageLoad } = useImageLoad(2)
+
+  useEffect(() => {
+    if (!load) {
+      return
+    }
+    onload?.call(null)
+  }, [load])
+
+  return (
+    <div className={getClassName(styles.wrapper, tilt && styles.tilt)}>
+      <figure className={styles.figure}>
+        <img className={styles.front} src={front} alt="도서 전면" onLoad={onImageLoad} />
+        <div className={styles.paper} style={{ width: pageWidth }} />
+        <img
+          className={styles.back}
+          src={back}
+          alt="도서 후면"
+          style={{
+            transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
+          }}
+          onLoad={onImageLoad}
+          onError={onError}
+        />
+      </figure>
+    </div>
   )
 }

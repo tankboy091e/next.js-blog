@@ -1,3 +1,4 @@
+import firebase from 'firebase-admin'
 import firestore from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -42,6 +43,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       page,
       paragraph,
       annotation,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
     .then(() => res.status(201).json({ message: 'saved sucessfully' }))
     .catch(() => res.status(500).json({ error: 'database error' }))

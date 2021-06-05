@@ -4,14 +4,17 @@ import styles from 'sass/templates/list.module.scss'
 import List from 'components/list'
 import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
-import ScrollProvider from 'providers/scroll'
+import usePageQuery from 'lib/hooks/page-query'
 
 export default function Page({ data } : any) {
+  const { category } = usePageQuery()
   return (
-    <Layout>
-      <ScrollProvider className={styles.container}>
-        <List data={data} />
-      </ScrollProvider>
+    <Layout
+      title={category}
+    >
+      <section className={styles.container}>
+        <List data={data} category={category} />
+      </section>
     </Layout>
   )
 }

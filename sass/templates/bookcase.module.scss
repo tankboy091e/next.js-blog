@@ -1,0 +1,27 @@
+@use '../lib/mediaquery.scss' as mediaquery;
+
+.container {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.window {
+    width: 100%;
+    display: flex;
+    padding: 1rem 0;
+}
+
+.case {
+    perspective: 1000px;
+    width: 100%;
+    padding: 1rem;
+    @include mediaquery.mobile {
+        &:nth-child(n + 4) {
+            display: none;
+        }
+    }
+}
+
+.case + .case {
+    margin-left: 1rem;
+}

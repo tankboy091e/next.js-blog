@@ -7,7 +7,9 @@ import isValidCategory from 'lib/util/category'
 export default function Page() {
   const Layout = dynmaic(() => import('layouts/default'))
   return (
-    <Layout>
+    <Layout
+      title="edit"
+    >
       <ArticleEditor />
     </Layout>
   )
