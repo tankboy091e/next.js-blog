@@ -115,9 +115,38 @@ export default function Editor({
     )
   }
 
+  const onHyperlink = async () => {
+    const document = content.current.contentDocument
+    const href = await createPrompt({
+      message: '링크를 입력하세요',
+    })
+    const label = await createPrompt({
+      message: '내용을 입력하세요',
+    })
+    if (!label) {
+      document.execCommand(
+        'createLink',
+        false,
+        href,
+      )
+      return
+    }
+    document.execCommand(
+      'insertHTML',
+      false,
+      `<a href="${href}" target="_blank">${label}</a>`,
+    )
+  }
+
   const onCommand = async (cmd: command, prompt: boolean, message: string) => {
     const document = content.current.contentDocument
     switch (cmd) {
+      case 'createLink':
+        onHyperlink()
+        break
+      case 'superscript':
+        onSuperscript()
+        break
       case 'formatBlock':
         document.execCommand(
           cmd,
@@ -126,9 +155,6 @@ export default function Editor({
             ? 'DIV'
             : message,
         )
-        break
-      case 'superscript':
-        onSuperscript()
         break
       default:
         document.execCommand(
@@ -287,6 +313,9 @@ const contentStyle = `
     font-size: .9em;
     color : #afaaaa;
     width : 100%;
+  }
+  a {
+    color: #c3688a;
   }
   img {
     display : block;

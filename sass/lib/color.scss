@@ -1,8 +1,8 @@
-$background: #151515;
+$background: #181818;
 $darkenBackground: darken($background, 5%);
-$primary: #f9f9f9;
-$darkenPrimary: darken($primary, 25%);
-$alert: #f7e600;
-$lightenAlert: rgba(#fff6bc, .3);
+$primary: white;
+$darkenPrimary: darken($primary, 30%);
+$alert: #8D3858;
+$lightenAlert: lighten($alert, 20%);
 $accent: #8D3858;
 $lightneAccent: lighten($accent, 20%);

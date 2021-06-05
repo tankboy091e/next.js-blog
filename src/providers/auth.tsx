@@ -4,7 +4,7 @@ import 'firebase/auth'
 import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
-import { deleteCookie, getCookie, setCookie } from 'lib/util/cookie'
+import { deleteCookie, setCookie } from 'lib/util/cookie'
 import { useAlert } from './modal/alert'
 
 type User = firebase.User
@@ -75,7 +75,6 @@ export default function AuthProvider({
       expires_in = 3600,
     } = data
     setCookie('token', id_token, expires_in * 1000)
-    console.log(getCookie('token'))
     setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000, user)
   }
 

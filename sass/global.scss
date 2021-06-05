@@ -18,13 +18,13 @@ html {
   height: 100%;
   font-family: 'Chosun';
   @include mediaquery.mobile {
-    font-size: 14px;
-  }
-  @include mediaquery.tablet {
     font-size: 15px;
   }
-  @include mediaquery.desktop {
+  @include mediaquery.tablet {
     font-size: 16px;
+  }
+  @include mediaquery.desktop {
+    font-size: 17px;
   }
 }
 
