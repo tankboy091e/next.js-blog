@@ -1,6 +1,6 @@
 export const writingCategories = ['sum', 'essais', 'dev']
 
-export const categories = writingCategories.concat(['library', 'contact'])
+export const categories = ['home', ...writingCategories, 'library', 'contact']
 
 export default function isValidCategory(category : any) : boolean {
   return writingCategories.reduce((prev, value) => {

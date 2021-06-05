@@ -1,5 +1,6 @@
 @use '../lib/mediaquery.scss' as mediaquery;
 @use '../lib/color.scss' as color;
+@use '../lib/no-scroll.scss' as no-scroll;
 
 .navigation {
     position: fixed;
@@ -58,8 +59,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 50%;
+    overflow-y: scroll;
+    @include no-scroll.no-scroll();
     @include mediaquery.mobile {
         position: relative;
     }

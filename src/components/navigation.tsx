@@ -6,6 +6,7 @@ import { getClassName } from 'lib/util'
 import Link from 'next/link'
 import usePageQuery from 'lib/hooks/page-query'
 import { useAuth } from 'providers/auth'
+import { categories } from 'lib/util/category'
 
 export default function Navigation() {
   const [active, setActive] = useState(false)
@@ -20,10 +21,8 @@ export default function Navigation() {
     setActive(false)
   }
 
-  const menu = ['sum', 'essais', 'library', 'dev']
-    .concat(user
-      ? ['write', 'admin']
-      : ['contact'])
+  const menu = categories
+    .concat(user && ['write', 'admin'])
 
   return (
     <nav
@@ -50,9 +49,19 @@ export default function Navigation() {
       </button>
       <ul className={styles.inner}>
         {menu.map((value) => {
-          const href = value === 'write'
-            ? `/${category}/new`
-            : `/${value}`
+          const getHref = () => {
+            if (value === 'home') {
+              return '/'
+            }
+            if (value === 'write') {
+              return `/${category}/new`
+            }
+            return `/${value}`
+          }
+          const href = getHref()
+          if (href === '/') {
+            return null
+          }
           if (value === category) {
             return (
               <li key={value} className={styles.selected}>

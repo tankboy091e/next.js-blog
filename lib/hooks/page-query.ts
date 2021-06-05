@@ -12,20 +12,20 @@ export default function usePageQuery() : PageQuery {
   const router = useRouter()
   const { asPath } = router
 
-  if (asPath.includes('pid')) {
-    return {
-      router,
-      category: null,
-      current: null,
-    }
-  }
-
   const result = {
     router,
     category: null,
     current: null,
   }
 
+  if (asPath.includes('pid') || asPath.includes('category')) {
+    return result
+  }
+
+  if (asPath === '/') {
+    result.category = 'home'
+    return result
+  }
   const paths = asPath.split('/')
 
   for (const element of categories) {
@@ -38,7 +38,7 @@ export default function usePageQuery() : PageQuery {
   }
 
   if (!result.category) {
-    return null
+    return result
   }
 
   result.current = asPath.substr(asPath.indexOf(result.category) + result.category.length + 1)
