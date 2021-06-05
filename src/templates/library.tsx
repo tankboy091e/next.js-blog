@@ -10,6 +10,7 @@ import AddButton from 'widgets/add-button'
 import {
   createContext, useContext,
 } from 'react'
+import ScrollProvider from 'providers/scroll'
 import Librarian from './librarian'
 
 interface LibraryContextProps {
@@ -39,7 +40,7 @@ export default function Library() {
 
   return (
     <LibraryContext.Provider value={value}>
-      <section className={styles.container}>
+      <ScrollProvider className={styles.container}>
         {user && (
           <Modal initializer={<AddButton />}>
             <Librarian />
@@ -53,7 +54,7 @@ export default function Library() {
             return <Book key={id} cover={cover} itemPage={itemPage} link={`/library/${id}`} />
           })}
         </section>
-      </section>
+      </ScrollProvider>
     </LibraryContext.Provider>
   )
 }

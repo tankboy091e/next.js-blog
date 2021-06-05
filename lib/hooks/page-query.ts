@@ -1,11 +1,11 @@
+/* eslint-disable no-restricted-syntax */
 import { NextRouter, useRouter } from 'next/router'
-
-const defaultCategory = 'sum'
+import { categories } from 'lib/util/category'
 
 interface PageQuery {
     router: NextRouter
     category: string
-    current: number
+    current: string
 }
 
 export default function usePageQuery() : PageQuery {
@@ -20,42 +20,30 @@ export default function usePageQuery() : PageQuery {
     }
   }
 
-  if (asPath === '/') {
-    return {
-      router,
-      category: defaultCategory,
-      current: 1,
-    }
-  }
-
-  const query = asPath.substr(asPath.lastIndexOf('/') + 1)
-  if (Number.isNaN(parseInt(query, 10))) {
-    return {
-      router,
-      category: query,
-      current: 1,
-    }
-  }
-
-  const path = asPath.match(/[/](.*?)[/]/)
-
-  if (!path) {
-    return {
-      router,
-      category: null,
-      current: null,
-    }
-  }
-
-  const category = path[0].replace(/\//g, '')
-
-  const current = parseInt(query, 10)
-
-  return {
+  const result = {
     router,
-    category,
-    current,
+    category: null,
+    current: null,
   }
+
+  const paths = asPath.split('/')
+
+  for (const element of categories) {
+    for (const path of paths) {
+      if (path === element) {
+        result.category = path
+        break
+      }
+    }
+  }
+
+  if (!result.category) {
+    return null
+  }
+
+  result.current = asPath.substr(asPath.indexOf(result.category) + result.category.length + 1)
+
+  return result
 }
 
 export function useEditorPageQuery() {

@@ -1,7 +1,22 @@
-export function convertTimestamp(timestamp: string): string {
+export function getDateArray(timestamp: string) {
   const [dow, month, date, year] = timestamp.split(' ')
+  return {
+    dow: dayOfWeek[dow],
+    month: months.indexOf(month) + 1,
+    date: parseInt(date, 10),
+    year,
+  }
+}
 
-  return `${year}년 ${months.indexOf(month) + 1}월 ${parseInt(date, 10)}일 ${dayOfWeek[dow]}요일`
+export function convertTimestamp(timestamp: string): string {
+  const {
+    dow,
+    month,
+    date,
+    year,
+  } = getDateArray(timestamp)
+
+  return `${year}년 ${month}월 ${date}일 ${dow}요일`
 }
 
 export function convertBookDate(timestamp: string): string {
@@ -10,10 +25,8 @@ export function convertBookDate(timestamp: string): string {
 }
 
 export function convetDatetime(timestamp: string): string {
-  // eslint-disable-next-line no-unused-vars
-  const [_, month, date, year] = timestamp.split(' ')
-
-  return `${year}-${months.indexOf(month) + 1}-${parseInt(date, 10)}`
+  const { month, date, year } = getDateArray(timestamp)
+  return `${year}-${month}-${date}`
 }
 
 const months = [

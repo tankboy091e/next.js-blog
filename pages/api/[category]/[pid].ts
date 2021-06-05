@@ -14,28 +14,13 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const { category, pid } = req.query
 
   const colRef = firestore.collection(category as string)
-  const total = await getAutoIncrement(colRef)
-
-  if (total === 0) {
-    res.status(404).json({ error: 'no docs' })
-    return
-  }
-
-  const id = getDocumentId(total, pid as string)
 
   colRef
-    .where('id', '==', id)
+    .doc(pid as string)
     .get()
-    .then((snapshots) => {
-      if (snapshots.empty) {
-        throw new Error('resource not found')
-      }
-      return snapshots.docs[0]
-    })
     .then((doc) => {
       const { createdAt, ...data } = doc.data()
       return {
-        total,
         ...data,
         doc: doc.id,
         createdAt: createdAt.toDate().toDateString(),

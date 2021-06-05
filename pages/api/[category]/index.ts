@@ -15,14 +15,22 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     .collection(category as string)
     .get()
     .then((snapshots) => snapshots.docs)
+    .then((docs) => docs.filter((doc) => doc.data().title))
+    .then((data) => data.sort((a, b) => {
+      const { createdAt: createdA } = a.data()
+      const { createdAt: createdB } = b.data()
+      if (createdA > createdB) return -1
+      if (createdA < createdB) return 1
+      return 0
+    }))
     .then((docs) => docs.map((doc) => {
-      const { createdAt, ...data } = doc.data()
+      const { createdAt, title } = doc.data()
       return {
-        ...data,
+        title,
         doc: doc.id,
         createdAt: createdAt?.toDate().toDateString(),
       }
-    }).filter((value : any) => value.title))
+    }))
     .then((data) => res.status(200).json(data))
     .catch((error) => res.status(500).json({ error: error.message }))
 })

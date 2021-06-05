@@ -39,7 +39,6 @@ export default function Page(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category, pid } = context.params
-
   if (!isValidCategory(category)) {
     return {
       redirect: {

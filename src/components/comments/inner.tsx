@@ -27,10 +27,8 @@ export default function Inner({
   )
 
   if (!data) {
-    return <Loading size={10} />
+    return <Loading size={32} />
   }
-
-  let key = 0
 
   const value = {
     refresh: mutate,
@@ -38,10 +36,9 @@ export default function Inner({
 
   return (
     <CommentsContext.Provider value={value}>
-      {data.length > 0 && data.map((value) => {
-        key += 1
-        return <Comment key={key} data={value} />
-      })}
+      {data.length > 0 && data.map((value) => (
+        <Comment key={value.id} data={value} />
+      ))}
       <FormProvider>
         <Input doc={doc} />
       </FormProvider>

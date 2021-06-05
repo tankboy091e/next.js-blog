@@ -1,5 +1,5 @@
 import firebase from 'firebase-admin'
-import firestore, { getAutoIncrement } from 'lib/db/firestore'
+import firestore from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
 import validateCategory from 'lib/api/middleware/validate-category'
@@ -9,25 +9,10 @@ const handler = getHandler()
 handler.use(validateCategory)
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { category, pid } = req.query
-
-  const postId = await getPostID(category as string, pid as string)
-
-  const postSnapshots = await firestore
-    .collection(category as string)
-    .where('id', '==', postId)
-    .get()
-
-  if (postSnapshots.empty) {
-    res.status(500).json({ error: 'database error' })
-    return
-  }
-
-  const { id } = postSnapshots.docs[0]
-
+  const { pid } = req.query
   firestore
     .collection('comments')
-    .where('doc', '==', id)
+    .where('doc', '==', pid)
     .get()
     .then((snapshots) => snapshots.docs.sort((a, b) => {
       const { createdAt: timestampA } = a.data()
@@ -97,12 +82,5 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     .then(() => res.status(201).json({ message: 'resource deleted sucessfully' }))
     .catch(() => res.status(500).json({ error: 'database error' }))
 })
-
-async function getPostID(category: string, pid: string) {
-  const colRef = firestore.collection(category as string)
-  const autoIncrement = await getAutoIncrement(colRef)
-
-  return autoIncrement - parseInt(pid as string, 10) + 1
-}
 
 export default handler
