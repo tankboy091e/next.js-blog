@@ -3,7 +3,7 @@
 
 @mixin container($device) {
     max-height: inherit;
-    max-width: calc(100vw - 3rem);
+    max-width: calc(100vw - 2rem);
     display: flex;
     flex-direction: column;
     align-items: center;
