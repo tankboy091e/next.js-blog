@@ -64,6 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       titleHead: title,
       descriptionHead: subtitle,
+      typeHead: 'article',
       category,
       pid,
       ...data,
