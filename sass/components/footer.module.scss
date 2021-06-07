@@ -7,7 +7,7 @@
     align-items: center;
     // background-color: color.$darkenBackground;
     padding-top: 1.5rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     font-size: .8rem;
 }
 
@@ -17,6 +17,7 @@
 }
 
 .copyright {
+    color: darken(color.$primary, 10%);
     letter-spacing: .25rem;
     margin-top: 1.5rem;
 }
