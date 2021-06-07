@@ -4,16 +4,16 @@ import dynmaic from 'next/dynamic'
 import ArticleEditor from 'templates/article-editor'
 import isValidCategory from 'lib/util/category'
 
-export default function Page() {
+function Page() {
   const Layout = dynmaic(() => import('layouts/default'))
   return (
-    <Layout
-      title="edit"
-    >
+    <Layout>
       <ArticleEditor />
     </Layout>
   )
 }
+
+export default Page
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category } = context.params
@@ -29,7 +29,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { cookies } = context.req
     await verifyIdToken(cookies.token)
     return {
-      props: {},
+      props: {
+        titleHead: 'edit',
+      },
     }
   } catch {
     return {

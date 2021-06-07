@@ -26,6 +26,7 @@
       "components/*": ["src/components/*"],
       "widgets/*": ["src/widgets/*"],
       "layouts/*": ["src/layouts/*"],
+      "hoc/*" : ["src/hoc/*"],
       "public/*": ["public/*"],
     }
   },

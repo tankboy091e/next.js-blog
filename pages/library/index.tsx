@@ -1,12 +1,19 @@
 import Layout from 'layouts/default'
+import { GetStaticProps } from 'next'
 import Library from 'templates/library'
 
-export default function Page() {
+function Page() {
   return (
-    <Layout
-      title="library"
-    >
+    <Layout>
       <Library />
     </Layout>
   )
 }
+
+export default Page
+
+export const getStaticProps : GetStaticProps = async () => ({
+  props: {
+    titleHead: 'library',
+  },
+})

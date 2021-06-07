@@ -15,7 +15,6 @@ export default function Article({ data }: { data: ArticleData }) {
   const {
     title, subtitle, content, footnote, createdAt,
   } = data
-
   const contentRef = useRef<HTMLElement>()
   const footnoteRef = useRef<HTMLElement>()
 

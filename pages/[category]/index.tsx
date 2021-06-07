@@ -6,18 +6,18 @@ import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
 import usePageQuery from 'lib/hooks/page-query'
 
-export default function Page({ data } : any) {
+function Page({ data } : any) {
   const { category } = usePageQuery()
   return (
-    <Layout
-      title={category}
-    >
+    <Layout>
       <section className={styles.container}>
         <List data={data} category={category} />
       </section>
     </Layout>
   )
 }
+
+export default Page
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category } = context.params
@@ -31,9 +31,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const res = await fetch(`${getOrigin()}/api/${category}`)
+  if (!res.ok) {
+    return {
+      props: {
+        error: 'oops',
+      },
+    }
+  }
   const data = await res.json()
+
   return {
     props: {
+      titleHead: category,
       data,
     },
   }

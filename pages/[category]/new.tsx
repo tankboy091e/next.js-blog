@@ -4,15 +4,15 @@ import Layout from 'layouts/default'
 import ArticleWriter from 'templates/article-writer'
 import isValidCategory from 'lib/util/category'
 
-export default function Page() {
+function Page() {
   return (
-    <Layout
-      title="write"
-    >
+    <Layout>
       <ArticleWriter />
     </Layout>
   )
 }
+
+export default Page
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category } = context.params
@@ -28,7 +28,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { cookies } = context.req
     await verifyIdToken(cookies.token)
     return {
-      props: {},
+      props: {
+        titleHead: 'new',
+      },
     }
   } catch {
     return {

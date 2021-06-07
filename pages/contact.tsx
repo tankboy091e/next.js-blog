@@ -1,12 +1,19 @@
 import Layout from 'layouts/default'
+import { GetStaticProps } from 'next'
 import Contact from 'templates/contact'
 
-export default function Page() {
+function Page() {
   return (
-    <Layout
-      title="contact"
-    >
+    <Layout>
       <Contact />
     </Layout>
   )
 }
+
+export default Page
+
+export const getStaticProps : GetStaticProps = async () => ({
+  props: {
+    titleHead: 'contact',
+  },
+})

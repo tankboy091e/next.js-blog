@@ -1,25 +1,41 @@
 import Layout from 'layouts/default'
-import { useRouter } from 'next/router'
-import LoadingSection from 'templates/loading'
+import getOrigin from 'lib/util/origin'
+import { GetServerSideProps } from 'next'
 import Quotes from 'templates/quotes'
 
-export default function Page() {
-  const { query } = useRouter()
-  const { isbn } = query
-
-  if (!isbn) {
-    return (
-      <Layout
-        title="library"
-      >
-        <LoadingSection />
-      </Layout>
-    )
-  }
-
+function Page({ data } : any) {
   return (
     <Layout>
-      <Quotes isbn={isbn} />
+      <Quotes data={data} />
     </Layout>
   )
+}
+
+export default Page
+
+export const getServerSideProps : GetServerSideProps = async (context) => {
+  const { isbn } = context.query
+
+  const res = await fetch(`${getOrigin()}/api/books/${isbn}`)
+
+  if (!res.ok) {
+    return {
+      props: {
+        error: 'oops',
+      },
+    }
+  }
+
+  const data = await res.json()
+
+  const { title } = data
+  return {
+    props: {
+      titleHead: title,
+      data: {
+        isbn,
+        ...data,
+      },
+    },
+  }
 }

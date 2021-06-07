@@ -6,7 +6,7 @@ import About from 'templates/about'
 import Bookcase from 'templates/bookcase'
 import Posts from 'templates/posts'
 
-export default function Page({ data } : any) {
+function Page({ data } : any) {
   const { about, posts, books } = data
   return (
     <Layout>
@@ -19,8 +19,17 @@ export default function Page({ data } : any) {
   )
 }
 
+export default Page
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(`${getOrigin()}/api/home`)
+  if (!res.ok) {
+    return {
+      props: {
+        error: 'oops',
+      },
+    }
+  }
   const data = await res.json()
   return {
     props: {

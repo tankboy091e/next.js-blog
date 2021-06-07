@@ -1,4 +1,4 @@
-import Article, { ArticleData } from 'components/article'
+import Article from 'components/article'
 import Layout from 'layouts/default'
 import getOrigin from 'lib/util/origin'
 import { GetServerSideProps } from 'next'
@@ -8,25 +8,13 @@ import styles from 'sass/templates/post.module.scss'
 import isValidCategory from 'lib/util/category'
 import Link from 'next/link'
 
-interface Data {
-  category: string
-  pid: string
-  total: number
-  doc: string
-  id: number
-}
-
-export type Props = Data & ArticleData
-
-export default function Page(props: Props) {
+function Page(props: any) {
   const {
-    title, subtitle, doc, category,
+    doc, category,
   } = props
+
   return (
-    <Layout
-      title={title}
-      description={subtitle}
-    >
+    <Layout>
       <section className={styles.container}>
         <Link href={`/${category}`}>
           <a href={`/${category}`} className={styles.back}>{category}</a>
@@ -37,6 +25,8 @@ export default function Page(props: Props) {
     </Layout>
   )
 }
+
+export default Page
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category, pid } = context.params
@@ -61,9 +51,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const data = await res.json()
+  if (!res.ok) {
+    return {
+      props: {
+        error: 'oops',
+      },
+    }
+  }
+  const { title, subtitle } = data
 
   return {
     props: {
+      titleHead: title,
+      descriptionHead: subtitle,
       category,
       pid,
       ...data,

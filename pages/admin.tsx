@@ -1,12 +1,19 @@
 import Layout from 'layouts/default'
+import { GetStaticProps } from 'next'
 import Dashboard from 'templates/dashboard'
 
-export default function Page() {
+function Page() {
   return (
-    <Layout
-      title="admin"
-    >
+    <Layout>
       <Dashboard />
     </Layout>
   )
 }
+
+export default Page
+
+export const getStaticProps : GetStaticProps = async () => ({
+  props: {
+    titleHead: 'admin',
+  },
+})

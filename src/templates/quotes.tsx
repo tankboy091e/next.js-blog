@@ -1,29 +1,16 @@
-import fetcher from 'lib/api/fetcher'
 import styles from 'sass/templates/quotes.module.scss'
-import useSWR from 'swr'
-import Book, { BookProps } from 'widgets/book'
-import LoadingSection from 'templates/loading'
+import Book from 'widgets/book'
 import BookDetails from 'widgets/book-details'
 import useImageLoad from 'lib/hooks/image-load'
 import Notes from 'components/notes'
 import Link from 'next/link'
 import ErrorSection from './error-section'
 
-export default function Quotes({ isbn }: { isbn: string | string[] }) {
-  const { data, error } = useSWR<BookProps>(`/api/books/${isbn}`, fetcher)
-
+export default function Quotes({ data } : { data : any}) {
   const { load, onImageLoad } = useImageLoad(1)
 
-  if (error) {
-    return <ErrorSection />
-  }
-
-  if (!data) {
-    return <LoadingSection />
-  }
-
   const {
-    itemPage, cover, link,
+    isbn, itemPage, cover, link,
   } = data
 
   if (!cover) {
