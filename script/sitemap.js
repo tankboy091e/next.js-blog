@@ -13,33 +13,15 @@ const categoryList = ['sum', 'essais', 'dev']
 
 const getStaticMap = async () => {
   console.log('generating static map ...')
-  return `
+  const staticRoutes = ['', '/sum', '/essais', '/dev', '/library', '/contact']
+  return staticRoutes.map((value) => (
+    `
     <url>
-      <loc>${domain}/sum</loc>
+      <loc>${domain}${value}</loc>
       <lastmod>${date}</lastmod>
       <priority>0.5</priority>
-    </url>
-    <url>
-      <loc>${domain}/essais</loc>
-      <lastmod>${date}</lastmod>
-      <priority>0.5</priority>
-    </url>
-    <url>
-      <loc>${domain}/library</loc>
-      <lastmod>${date}</lastmod>
-      <priority>0.3</priority>
-    </url>
-    <url>
-      <loc>${domain}/dev</loc>
-      <lastmod>${date}</lastmod>
-      <priority>0.5</priority>
-    </url>
-    <url>
-      <loc>${domain}/contact</loc>
-      <lastmod>${date}</lastmod>
-      <priority>0.3</priority>
-    </url>
-  `
+    </url>`
+  )).join('')
 }
 
 const getCategoryMap = async () => {
@@ -52,14 +34,14 @@ const getCategoryMap = async () => {
   }
 
   const categories = await Promise.all(promises)
-  return categories.map((posts, categoryIndex) => posts.map(
-    (value) => `
+  return categories.map((posts, categoryIndex) => posts.map((value) => (
+    `
     <url>
       <loc>${`${domain}/${categoryList[categoryIndex]}/${value.doc}`}</loc>
       <lastmod>${date}</lastmod>
       <priority>0.8</priority>
-    </url>`,
-  ).join('')).join('')
+    </url>`
+  )).join('')).join('')
 }
 
 // const getLibraryMap = async () => {
