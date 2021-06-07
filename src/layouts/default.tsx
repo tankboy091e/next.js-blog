@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { DEFAULT_TITLE } from 'pages/_app'
 import React from 'react'
 import styles from 'sass/layouts/default.module.scss'
+import { NextSeo } from 'next-seo'
 
 export const mainContainerID = 'main'
 
@@ -20,10 +21,22 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>{_title}</title>
-        <meta name="description" content={_description} />
-        <meta property="og:title" content={_title} />
-        <meta property="og:description" content={_description} />
+        <NextSeo
+          title={_title}
+          description={_description}
+          openGraph={{
+            url: 'https://ohjinsu.me',
+            title: _title,
+            type: 'website',
+            images: [
+              {
+                url: 'https://www.ohjinsu.me/favicon.ico',
+              },
+            ],
+            description: _description,
+            site_name: DEFAULT_TITLE,
+          }}
+        />
       </Head>
       <main id={mainContainerID} className={styles.main}>
         {children}

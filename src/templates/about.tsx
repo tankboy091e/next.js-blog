@@ -8,7 +8,7 @@ export default function About({ data } : { data: Data}) {
   const { introduce } = data
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>About</h2>
+      <h2 className={styles.title}>about</h2>
       <p className={styles.introduce}>{introduce}</p>
     </section>
   )
