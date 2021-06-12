@@ -13,6 +13,9 @@ export default function App({ Component, pageProps, router }: AppProps) {
   const title = titleHead ? `${titleHead} - ${DEFAULT_TITLE}` : DEFAULT_TITLE
   const description = descriptionHead || '오진수의 블로그입니다'
   const type = typeHead || 'website'
+
+  fetch(`${getOrigin()}/api`)
+
   return (
     <>
       <Head>
