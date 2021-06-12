@@ -1,0 +1,34 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.page {
+    margin-right: 1rem;
+    white-space: nowrap;
+}
+
+.paragraph {
+    &::after,
+    &::before {
+        content: '';
+    }
+}
+
+.details {
+    padding-top: .5rem;
+}
+
+.summary {
+    cursor: pointer;
+}
+
+.divider {
+    border: none;
+    margin-top: .25rem;
+    margin-bottom: .5rem;
+    height: 1px;
+    background-color: lighten(color.$background, 50%);
+}

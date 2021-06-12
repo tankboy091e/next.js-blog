@@ -1,12 +1,19 @@
-import dynmaic from 'next/dynamic'
-import PageNotFound from 'templates/404'
+import Layout from 'layouts/default'
+import { GetStaticProps } from 'next'
+import ErrorSection from 'templates/error-section'
 
-export default function Page() {
-  const Layout = dynmaic(() => import('layouts/default'))
-
+function Page() {
   return (
     <Layout>
-      <PageNotFound />
+      <ErrorSection message="Page Not Found" />
     </Layout>
   )
 }
+
+export default Page
+
+export const getStaticProps : GetStaticProps = async () => ({
+  props: {
+    titleHead: '404',
+  },
+})

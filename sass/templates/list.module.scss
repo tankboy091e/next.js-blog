@@ -1,0 +1,7 @@
+@use './container.scss' as container;
+
+.container {
+    @include container.container('mobile');
+    min-height: 100vh;
+    padding: 1rem 1rem 1rem 0rem;
+}

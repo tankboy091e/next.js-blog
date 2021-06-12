@@ -1,0 +1,40 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    margin-right: .5rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 12px solid color.$primary;
+    border-bottom: 10px solid transparent;
+}
+
+.body {
+    display: flex;
+    align-items: flex-start;
+    color: color.$background;
+    background-color: color.$primary;
+}
+
+.content {
+    position: relative;
+    width: 100%;
+    line-height: 1.4;
+    padding : .7rem .5rem .7rem 1rem;
+}

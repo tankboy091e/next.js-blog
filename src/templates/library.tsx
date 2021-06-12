@@ -1,15 +1,59 @@
 import styles from 'sass/templates/library.module.scss'
-import Book from 'widgets/book'
+import { useAuth } from 'providers/auth'
+import Modal from 'providers/modal/modal'
+import useSWR from 'swr'
+import fetcher from 'lib/api/fetcher'
+import Book, { BookProps } from 'widgets/book'
+import LoadingSection from 'templates/loading'
+import ErrorSection from 'templates/error-section'
+import AddButton from 'widgets/add-button'
+import {
+  createContext, useContext,
+} from 'react'
+import Librarian from './librarian'
+
+interface LibraryContextProps {
+  mutate: Function,
+}
+
+const LibraryContext = createContext<LibraryContextProps>(null)
+
+export const useLibrary = () => useContext(LibraryContext)
 
 export default function Library() {
-  let key = 0
+  const { user } = useAuth()
+
+  const { data, error, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
+
+  if (error) {
+    return <ErrorSection />
+  }
+
+  if (!data) {
+    return <LoadingSection />
+  }
+
+  const value = {
+    mutate,
+  }
 
   return (
-    <div className={styles.container}>
-      {[...Array(30)].map(() => {
-        key += 1
-        return <Book key={key} />
-      })}
-    </div>
+    <LibraryContext.Provider value={value}>
+      <section className={styles.container}>
+        {user && (
+          <Modal initializer={<AddButton />}>
+            <Librarian />
+          </Modal>
+        )}
+        <section className={styles.bookcase}>
+          {data.map((value) => {
+            const {
+              id, cover, itemPage,
+            } = value
+            return <Book key={id} cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+          })}
+        </section>
+      </section>
+    </LibraryContext.Provider>
   )
 }

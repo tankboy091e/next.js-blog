@@ -1,7 +1,53 @@
-.image {
-    box-shadow: 1px 1px 4px rgba(black, .3);
-    transition: transform .5s;
-    &:hover {
-        transform: translateY(-4px);
+@use '../lib/mediaquery.scss' as mediaquerey;
+
+.wrapper {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    &.tilt {
+        .figure {
+            transform: translateX(-.4rem) rotateY(-15deg);
+            &:hover {
+                transform: translateX(-.5rem) rotateY(-20deg);
+            }
+        }
     }
+}
+
+.figure {
+    display: flex;
+    justify-content: center;
+    
+    position: relative;
+    transition: transform .5s;
+    transform-style: preserve-3d;
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0);
+    @include mediaquerey.mobile {
+        transform: translateX(-.4rem) rotateY(-15deg);
+    }
+    &:hover {
+        transform: translateX(-.5rem) rotateY(-20deg);
+    }
+}
+
+.front {
+    position: relative;
+    width: 100%;
+}
+
+.paper {
+    position: absolute;
+    top: 2px;
+    left: calc(100% - 4px);
+    height: calc(100% - 4px);
+    background-color: rgb(238, 238, 238);
+    transform-origin: left;
+    transform: rotateY(90deg);
+}
+
+.back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

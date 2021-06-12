@@ -1,36 +1,7 @@
 @use './lib/mediaquery.scss' as mediaquery;
-@import './lib/color.scss';
+@use './lib/color.scss' as color;
 @import './lib/font.scss';
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-  width : 100%;
-  height : 100%;
-  font-family: 'Chosun';
-  font-weight: 100;
-  color: $primary;
-  background-color: $background;
-  @include mediaquery.mobile {
-    font-size: 16px;
-  }
-  @include mediaquery.tablet {
-    font-size: 17px;
-  }
-  @include mediaquery.desktop {
-    font-size: 18px;
-  }
-}
-
-body::-webkit-scrollbar {
-    display: none;
-}
-
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-display: block;
-}
+@import './lib/scrollbar.scss';
 
 * {
   margin : 0;
@@ -38,8 +9,40 @@ display: block;
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: color.$accent;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Chosun';
+  @include mediaquery.mobile {
+    font-size: 15px;
+  }
+  @include mediaquery.tablet {
+    font-size: 16px;
+  }
+  @include mediaquery.desktop {
+    font-size: 17px;
+  }
+}
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: color.$primary;
+  background-color: color.$background;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
 a {
-  color: $darkenPrimary;
+  color: color.$darkenPrimary;
   text-decoration: none;
   cursor: pointer;
 }
@@ -69,10 +72,14 @@ button {
   }
 }
 
+address {
+  font-style: normal;
+}
+
 strong,
 b {
-color: inherit;
-font-size: inherit;
+  color: inherit;
+  font-size: inherit;
 }
 
 table {
@@ -91,4 +98,10 @@ input, textarea {
 
 input[type=submit] {
   cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

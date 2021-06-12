@@ -1,0 +1,103 @@
+@use '../../lib/color.scss' as color;
+
+.container {
+    width: 100%;
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    line-height: 1.5;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    .title + & {
+        margin-top: .5rem;
+    }
+}
+
+.date {
+    display: block;
+    line-height: 1;
+    padding : 1rem 0;
+    text-align: right;
+}
+
+.content {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    line-height: 2;
+    font-size: 1rem;
+    text-align: justify;
+    >div {
+        margin-bottom : .5rem;
+    }
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom : .25rem
+    }
+    img {
+        display : block;
+        max-width : 100%;
+        margin : 0 auto;
+    }
+    code {
+      line-height: 0;
+      font-family: consolas;
+    }
+    pre {
+      line-height: 1;
+      color: color.$darkenPrimary;
+      background-color : color.$darkenBackground;
+      padding : 1rem 1.5rem;
+      & + div {
+        margin-top: .5rem;
+      }
+    }
+    blockquote {
+      line-height: 2;
+      color : lighten(color.$darkenPrimary, 10%);
+      padding : 1rem;
+    }
+    pre, blockquote {
+      text-indent: 0;
+      font-size : .9em;
+      width : 100%;
+    }
+    pre + pre {
+      padding : 0rem 0rem 1rem 1.5rem;
+    }
+    blockquote + blockquote {
+      padding : 0rem 1rem 1rem 1rem;
+    }
+    sup {
+      color: color.$lightenAccent;
+      cursor: pointer;
+    }
+    a {
+      color: color.$lightenAccent;
+    }
+}
+
+.footnote {
+    border-top: 1px solid color.$darkenPrimary;
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    line-height: 1.5;
+    font-size: .9rem;
+    text-align: justify;
+    ol {
+      list-style: none;
+    }
+    li {
+      width: fit-content;
+      a {
+        color: color.$lightenAccent;
+      }
+    }
+    cite {
+      font-style: normal;
+    }
+}

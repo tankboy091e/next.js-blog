@@ -1,0 +1,74 @@
+@use '../lib/color.scss' as color;
+@use '../templates/container.scss' as container;
+.container {
+    @include container.container('mobile');
+    height: 100vh;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar {
+    width : 100%;
+    display : flex;
+    justify-content : space-between;
+    flex-wrap: wrap;
+    padding : 1rem 0rem;
+}
+
+@mixin title {
+    width : 100%;
+    border : none;
+    padding : .3em 0;
+}
+
+.title {
+    @include title();
+    font-size: 2rem;
+}
+
+.subtitle {
+    @include title();
+    font-size: 1.5rem;
+}
+
+.divider {
+    width : 100%;
+    border: none;
+    border-bottom : 3px solid color.$primary;
+    padding : .5rem;
+}
+
+.content,
+.footnote {
+    width : 100%;
+    border : none;
+    padding : 1rem 0rem;
+}
+
+.content {
+    height: 100%;
+}
+
+.footnote {
+    height: 20%;
+    border-top: 1px solid color.$primary;
+}
+
+.imagePickerLabel {
+    cursor: pointer;
+}
+
+.imagePicker {
+    display: none;
+}
+
+.submit {
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    border: 1px solid color.$primary;
+}

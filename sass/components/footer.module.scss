@@ -1,0 +1,23 @@
+@use '../lib/color.scss' as color;
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // background-color: color.$darkenBackground;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    font-size: .8rem;
+}
+
+.home {
+    font-size: 1.5rem;
+    line-height: 1.5;  
+}
+
+.copyright {
+    color: darken(color.$primary, 10%);
+    letter-spacing: .25rem;
+    margin-top: 1.5rem;
+}

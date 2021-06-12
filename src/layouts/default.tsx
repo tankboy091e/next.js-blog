@@ -1,4 +1,4 @@
-import Navigation from 'components/navigation'
+import Footer from 'components/footer'
 import React from 'react'
 import styles from 'sass/layouts/default.module.scss'
 
@@ -7,14 +7,14 @@ export const mainContainerID = 'main'
 export default function Layout({
   children,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode
 }) {
   return (
     <>
-      <Navigation />
       <main id={mainContainerID} className={styles.main}>
-        { children }
+        {children}
       </main>
+      <Footer />
     </>
   )
 }

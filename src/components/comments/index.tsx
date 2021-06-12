@@ -4,7 +4,13 @@ import styles from 'sass/components/comments/index.module.scss'
 import Button from './button'
 import Inner from './inner'
 
-export default function Comments() {
+export default function Comments({
+  doc,
+  sideWidget,
+} : {
+  doc: string,
+  sideWidget?: React.ReactChild
+}) {
   const router = useRouter()
   const [active, setActive] = useState(false)
 
@@ -14,8 +20,11 @@ export default function Comments() {
 
   return (
     <section className={styles.container}>
-      <Button active={active} setActive={setActive} />
-      {active && <Inner />}
+      <section className={styles.header}>
+        <Button active={active} setActive={setActive} />
+        {sideWidget}
+      </section>
+      {active && <Inner doc={doc} />}
     </section>
   )
 }

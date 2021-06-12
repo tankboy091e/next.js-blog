@@ -1,10 +1,17 @@
 @use '../lib/mediaquery.scss' as mediaquery;
+@use '../lib/color.scss' as color;
+@use './container.scss' as container;
 
 .container {
+    @include container.container('wide');
+    padding: 1rem 0;
+}
+
+.bookcase {
     display: grid;
+    align-items: flex-end;
+    padding: 0 1rem;
     gap: 2rem;
-    padding: 4rem 2rem;
-    max-width: 1024px;
     width: 100%;
     @include mediaquery.desktop {
         grid-template-columns: repeat(5, 1fr);
@@ -13,6 +20,7 @@
         grid-template-columns: repeat(4, 1fr);
     }
     @include mediaquery.mobile {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
+

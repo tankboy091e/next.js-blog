@@ -1,8 +1,19 @@
 @import '../../lib/color.scss';
 
 .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1.1rem;
-    &:hover {
-        text-decoration: underline;
+
+    span {
+        margin-right: .25rem;
+    }
+}
+
+.icon {
+    transform: translateY(2px);
+    &.active {
+        transform: rotate(180deg);
     }
 }

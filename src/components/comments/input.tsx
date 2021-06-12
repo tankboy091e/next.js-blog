@@ -1,10 +1,11 @@
-import { useRouter } from 'next/router'
 import React, { useEffect, useRef } from 'react'
+import usePageQuery from 'lib/hooks/page-query'
 import styles from 'sass/components/comments/input.module.scss'
-import { useForm } from 'providers/formProvider'
+import { useForm } from 'providers/form'
 import { useComments } from './inner'
 
 export default function Input({
+  doc,
   id,
   name = '',
   password = '',
@@ -12,8 +13,9 @@ export default function Input({
   nameDisabled = false,
   passwordDisabled = false,
   submitValue,
-  method,
+  method = 'POST',
 }: {
+  doc?: string
   id?: string
   name?: string
   password?: string
@@ -23,10 +25,9 @@ export default function Input({
   submitValue?: string
   method?: string
 }) {
-  const router = useRouter()
+  const { category, current } = usePageQuery()
   const { setOptions } = useForm()
   const { refresh } = useComments()
-
   const nameRef = useRef<HTMLInputElement>()
   const passwordRef = useRef<HTMLInputElement>()
   const contentRef = useRef<HTMLTextAreaElement>()
@@ -37,14 +38,23 @@ export default function Input({
     contentRef.current.value = content
 
     setOptions({
-      method,
-      input: `/api/comments${router.asPath}`,
-      extraBody: {
-        id,
-      },
+      input: `/api/comments/${category}/${current}`,
+      init: () => ({
+        body: JSON.stringify({
+          doc,
+          id,
+          name: nameRef.current.value,
+          password: passwordRef.current.value,
+          content: contentRef.current.value,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method,
+      }),
       needToValidate: [nameRef, passwordRef, contentRef],
       transitionInterval: 2000,
-      onSuccess: () => refresh(),
+      getResponse: () => refresh(),
       submitValue,
       containerClassName: styles.formContainer,
       innerClassName: styles.formInner,
@@ -54,7 +64,7 @@ export default function Input({
 
   return (
     <section className={styles.container}>
-      <header className={styles.header}>
+      <section className={styles.header}>
         <input
           ref={nameRef}
           className={styles.headerField}
@@ -71,8 +81,9 @@ export default function Input({
           type="password"
           placeholder="password"
           maxLength={25}
+          autoComplete="off"
         />
-      </header>
+      </section>
       <textarea
         ref={contentRef}
         className={styles.content}

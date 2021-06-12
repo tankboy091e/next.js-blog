@@ -1,0 +1,30 @@
+@use '../lib/variables.scss' as variables;
+@use './container.scss' as container;
+
+.container {
+    @include container.container('mobile');
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.window {
+    perspective: 1000px;
+    padding: 0 1rem;
+    max-width: 30%;
+}
+
+.info {
+    font-size: .9rem;
+}
+
+.back {
+    margin-top: 3rem;
+    font-size: 1.5rem;
+}
+

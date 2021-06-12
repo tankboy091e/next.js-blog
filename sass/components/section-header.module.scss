@@ -1,0 +1,14 @@
+@use '../lib/color.scss' as color;
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+
+.title {
+    color: color.$primary;
+    font-size: 1.2rem;
+}
