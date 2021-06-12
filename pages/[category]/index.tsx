@@ -33,9 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(`${getOrigin()}/api/${category}`)
 
   if (!res.ok) {
-    context.res.statusCode = res.status
-    const { error } = await res.json()
-    throw new Error(error)
+    return {
+      redirect: {
+        destination: '/404',
+        permanent: false,
+      },
+    }
   }
 
   const data = await res.json()
@@ -47,16 +50,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   }
 }
-
-// export const getStaticProps: GetStaticProps = async () => ({
-//   props: {},
-// })
-
-// export const getStaticPaths: GetStaticPaths = async () => ({
-//   paths: [
-//     { params: { category: 'sum' } },
-//     { params: { category: 'essais' } },
-//     { params: { category: 'dev' } },
-//   ],
-//   fallback: false,
-// })
