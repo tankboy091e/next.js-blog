@@ -39,26 +39,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const res = await fetch(`${getOrigin()}/api/${category}/${pid}`)
+  const res = await fetch(`${getOrigin()}/api/${category}/${pid}s`)
 
   if (!res.ok) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
-    }
+    context.res.statusCode = res.status
+    const { error } = await res.json()
+    throw new Error(error)
   }
 
   const data = await res.json()
-
-  if (!res.ok) {
-    return {
-      props: {
-        error: 'oops',
-      },
-    }
-  }
 
   const { title, subtitle } = data
 

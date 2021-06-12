@@ -19,11 +19,9 @@ export const getServerSideProps : GetServerSideProps = async (context) => {
   const res = await fetch(`${getOrigin()}/api/books/${isbn}`)
 
   if (!res.ok) {
-    return {
-      props: {
-        error: 'oops',
-      },
-    }
+    context.res.statusCode = res.status
+    const { error } = await res.json()
+    throw new Error(error)
   }
 
   const data = await res.json()
