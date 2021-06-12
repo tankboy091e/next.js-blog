@@ -31,7 +31,7 @@ export const getServerSideProps : GetServerSideProps = async (context) => {
   const { title } = data
   return {
     props: {
-      titleHead: title,
+      titleHead: title || null,
       data: {
         isbn,
         ...data,

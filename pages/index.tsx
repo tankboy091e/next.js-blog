@@ -1,3 +1,4 @@
+import Title from 'components/title'
 import Layout from 'layouts/default'
 import getOrigin from 'lib/util/origin'
 import { GetServerSideProps } from 'next'
@@ -11,6 +12,7 @@ function Page({ data } : any) {
   return (
     <Layout>
       <section className={styles.container}>
+        <Title />
         <About data={about} />
         <Bookcase data={books} />
         <Posts data={posts} />

@@ -51,6 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const data = await res.json()
+
   if (!res.ok) {
     return {
       props: {
@@ -58,12 +59,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+
   const { title, subtitle } = data
 
   return {
     props: {
-      titleHead: title,
-      descriptionHead: subtitle,
+      titleHead: title || null,
+      descriptionHead: subtitle || null,
       typeHead: 'article',
       category,
       pid,

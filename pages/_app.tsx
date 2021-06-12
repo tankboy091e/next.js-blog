@@ -1,11 +1,12 @@
 import { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import getOrigin from 'lib/util/origin'
 import 'sass/global.scss'
 
-export const DEFAULT_TITLE = '제대로 된 이성을 되찾기'
+export const DEFAULT_TITLE = '오진수의 불면증'
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, router }: AppProps) {
   const ModalProvider = dynamic(() => import('providers/modal'))
   const AuthProvider = dynamic(() => import('providers/auth'))
   const { titleHead, descriptionHead, typeHead } = pageProps
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>{title}</title>
+        <link rel="canonical" href={`${getOrigin()}${router.asPath}`} />
         <meta name="description" content={description} />
         <meta name="author" content="오진수" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
