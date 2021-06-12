@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      titleHead: `${title}${subtitle}` || null,
+      titleHead: `${title}${subtitle && `—${subtitle}`}` || null,
       typeHead: 'article',
       category,
       pid,
