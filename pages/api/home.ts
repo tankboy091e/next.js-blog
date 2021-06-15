@@ -6,6 +6,22 @@ import { writingCategories } from 'lib/util/category'
 const handler = getHandler()
 
 handler.get(async (_: NextApiRequest, res: NextApiResponse) => {
+  const [about, posts, books] = await Promise.all([getAbout(), getPosts(), getBooks()])
+
+  res.status(200).json({
+    about,
+    posts,
+    books,
+  })
+})
+
+async function getAbout() {
+  const aboutResponse = await firestore.collection('user').doc('about').get()
+
+  return aboutResponse.data()
+}
+
+async function getPosts() {
   const promises = writingCategories.map((value) => {
     const limit = value === 'essais' ? 6 : 3
     return firestore.collection(value)
@@ -16,7 +32,7 @@ handler.get(async (_: NextApiRequest, res: NextApiResponse) => {
 
   const responses = await Promise.all(promises)
 
-  const posts = responses.map((response) => response.docs.map((doc) => {
+  return responses.map((response) => response.docs.map((doc) => {
     const { title, createdAt } = doc.data()
     return {
       title,
@@ -24,11 +40,9 @@ handler.get(async (_: NextApiRequest, res: NextApiResponse) => {
       createdAt: createdAt.toDate().toDateString(),
     }
   }))
+}
 
-  const aboutResponse = await firestore.collection('user').doc('about').get()
-
-  const about = aboutResponse.data()
-
+async function getBooks() {
   const bookResponse = await firestore.collection('library').orderBy('createdAt', 'desc').limit(5).get()
 
   const getBookValue = (value: any) => ({
@@ -37,17 +51,13 @@ handler.get(async (_: NextApiRequest, res: NextApiResponse) => {
     itemPage: value.data().itemPage,
   })
 
-  let books = bookResponse.docs.map(getBookValue)
+  let result = bookResponse.docs.map(getBookValue)
 
-  if (books.length < 5) {
-    books = (await firestore.collection('library').limit(5).get()).docs.map(getBookValue)
+  if (result.length < 5) {
+    result = (await firestore.collection('library').limit(5).get()).docs.map(getBookValue)
   }
 
-  res.status(200).json({
-    about,
-    posts,
-    books,
-  })
-})
+  return result
+}
 
 export default handler
