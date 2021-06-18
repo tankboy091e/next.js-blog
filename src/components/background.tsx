@@ -52,8 +52,8 @@ export default function Background() {
         { r: 10, g: 60, b: 255 },
         Math.random() * canvas.width,
         Math.random() * canvas.height,
-        (Math.random() + 1) * canvas.width * 0.3,
-        0.05,
+        (Math.random() + 1) * canvas.width * 0.25,
+        0.07,
       ))
     }
     for (let i = 0; i < 7; i++) {
@@ -61,7 +61,7 @@ export default function Background() {
         { r: 0, g: 0, b: 0 },
         Math.random() * canvas.width,
         Math.random() * canvas.height,
-        (Math.random() + 1) * canvas.width * 0.3,
+        (Math.random() + 1) * canvas.width * 0.25,
         0.7,
       ))
     }
