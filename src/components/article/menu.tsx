@@ -1,8 +1,8 @@
 import hermes from 'lib/api/hermes'
 import usePageQuery from 'lib/hooks/page-query'
 import { useAuth } from 'providers/auth'
-import { useAlert } from 'providers/modal/alert'
-import { useConfirm } from 'providers/modal/confirm'
+import { useAlert } from 'providers/dialog/alert/inner'
+import { useConfirm } from 'providers/dialog/confirm/inner'
 import EditDeleteMenu from 'widgets/edit-delete-menu'
 
 export default function ArticleMenu() {

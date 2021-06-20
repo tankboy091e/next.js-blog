@@ -1,0 +1,19 @@
+@use '../lib/color.scss' as colors;
+
+.code {
+    font-size: 1.1em;
+    color: colors.$accent;
+}
+
+.message {
+    margin-top: 1rem;
+}
+
+.menu {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    button + button {
+        margin-left: 1rem;
+    }
+}

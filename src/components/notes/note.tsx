@@ -2,10 +2,10 @@
 import { useState } from 'react'
 import styles from 'sass/components/notes.module.scss'
 import NewQuotes from 'templates/new-quotes'
-import Modal from 'providers/modal/modal'
+import Modal from 'components/modal'
 import SpeechBubble from 'widgets/speech-bubble'
-import { useAlert } from 'providers/modal/alert'
-import { useConfirm } from 'providers/modal/confirm'
+import { useAlert } from 'providers/dialog/alert/inner'
+import { useConfirm } from 'providers/dialog/confirm/inner'
 import hermes from 'lib/api/hermes'
 
 export interface NoteProps {
@@ -73,20 +73,20 @@ export default function Note({
     }
   }
 
-  const callback = () => {
+  const onOff = () => {
     setState('default')
   }
 
   if (state === 'edit') {
     return (
-      <Modal immediate callback={callback}>
+      <Modal immediate onOff={onOff}>
         <NewQuotes
           isbn={isbn}
           id={id}
           page={page}
           paragraph={paragraph}
           annotation={annotation}
-          callback={callback}
+          callback={onOff}
           mutate={mutate}
         />
       </Modal>

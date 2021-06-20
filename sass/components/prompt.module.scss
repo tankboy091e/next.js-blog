@@ -1,0 +1,10 @@
+@use '../lib/color.scss' as colors;
+
+.input {
+    margin-top: 1rem;
+    border: 0;
+    padding: .5rem;
+    color: colors.$primary;
+    background-color: colors.$accent;
+    border-radius: 10px;
+}

@@ -1,7 +1,7 @@
 import { useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
-import { useModal } from 'providers/modal/modal'
+import { useModal } from 'components/modal'
 import { NoteProps } from 'components/notes/note'
 
 interface DefaultQuotesProps {
@@ -17,7 +17,7 @@ export type NewQuotesProps = DefaultQuotesProps | (EditQuotesProps & NoteProps)
 
 export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
   const { setOptions } = useForm()
-  const { turnOff } = useModal()
+  const { close } = useModal()
 
   const pageRef = useRef<HTMLInputElement>()
   const paragraphRef = useRef<HTMLTextAreaElement>()
@@ -26,7 +26,7 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
   const { isbn, mutate } = value
 
   const getResponse = () => {
-    turnOff()
+    close()
     mutate?.call(null)
     if ('id' in value) {
       value.callback?.call(null)

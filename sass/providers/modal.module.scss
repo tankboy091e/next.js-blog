@@ -1,37 +1,21 @@
-@use '../lib/mediaquery.scss' as mediaquery;
-@use '../lib/color.scss' as color;
-@use '../templates/container.scss' as container;
-
 .container {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.curtain {
     position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    background-color : rgba(0, 0, 0, .5);
-    &.active {
-        display: block;
-    }
-}
-
-.wrapper {
-    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-height: calc(100vh - 2rem);
-    @include mediaquery.mobile {
-        max-height: calc(100vh - 4rem);
-    }
-}
+ }
+ 
+ .skim {
+     position: fixed;
+     display: none;
+     width: 100%;
+     height: 100%;
+     background-color : rgba(0, 0, 0, .5);
+     &.active {
+         display: block;
+     }
+ }

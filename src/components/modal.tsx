@@ -1,13 +1,12 @@
 import React, {
   createContext, MutableRefObject, SetStateAction, useContext, useEffect, useState,
 } from 'react'
-import { createPortal } from 'react-dom'
-import styles from 'sass/providers/modal.module.scss'
+import styles from 'sass/components/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
 
 interface ModalContextProps {
   active: boolean
-  turnOff: () => void
+  close: () => void
 }
 
 const ModalContext = createContext<ModalContextProps>(null)
@@ -15,47 +14,50 @@ const ModalContext = createContext<ModalContextProps>(null)
 export const useModal = () => useContext(ModalContext)
 
 export default function Modal({
-  children,
   ref,
+  children,
   initializer,
   immediate,
-  setImmediate,
-  callback,
+  controller,
+  onOff,
 }: {
-  children: React.ReactNode
   ref?: MutableRefObject<HTMLDivElement>
+  children: React.ReactNode
   initializer?: React.ReactNode
   immediate? : boolean
-  setImmediate?: React.Dispatch<SetStateAction<boolean>>
-  callback? : () => void
+  controller?: React.Dispatch<SetStateAction<boolean>>
+  onOff? : () => void
 }) {
-  const [active, setActive] = setImmediate ? [immediate, setImmediate] : useState(immediate)
+  const [active, setActive] = controller
+    ? [immediate, controller]
+    : useState(immediate)
 
   const {
-    container, curtain, pull, pullBack,
+    createModal,
+    attachClickEventOnSkim,
+    detachClickEventOnSkim,
+    update,
   } = useModalProvider()
 
-  const turnOff = () => {
+  const close = () => {
     setActive(false)
   }
 
   useEffect(() => {
-    curtain.current.addEventListener('click', turnOff)
-    return () => curtain.current?.removeEventListener('click', turnOff)
+    attachClickEventOnSkim(close)
+    return () => detachClickEventOnSkim(close)
   }, [])
 
   useEffect(() => {
-    if (active) {
-      pull()
-    } else {
-      pullBack()
-      callback?.call(null)
+    update(active)
+    if (!active) {
+      onOff?.call(null)
     }
   }, [active])
 
   const value = {
     active,
-    turnOff,
+    close,
   }
 
   return (
@@ -65,12 +67,19 @@ export default function Modal({
           {initializer}
         </button>
       )}
-      {active && createPortal(
-        <div ref={ref} className={styles.wrapper}>
+      {active && createModal(
+        <div ref={ref} className={styles.container}>
           {children}
         </div>,
-        container.current,
       )}
     </ModalContext.Provider>
   )
+}
+
+Modal.defaultProps = {
+  ref: null,
+  initializer: null,
+  immediate: null,
+  controller: null,
+  onOff: null,
 }

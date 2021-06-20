@@ -2,8 +2,8 @@ import styles from 'sass/templates/librarian/searched-book.module.scss'
 import { useLibrary } from 'templates/library'
 import Book from 'widgets/book'
 import BookDetails from 'widgets/book-details'
-import { useModal } from 'providers/modal/modal'
-import { useAlert } from 'providers/modal/alert'
+import { useModal } from 'components/modal'
+import { useAlert } from 'providers/dialog/alert/inner'
 import hermes from 'lib/api/hermes'
 
 export default function SearchedBook({ value }: { value: any }) {
@@ -14,7 +14,7 @@ export default function SearchedBook({ value }: { value: any }) {
   const { createAlert } = useAlert()
 
   const { mutate } = useLibrary()
-  const { turnOff } = useModal()
+  const { close } = useModal()
 
   const onClick = async () => {
     const res = await hermes('/api/books', {
@@ -33,7 +33,7 @@ export default function SearchedBook({ value }: { value: any }) {
         code: 'success',
       })
       mutate()
-      turnOff()
+      close()
     } else {
       const { error } = await res.json()
       createAlert({

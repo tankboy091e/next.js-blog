@@ -49,11 +49,11 @@ export default function Background() {
   const intializeBalls = () => {
     for (let i = 0; i < 7; i++) {
       data.balls.push(new Ball(
-        { r: 10, g: 60, b: 255 },
+        { r: 10, g: 86, b: 240 },
         Math.random() * canvas.width,
         Math.random() * canvas.height,
         (Math.random() + 1) * canvas.width * 0.25,
-        0.07,
+        Math.random() * 0.1 + 0.05,
       ))
     }
     for (let i = 0; i < 7; i++) {
@@ -62,7 +62,7 @@ export default function Background() {
         Math.random() * canvas.width,
         Math.random() * canvas.height,
         (Math.random() + 1) * canvas.width * 0.25,
-        0.7,
+        Math.random() * 0.3 + 0.6,
       ))
     }
   }

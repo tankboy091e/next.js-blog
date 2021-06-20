@@ -4,8 +4,8 @@ import SpeechBubble from 'widgets/speech-bubble'
 import FormProvider from 'providers/form'
 import hermes from 'lib/api/hermes'
 import usePageQuery from 'lib/hooks/page-query'
-import { usePrompt } from 'providers/modal/prompt'
-import { useAlert } from 'providers/modal/alert'
+import { usePrompt } from 'providers/dialog/prompt/inner'
+import { useAlert } from 'providers/dialog/alert/inner'
 import Input from './input'
 import { useComments } from './inner'
 
@@ -31,7 +31,7 @@ export default function Comment({ data }: { data: commentData }) {
   const onEdit = async () => {
     const password = await createPrompt({
       message: '비밀번호를 입력하세요',
-      inputType: 'password',
+      type: 'password',
     })
     if (!password) {
       return
@@ -62,7 +62,7 @@ export default function Comment({ data }: { data: commentData }) {
     const password = await createPrompt({
       message: '비밀번호를 입력하세요',
       code: '주의',
-      inputType: 'password',
+      type: 'password',
     })
     if (!password) {
       return

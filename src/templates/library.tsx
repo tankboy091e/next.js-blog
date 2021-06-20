@@ -1,6 +1,6 @@
 import styles from 'sass/templates/library.module.scss'
 import { useAuth } from 'providers/auth'
-import Modal from 'providers/modal/modal'
+import Modal from 'components/modal'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
 import Book, { BookProps } from 'widgets/book'

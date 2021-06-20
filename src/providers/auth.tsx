@@ -5,7 +5,7 @@ import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
 import { deleteCookie, setCookie } from 'lib/util/cookie'
-import { useAlert } from './modal/alert'
+import { useAlert } from './dialog/alert/inner'
 
 type User = firebase.User
 type UserCredential = firebase.auth.UserCredential
