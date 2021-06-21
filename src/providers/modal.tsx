@@ -8,9 +8,9 @@ import { getClassName } from 'lib/util'
 type Listener = (this: HTMLDivElement, ev: MouseEvent) => any
 
 interface ModalProviderContextProps {
-    createModal : (child: React.ReactNode) => React.ReactPortal
-    attachClickEventOnSkim : (func : Listener) => void
-    detachClickEventOnSkim : (func : Listener) => void
+    appendToContainer : (component: React.ReactNode) => React.ReactPortal
+    attachScrimOnClick : (func : Listener) => void
+    detachScrimOnClick : (func : Listener) => void
     update: (state: boolean) => void
 }
 
@@ -24,20 +24,20 @@ export default function ModalProvider({
   children: React.ReactNode
 }) {
   const containerRef = useRef<HTMLDivElement>()
-  const skimRef = useRef<HTMLDivElement>()
+  const scrimRef = useRef<HTMLDivElement>()
   const [active, setActive] = useState(false)
 
-  const createModal = (child: React.ReactNode) => createPortal(
-    child,
+  const appendToContainer = (component: React.ReactNode): React.ReactPortal => createPortal(
+    component,
     containerRef.current,
   )
 
-  const attachClickEventOnSkim = (func: Listener) => {
-    skimRef.current?.addEventListener('click', func)
+  const attachScrimOnClick = (func: Listener) => {
+    scrimRef.current.addEventListener('click', func)
   }
 
-  const detachClickEventOnSkim = (func: Listener) => {
-    skimRef.current?.removeEventListener('click', func)
+  const detachScrimOnClick = (func: Listener) => {
+    scrimRef.current?.removeEventListener('click', func)
   }
 
   const update = (state : boolean) => {
@@ -69,9 +69,9 @@ export default function ModalProvider({
   }, [active])
 
   const value = {
-    createModal,
-    attachClickEventOnSkim,
-    detachClickEventOnSkim,
+    appendToContainer,
+    attachScrimOnClick,
+    detachScrimOnClick,
     update,
   }
 
@@ -79,7 +79,7 @@ export default function ModalProvider({
     <ModalProviderContext.Provider value={value}>
       {children}
       <div className={styles.container} ref={containerRef} style={{ zIndex: active ? 98 : -1 }}>
-        <div className={getClassName(styles.skim, active && styles.active)} ref={skimRef} />
+        <div className={getClassName(styles.scrim, active && styles.active)} ref={scrimRef} />
       </div>
     </ModalProviderContext.Provider>
   )

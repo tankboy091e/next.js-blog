@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import styles from 'sass/components/modal.module.scss'
 import { useModalProvider } from 'providers/modal'
+import { getClassName } from 'lib/util'
 
 interface ModalContextProps {
   active: boolean
@@ -14,6 +15,7 @@ const ModalContext = createContext<ModalContextProps>(null)
 export const useModal = () => useContext(ModalContext)
 
 export default function Modal({
+  className,
   ref,
   children,
   initializer,
@@ -21,6 +23,7 @@ export default function Modal({
   controller,
   onOff,
 }: {
+  className?: string,
   ref?: MutableRefObject<HTMLDivElement>
   children: React.ReactNode
   initializer?: React.ReactNode
@@ -33,9 +36,9 @@ export default function Modal({
     : useState(immediate)
 
   const {
-    createModal,
-    attachClickEventOnSkim,
-    detachClickEventOnSkim,
+    appendToContainer,
+    attachScrimOnClick,
+    detachScrimOnClick,
     update,
   } = useModalProvider()
 
@@ -44,8 +47,8 @@ export default function Modal({
   }
 
   useEffect(() => {
-    attachClickEventOnSkim(close)
-    return () => detachClickEventOnSkim(close)
+    attachScrimOnClick(close)
+    return () => detachScrimOnClick(close)
   }, [])
 
   useEffect(() => {
@@ -67,16 +70,17 @@ export default function Modal({
           {initializer}
         </button>
       )}
-      {active && createModal(
-        <div ref={ref} className={styles.container}>
+      {active && appendToContainer(
+        <section ref={ref} className={getClassName(styles.container, className)}>
           {children}
-        </div>,
+        </section>,
       )}
     </ModalContext.Provider>
   )
 }
 
 Modal.defaultProps = {
+  className: null,
   ref: null,
   initializer: null,
   immediate: null,
