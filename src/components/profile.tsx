@@ -73,7 +73,6 @@ export default function Profile({
       mapping.push(row)
     }
 
-    console.log(mapping)
     canvas.buffer = mapping
     initializeParticles()
   }
