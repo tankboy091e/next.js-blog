@@ -3,7 +3,6 @@
 
 .container {
     @include container.container('mobile');
-    min-height: 100vh;
     margin: 1rem 0;
     border: 1px solid white;
     padding: 4px;

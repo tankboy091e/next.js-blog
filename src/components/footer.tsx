@@ -12,7 +12,7 @@ export default function Footer() {
           <a href="/" className={styles.home}>Home</a>
         </Link>
       )}
-      <span className={styles.copyright}>{copyright}</span>
+      <p className={styles.copyright}>{copyright}</p>
     </footer>
   )
 }

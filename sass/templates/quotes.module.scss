@@ -3,28 +3,42 @@
 
 .container {
     @include container.container('mobile');
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 4px;
+    border: 1px solid white;
 }
 
 .header {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    height: 256px;
+    padding: 4px;
+    border: 1px solid rgba(white, .7);
 }
 
 .window {
     perspective: 1000px;
-    padding: 0 1rem;
-    max-width: 30%;
+    padding: 16px;
+    max-width: 33%;
+    height: 100%;
+    border: 1px solid rgba(white, .7);
+    display: flex;
+    align-items: center;
 }
 
 .info {
     font-size: .9rem;
+    width: 100%;
+    height: 100%;
+    margin-left: 4px;
+    display: flex;
+    flex-direction: column;
 }
 
 .back {
     margin-top: 3rem;
     font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
