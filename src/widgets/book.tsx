@@ -81,6 +81,7 @@ export default function Book({
   return (
     <Link href={link}>
       <a
+        className={styles.linked}
         href={link}
         target={link?.includes('http') ? '_blank' : '_self'}
         rel={link?.includes('http') ? 'noreferrer' : ''}
@@ -125,18 +126,20 @@ function Inner({
   return (
     <div className={getClassName(styles.wrapper, tilt && styles.tilt)}>
       <figure className={styles.figure}>
-        <img className={styles.front} src={front} alt="도서 전면" onLoad={onImageLoad} />
-        <div className={styles.paper} style={{ width: pageWidth }} />
-        <img
-          className={styles.back}
-          src={back}
-          alt="도서 후면"
-          style={{
-            transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
-          }}
-          onLoad={onImageLoad}
-          onError={onError}
-        />
+        <div className={getClassName(styles.content, load && styles.loaded)}>
+          <img className={styles.front} src={front} alt="도서 전면" onLoad={onImageLoad} />
+          <div className={styles.paper} style={{ width: pageWidth }} />
+          <img
+            className={styles.back}
+            src={back}
+            alt="도서 후면"
+            style={{
+              transform: `translateZ(-${pageWidth}px) rotateY(180deg)`,
+            }}
+            onLoad={onImageLoad}
+            onError={onError}
+          />
+        </div>
       </figure>
     </div>
   )

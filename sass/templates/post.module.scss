@@ -3,17 +3,19 @@
 
 .container {
     @include container.container('mobile');
-    margin: 1rem 0;
-    border: 1px solid white;
-    padding: 4px;
 }
 
 .back {
     width: 100%;
-    color: color.$lightenAccent;
+    color: white;
     font-size: 1.3rem;
     align-self: flex-start;
     margin-bottom: 4px;
     border: 1px solid rgba(white, .7);
     padding: .5rem;
+}
+
+* + .back {
+    margin-top: 4px;
+    margin-bottom: 0px;
 }

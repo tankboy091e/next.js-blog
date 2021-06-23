@@ -10,13 +10,13 @@
 .window {
     width: 100%;
     display: flex;
-    padding: 1rem 0;
+    padding: 0 .5rem;
 }
 
 .case {
     perspective: 1000px;
     width: 100%;
-    padding: 1rem;
+    padding: 16px;
     @include mediaquery.mobile {
         &:nth-child(n + 4) {
             display: none;

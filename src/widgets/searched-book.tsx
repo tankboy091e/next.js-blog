@@ -44,13 +44,13 @@ export default function SearchedBook({ value }: { value: any }) {
   }
 
   return (
-    <button type="button" className={styles.container} onClick={onClick}>
-      <section className={styles.showcase}>
+    <section className={styles.container}>
+      <button className={styles.showcase} type="button" onClick={onClick}>
         <Book link={link} cover={cover} itemPage={itemPage} />
-      </section>
+      </button>
       <address className={styles.info}>
         <BookDetails value={value} />
       </address>
-    </button>
+    </section>
   )
 }

@@ -228,7 +228,6 @@ export default function Editor({
     <>
       <input className={styles.title} ref={title} placeholder="제목" name="title" autoComplete="off" />
       <input className={styles.subtitle} ref={subtitle} placeholder="부제" autoComplete="off" />
-      <hr className={styles.divider} />
       <ToolBar
         imageUploader={imageUploader}
         onCommand={onCommand}

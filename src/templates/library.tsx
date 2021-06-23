@@ -4,8 +4,6 @@ import Modal from 'components/modal'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
 import Book, { BookProps } from 'widgets/book'
-import LoadingSection from 'templates/loading'
-import ErrorSection from 'templates/error-section'
 import AddButton from 'widgets/add-button'
 import {
   createContext, useContext,
@@ -23,15 +21,7 @@ export const useLibrary = () => useContext(LibraryContext)
 export default function Library() {
   const { user } = useAuth()
 
-  const { data, error, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
-
-  if (error) {
-    return <ErrorSection />
-  }
-
-  if (!data) {
-    return <LoadingSection />
-  }
+  const { data, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
 
   const value = {
     mutate,
@@ -47,7 +37,7 @@ export default function Library() {
         )}
         <h1 className={styles.header}>Library</h1>
         <section className={styles.bookcase}>
-          {data.map((value) => {
+          {data && data.map((value) => {
             const {
               id, cover, itemPage,
             } = value

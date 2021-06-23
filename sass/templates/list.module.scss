@@ -2,16 +2,12 @@
 
 .container {
     @include container.container('mobile');
-    margin: 1rem 0;
-    border: 1px solid white;
-    padding: 0 4px;
 }
 
 .header {
     width: 100%;
     text-align: center;
     border: 1px solid rgba(white, .7);
-    margin-top: 4px;
     padding: .5rem;
     font-size: 1.5rem;
 }
@@ -20,6 +16,6 @@
     display: block;
     width: calc(100% - 1rem);
     padding-right: 1rem;
-    margin: 4px 1rem 4px 0;
+    margin: 4px 1rem 0 0;
     border-right: 1px dotted rgba(white, .7);
 }

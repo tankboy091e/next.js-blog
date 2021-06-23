@@ -24,9 +24,17 @@ export default function Search({
       containerClassName: styles.container,
       innerClassName: styles.inner,
       submitClassName: styles.submit,
-      submitValue: <GoSearch size={28} />,
+      submitValue: <GoSearch size={24} />,
     })
   }, [])
 
-  return <input className={styles.input} type="text" ref={inputRef} name="search field" />
+  return (
+    <input
+      className={styles.input}
+      type="text"
+      ref={inputRef}
+      name="search field"
+      autoComplete="off"
+    />
+  )
 }
