@@ -4,6 +4,7 @@ import Head from 'next/head'
 import getOrigin from 'lib/util/origin'
 import 'sass/global.scss'
 import IntegratedDialogProvider from 'providers/dialog/integrated'
+import Preload from 'components/preload'
 
 export const DEFAULT_TITLE = '오진수의 불면증'
 
@@ -14,9 +15,6 @@ export default function App({ Component, pageProps, router }: AppProps) {
   const title = titleHead ? `${titleHead} - ${DEFAULT_TITLE}` : DEFAULT_TITLE
   const description = descriptionHead || '오진수의 블로그입니다'
   const type = typeHead || 'website'
-
-  fetch(`${getOrigin()}/api`)
-
   return (
     <>
       <Head>
@@ -35,6 +33,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       <ModalProvider>
         <IntegratedDialogProvider>
           <AuthProvider>
+            <Preload />
             <Component {...pageProps} />
           </AuthProvider>
         </IntegratedDialogProvider>
