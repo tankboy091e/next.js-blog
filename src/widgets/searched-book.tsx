@@ -29,16 +29,16 @@ export default function SearchedBook({ value }: { value: any }) {
     if (res.ok) {
       const { message } = await res.json()
       createAlert({
-        message,
-        code: 'success',
+        title: 'success',
+        text: message,
       })
       mutate()
       close()
     } else {
       const { error } = await res.json()
       createAlert({
-        message: error,
-        code: 'error',
+        text: 'error',
+        title: error,
       })
     }
   }

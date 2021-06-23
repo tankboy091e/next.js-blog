@@ -30,7 +30,7 @@ export default function Comment({ data }: { data: commentData }) {
 
   const onEdit = async () => {
     const password = await createPrompt({
-      message: '비밀번호를 입력하세요',
+      text: '비밀번호를 입력하세요',
       type: 'password',
     })
     if (!password) {
@@ -52,16 +52,16 @@ export default function Comment({ data }: { data: commentData }) {
     } else {
       const { error } = await res.json()
       await createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }
 
   const onDelete = async () => {
     const password = await createPrompt({
-      message: '비밀번호를 입력하세요',
-      code: '주의',
+      title: '주의',
+      text: '비밀번호를 입력하세요',
       type: 'password',
     })
     if (!password) {
@@ -80,15 +80,15 @@ export default function Comment({ data }: { data: commentData }) {
     if (res.ok) {
       const { message } = await res.json()
       await createAlert({
-        message,
-        code: 'success',
+        title: 'success',
+        text: message,
       })
       refresh()
     } else {
       const { error } = await res.json()
       await createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }

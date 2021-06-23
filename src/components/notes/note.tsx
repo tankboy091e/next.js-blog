@@ -41,8 +41,8 @@ export default function Note({
 
   const onDelete = async () => {
     const confirm = await createConfirm({
-      message: '정말 삭제하시겠습니까?',
-      code: '주의',
+      title: '주의',
+      text: '정말 삭제하시겠습니까?',
     })
     if (!confirm) {
       return
@@ -60,15 +60,15 @@ export default function Note({
     if (res.ok) {
       const { message } = await res.json()
       createAlert({
-        message,
-        code: 'success',
+        text: message,
+        title: 'success',
       })
       mutate()
     } else {
       const { error } = await res.json()
       createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }
@@ -79,7 +79,7 @@ export default function Note({
 
   if (state === 'edit') {
     return (
-      <Modal immediate onOff={onOff}>
+      <Modal immediate onClose={onOff}>
         <NewQuotes
           isbn={isbn}
           id={id}

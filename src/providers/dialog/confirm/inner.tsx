@@ -5,7 +5,7 @@ import Alert, { AlertHeaderProps } from 'components/alert'
 import { useDialog } from '..'
 
 interface ConfirmContextProps {
-  createConfirm: ({ ...props }: AlertHeaderProps) => Promise<void | boolean>
+  createConfirm: ({ ...props }: AlertHeaderProps) => Promise<boolean>
 }
 
 const ConfirmContext = createContext<ConfirmContextProps>(null)
@@ -17,13 +17,12 @@ export default function Inner({ children }: {
 }) {
   const { buildDialog } = useDialog()
 
-  const createConfirm = (header: AlertHeaderProps) => buildDialog()
+  const createConfirm = (header: AlertHeaderProps): Promise<boolean> => buildDialog()
     .insert(({ ok, cancle }) => (
       <Alert
         header={header}
         ok={ok}
         cancle={cancle}
-        showCancle
       />
     ))
     .open()

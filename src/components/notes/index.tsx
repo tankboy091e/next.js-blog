@@ -25,17 +25,27 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
   }
 
   if (data.length === 0) {
-    return <></>
+    return (
+      <>
+        {user && (
+          <Modal initializer={<AddButton />}>
+            <NewQuotes isbn={isbn} mutate={mutate} />
+          </Modal>
+        )}
+      </>
+    )
   }
 
   return (
-    <section className={styles.container}>
-      {data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}
+    <>
+      <section className={styles.container}>
+        {data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}
+      </section>
       {user && (
         <Modal initializer={<AddButton />}>
           <NewQuotes isbn={isbn} mutate={mutate} />
         </Modal>
       )}
-    </section>
+    </>
   )
 }

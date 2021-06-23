@@ -5,7 +5,7 @@ import Alert, { AlertHeaderProps } from 'components/alert'
 import { useDialog } from '..'
 
 interface AlertContextProps {
-  createAlert: ({ ...props }: AlertHeaderProps) => Promise<void | boolean>
+  createAlert: ({ ...props }: AlertHeaderProps) => Promise<boolean>
 }
 
 const AlertContext = createContext<AlertContextProps>(null)
@@ -17,14 +17,9 @@ export default function Inner({ children }: {
 }) {
   const { buildDialog } = useDialog()
 
-  const createAlert = (header : AlertHeaderProps) => buildDialog()
-    .insert(({ ok, cancle }) => (
-      <Alert
-        header={header}
-        ok={ok}
-        cancle={cancle}
-      />
-    )).open()
+  const createAlert = (header : AlertHeaderProps): Promise<boolean> => buildDialog()
+    .insert(<Alert header={header} />)
+    .open()
 
   const value = {
     createAlert,

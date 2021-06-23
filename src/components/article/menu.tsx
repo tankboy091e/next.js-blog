@@ -16,7 +16,7 @@ export default function ArticleMenu() {
   }
 
   const onDelete = async () => {
-    const confirm = await createConfirm({ message: '정말 삭제하시겠습니까?' })
+    const confirm = await createConfirm({ text: '정말 삭제하시겠습니까?' })
     if (!confirm) {
       return
     }
@@ -25,11 +25,11 @@ export default function ArticleMenu() {
     })
     if (res.ok) {
       const { message } = await res.json()
-      await createAlert({ message })
+      await createAlert({ text: message })
       router.reload()
     } else {
       const { error } = await res.json()
-      await createAlert({ message: error })
+      await createAlert({ text: error })
     }
   }
 

@@ -45,6 +45,7 @@ export default function Library() {
             <Librarian />
           </Modal>
         )}
+        <h1 className={styles.header}>Library</h1>
         <section className={styles.bookcase}>
           {data.map((value) => {
             const {

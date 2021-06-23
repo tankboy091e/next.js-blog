@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useRef } from 'react'
-import styles from 'sass/components/prompt.module.scss'
 import Alert, { AlertHeaderProps } from 'components/alert'
+import styles from 'sass/components/prompt.module.scss'
 import { useDialog } from '..'
 
 interface PromptMessageProps extends AlertHeaderProps {
@@ -21,7 +21,7 @@ export default function Inner({ children }: { children?: React.ReactNode }) {
 
   const inputRef = useRef<string>()
 
-  const intializeInputRef = () => {
+  const initializeInputRef = () => {
     inputRef.current = null
   }
 
@@ -32,36 +32,33 @@ export default function Inner({ children }: { children?: React.ReactNode }) {
   const createPrompt = async ({
     type = 'text',
     ...header
-  }: PromptMessageProps) => {
+  }: PromptMessageProps): Promise<string> => {
     const res = await buildDialog()
       .insert(({ ok, cancle }) => (
         <Alert
           header={header}
           ok={ok}
           cancle={cancle}
-          showCancle
         >
-          <input
-            className={styles.input}
-            type={type}
-            autoComplete="off"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-            onChange={onInputChange}
-          />
+          <div className={styles.wrapper}>
+            <input
+              className={styles.input}
+              type={type}
+              autoComplete="off"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+              onChange={onInputChange}
+            />
+          </div>
         </Alert>
       ))
       .open()
 
     const result = inputRef.current
 
-    intializeInputRef()
+    initializeInputRef()
 
-    if (!res) {
-      return null
-    }
-
-    if (!result) {
+    if (!res || !result) {
       return null
     }
 

@@ -58,8 +58,8 @@ export default function Editor({
     } else {
       const { error } = await res.json()
       createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }
@@ -76,8 +76,8 @@ export default function Editor({
     const li = footnoteDocument.createElement('li')
 
     const book = await createPrompt({
-      code: '검색',
-      message: '책의 이름을 입력하세요',
+      title: '검색',
+      text: '책의 이름을 입력하세요',
     })
 
     if (book) {
@@ -87,8 +87,8 @@ export default function Editor({
           author: authorquery, title, publisher, pubDate,
         } = await res.json()
         const page = await createPrompt({
-          code: title,
-          message: '페이지 수를 입력하세요',
+          title,
+          text: '페이지 수를 입력하세요',
         })
         const { author, translator, editor } = getAuthor(authorquery)
         const [date] = pubDate.split('-')
@@ -96,8 +96,8 @@ export default function Editor({
       } else {
         const { error } = await res.json()
         await createAlert({
-          code: 'error',
-          message: error,
+          title: 'error',
+          text: error,
         })
       }
     }
@@ -118,10 +118,10 @@ export default function Editor({
   const onHyperlink = async () => {
     const document = content.current.contentDocument
     const href = await createPrompt({
-      message: '링크를 입력하세요',
+      text: '링크를 입력하세요',
     })
     const label = await createPrompt({
-      message: '내용을 입력하세요',
+      text: '내용을 입력하세요',
     })
     if (!label) {
       document.execCommand(
@@ -160,7 +160,7 @@ export default function Editor({
         document.execCommand(
           cmd,
           false,
-          prompt ? (await createPrompt({ message })) : message,
+          prompt ? (await createPrompt({ text: message })) : message,
         )
         break
     }

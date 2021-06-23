@@ -21,7 +21,7 @@ export default function Modal({
   initializer,
   immediate,
   controller,
-  onOff,
+  onClose,
 }: {
   className?: string,
   ref?: MutableRefObject<HTMLDivElement>
@@ -29,7 +29,7 @@ export default function Modal({
   initializer?: React.ReactNode
   immediate? : boolean
   controller?: React.Dispatch<SetStateAction<boolean>>
-  onOff? : () => void
+  onClose? : () => void
 }) {
   const [active, setActive] = controller
     ? [immediate, controller]
@@ -54,7 +54,7 @@ export default function Modal({
   useEffect(() => {
     update(active)
     if (!active) {
-      onOff?.call(null)
+      onClose?.call(null)
     }
   }, [active])
 
@@ -83,7 +83,7 @@ Modal.defaultProps = {
   className: null,
   ref: null,
   initializer: null,
-  immediate: null,
+  immediate: false,
   controller: null,
-  onOff: null,
+  onClose: null,
 }

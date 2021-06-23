@@ -65,7 +65,7 @@ export default function AuthProvider({
     })
     if (!res.ok) {
       createAlert({
-        message: 'Silent refresh has failed.',
+        text: 'Silent refresh has failed.',
       })
       return
     }

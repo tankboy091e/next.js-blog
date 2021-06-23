@@ -1,16 +1,35 @@
 @use '../lib/color.scss' as colors;
 
-.code {
-    font-size: 1.1em;
-    color: colors.$accent;
+.container {
+    padding: 4px;
+    background-color: black;
+    border: 1px solid white;
 }
 
-.message {
-    margin-top: 1rem;
+.title,
+.text,
+.menu {
+    width: 100%;
+}
+
+.title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: colors.$accent;
+    text-align: center;
+    border: 1px solid white;
+    padding: .5rem;
+}
+
+.text {
+    margin-top: 1.5rem;
+    padding: 0 1rem;
 }
 
 .menu {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+    padding: .5rem;
+    padding-top: 0;
     display: flex;
     justify-content: flex-end;
     button + button {
