@@ -1,5 +1,6 @@
 import { getDateArray } from 'lib/util/date'
 import Link from 'next/link'
+import { useAuth } from 'providers/auth'
 import styles from 'sass/components/list.module.scss'
 import Time from 'widgets/time'
 
@@ -20,9 +21,17 @@ export default function List({
   category: string,
   monthDivider?: boolean
 }) {
+  const { user } = useAuth()
   const total = length || data.length
   return (
     <ol className={styles.container}>
+      {user && (
+        <li className={styles.doc}>
+          <Link href={`/${category}/new`}>
+            <a href={`/${category}/new`} className={styles.new}>+ New</a>
+          </Link>
+        </li>
+      )}
       {data.slice(0, total).map(({ title, doc, createdAt }, index) => {
         const href = `/${category}/${doc}`
         const { month } = getDateArray(createdAt)

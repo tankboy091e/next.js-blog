@@ -4,7 +4,12 @@
 .container {
     @include container.container('mobile');
     height: 100vh;
-    padding: 4rem 0;
+}
+
+.innerContainer {
+    width: 100%;
+    border: 1px solid white;
+    padding: 4px;
 }
 
 .inner {
@@ -14,17 +19,20 @@
 }
 
 .legend {
-    font-size: 3rem;
-    padding: 1rem 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8rem;
+    padding: .5rem;
+    border: 1px solid rgba(white, .7);
 }
 
 @mixin input {
   width: 100%;
   border: none;
   padding: 1rem;
-  border: 1px solid color.$darkenPrimary;
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
+  border: 1px solid rgba(white, .7);
+  font-size: 1.4rem;
+  margin-top: 4px;
 }
 
 .field {
@@ -33,15 +41,17 @@
 
 .content {
    @include input();
-   flex: 1;
+   font-size: 1.2rem;
+   height: 15rem;
    resize: none;
 }
 
 .submit {
     width: 100%;
-    margin-top: .5rem;
+    margin-top: 4px;
     padding: 1.5rem 2rem;
     font-size: 1.5rem;
-    color: color.$background;
-    background-color: color.$primary;
+    font-weight: bold;
+    border: 1px solid rgba(white, .7);
+    background: repeating-linear-gradient(120deg, rgba(white, .4), rgba(white, .4) 2px, transparent 2px, transparent 6px);
 }

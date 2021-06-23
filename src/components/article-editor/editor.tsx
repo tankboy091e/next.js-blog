@@ -240,13 +240,6 @@ export default function Editor({
 }
 
 const commonStyle = `
-  @font-face {
-    font-family: 'Chosun';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -258,7 +251,7 @@ const commonStyle = `
   }
 
   html {
-    font-family: 'Chosun';
+    font-family: '바탕', sans-serif;
     font-size: 16px;
     width : 100%;
     height : 100%;
