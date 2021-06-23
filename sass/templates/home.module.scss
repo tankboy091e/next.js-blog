@@ -4,5 +4,7 @@
     @include container.container('desktop');
     min-height: 100vh;
     align-items: flex-start;
-    padding: 1rem 0;
+    margin: 1rem 0;
+    border: 1px solid white;
+    padding: 4px;
 }

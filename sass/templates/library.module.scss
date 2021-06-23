@@ -10,9 +10,10 @@
 .bookcase {
     display: grid;
     align-items: flex-end;
-    padding: 0 1rem;
-    gap: 2rem;
+    padding: 4px;
+    gap: 4px;
     width: 100%;
+    border: 1px solid white;
     @include mediaquery.desktop {
         grid-template-columns: repeat(5, 1fr);
     }
@@ -22,5 +23,13 @@
     @include mediaquery.mobile {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+.wrapper {
+    border: 1px solid rgba(white, .7);
+    height: 100%;
+    padding: 16px;
+    display: flex;
+    align-items: flex-end;
 }
 

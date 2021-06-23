@@ -31,7 +31,11 @@ export default function List({
           && month !== getDateArray(data[index + 1].createdAt).month
         return (
           <li key={doc} className={styles.doc}>
-            {needMonth && <div className={styles.month}>{`${month}월`}</div>}
+            {needMonth && (
+              <div className={styles.month}>
+                {`${month}월`}
+              </div>
+            )}
             <Link href={href}>
               <a href={href} className={styles.inner}>
                 <h3 className={styles.title}>{title}</h3>

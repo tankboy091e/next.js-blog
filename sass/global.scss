@@ -16,7 +16,7 @@
 html {
   width: 100%;
   height: 100%;
-  font-family: 'Chosun';
+  font-family: '바탕', serif;
   @include mediaquery.mobile {
     font-size: 15px;
   }

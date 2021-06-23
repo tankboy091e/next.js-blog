@@ -50,7 +50,11 @@ export default function Library() {
             const {
               id, cover, itemPage,
             } = value
-            return <Book key={id} cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+            return (
+              <div key={id} className={styles.wrapper}>
+                <Book cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+              </div>
+            )
           })}
         </section>
       </section>

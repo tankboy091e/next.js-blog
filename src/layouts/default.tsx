@@ -12,7 +12,7 @@ export default function Layout({
 }) {
   return (
     <>
-      <Background />
+      {/* <Background /> */}
       <div className={styles.container}>
         <main id={mainContainerID} className={styles.main}>
           {children}

@@ -24,7 +24,11 @@ export default function Comments({
         <Button active={active} setActive={setActive} />
         {sideWidget}
       </section>
-      {active && <Inner doc={doc} />}
+      {active && (
+        <section className={styles.body}>
+          <Inner doc={doc} />
+        </section>
+      )}
     </section>
   )
 }

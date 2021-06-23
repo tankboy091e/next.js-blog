@@ -6,12 +6,17 @@ import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
 import usePageQuery from 'lib/hooks/page-query'
 
-function Page({ data } : any) {
+function Page({ data, titleHead } : any) {
   const { category } = usePageQuery()
   return (
     <Layout>
       <section className={styles.container}>
-        <List data={data} category={category} />
+        <section className={styles.header}>
+          <h1>{titleHead}</h1>
+        </section>
+        <section className={styles.body}>
+          <List data={data} category={category} />
+        </section>
       </section>
     </Layout>
   )

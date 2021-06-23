@@ -152,7 +152,7 @@ class Particle {
   public draw() {
     const { context } = this.canvas
     context.globalAlpha = (this.speed / this.canvas.max)
-    context.fillStyle = 'rgb(35, 86, 210)'
+    context.fillStyle = 'white'
     context.beginPath()
     context.arc(this.x, this.y, this.size, 0, Math.PI * 2)
     context.fill()

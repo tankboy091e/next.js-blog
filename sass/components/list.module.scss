@@ -3,20 +3,20 @@
 .container {
     list-style: none;
     width: 100%;
-    padding-right: 1rem;
 }
 
 .doc {
     position: relative;
     width: 100%;
-    padding-top : .8rem;
-    padding-bottom: .9rem;
-    & + & {
-        border-top: 1px solid rgba(color.$darkenPrimary, .3);
-    }
+    padding: .5rem;
+    border: 1px solid rgba(white, .5);
     a {
         color: inherit;
     }
+}
+
+.doc + .doc {
+    margin-top: 4px;
 }
 
 .title {
@@ -34,13 +34,16 @@
 }
 
 .month {
-    padding: 0 .5rem;
+    width: 2rem;
+    padding: .5rem 0;
     white-space: nowrap;
     bottom: 0;
-    left: 100%;
+    left: calc(100% + 3px);
     position: absolute;
     font-size: .8rem;
     color: inherit;
-    opacity: .5;
     transform: translateY(50%);
+    color:rgba(white, .7);
+    background-color: black;
+    text-align: center;
 }
