@@ -1,4 +1,4 @@
-import firestore, { decreaseAutoIncrement, getAutoIncrement, reorderCollection } from 'lib/db/firestore'
+import firestore, { decreaseAutoIncrement, reorderCollection } from 'lib/db/firestore'
 import getHandler from 'lib/api/handler'
 import { NextApiRequest, NextApiResponse } from 'next'
 import validateCategory from 'lib/api/middleware/validate-category'
@@ -65,18 +65,8 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const { category, pid } = req.query
 
   const colRef = firestore.collection(category as string)
-  const total = await getAutoIncrement(colRef)
 
-  const id = getDocumentId(total, pid as string)
-
-  const snapshots = await colRef.where('id', '==', id).get()
-
-  if (snapshots.empty) {
-    res.status(404).json({ error: 'resrouce not found' })
-    return
-  }
-
-  const doc = snapshots.docs[0]
+  const doc = await colRef.doc(pid as string).get()
 
   const { content } = doc.data()
 
@@ -100,7 +90,7 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const commentSnapshots = await firestore
     .collection('comments')
-    .where('belongsTo', '==', id)
+    .where('belongsTo', '==', pid)
     .get()
 
   commentSnapshots.forEach((doc) => {
@@ -125,7 +115,3 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
 })
 
 export default handler
-
-function getDocumentId(total: number, pid: string): number {
-  return total - parseInt(pid, 10) + 1
-}

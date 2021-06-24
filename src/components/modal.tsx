@@ -16,6 +16,7 @@ export const useModal = () => useContext(ModalContext)
 
 export default function Modal({
   className,
+  initializerClassName,
   ref,
   children,
   initializer,
@@ -24,6 +25,7 @@ export default function Modal({
   onClose,
 }: {
   className?: string,
+  initializerClassName?: string,
   ref?: MutableRefObject<HTMLDivElement>
   children: React.ReactNode
   initializer?: React.ReactNode
@@ -66,7 +68,7 @@ export default function Modal({
   return (
     <ModalContext.Provider value={value}>
       {initializer && (
-        <button type="button" onClick={() => setActive(true)}>
+        <button className={initializerClassName} type="button" onClick={() => setActive(true)}>
           {initializer}
         </button>
       )}
@@ -81,6 +83,7 @@ export default function Modal({
 
 Modal.defaultProps = {
   className: null,
+  initializerClassName: null,
   ref: null,
   initializer: null,
   immediate: false,

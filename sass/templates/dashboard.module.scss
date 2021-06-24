@@ -2,5 +2,4 @@
 
 .container {
     @include container.container('mobile');
-    min-height: 100vh;
 }

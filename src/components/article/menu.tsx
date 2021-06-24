@@ -26,7 +26,7 @@ export default function ArticleMenu() {
     if (res.ok) {
       const { message } = await res.json()
       await createAlert({ text: message })
-      router.reload()
+      router.push(`/${category}`)
     } else {
       const { error } = await res.json()
       await createAlert({ text: error })

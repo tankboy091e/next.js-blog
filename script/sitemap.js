@@ -13,7 +13,7 @@ const categoryList = ['sum', 'essais', 'dev']
 
 const getStaticMap = async () => {
   console.log('generating static map ...')
-  const staticRoutes = ['', '/sum', '/essais', '/dev', '/library', '/contact']
+  const staticRoutes = ['', '/sum', '/essais', '/dev', '/gallary', '/library', '/contact']
   return staticRoutes.map((value) => (
     `
     <url>

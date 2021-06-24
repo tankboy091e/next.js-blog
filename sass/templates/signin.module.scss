@@ -3,7 +3,6 @@
 
 .container {
     @include container.container('mobile');
-    min-height: 100vh;
 }
 
 .formContainer {
@@ -20,6 +19,9 @@
 .legend {
     font-size: 2rem;
     padding: 1rem 0;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(white, .7);
 }
 
 .field {
@@ -27,16 +29,17 @@
     padding: 1rem;
     font-size: 2rem;
     border: 1px solid color.$darkenPrimary;
-    & + & {
-        margin-top: .5rem;
-    }
+    margin-top: 4px;
 }
 
 .checkboxLabel {
-    margin-top: 1rem;
+    margin-top: 4px;
+    width: 100%;
+    padding: .5rem;
     align-self: flex-start;
     display: flex;
     align-items: center;
+    border: 1px solid rgba(white, .7);
 }
 
 .checkbox {
@@ -44,8 +47,8 @@
 }
 
 .submit {
+    margin-top: 4px;
     font-size: 2rem;
-    margin-top: 1rem;
     width: 100%;
     padding: 1rem 0;
     border: none;

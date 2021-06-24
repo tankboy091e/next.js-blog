@@ -1,0 +1,27 @@
+@use './container.scss' as container;
+
+.container {
+    @include container.container('desktop');
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(white, .7);
+    padding: .5rem;
+    font-size: 1.5rem;
+}
+
+.body {
+    width: 100%;
+}
+
+.new {
+    margin-top: 4px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(white, .7);
+    padding: .5rem;
+}

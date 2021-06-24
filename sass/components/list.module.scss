@@ -6,6 +6,7 @@
 }
 
 .doc {
+    margin-top: 4px;
     position: relative;
     width: 100%;
     padding: .5rem;
@@ -13,10 +14,6 @@
     a {
         color: inherit;
     }
-}
-
-.doc + .doc {
-    margin-top: 4px;
 }
 
 .title {

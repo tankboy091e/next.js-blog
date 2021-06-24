@@ -1,0 +1,43 @@
+@use '../lib/color.scss' as color;
+@use './container.scss' as container;
+
+.container {
+    @include container.windowContainer(calc(100vw - 6rem));
+    background-color: color.$background;
+}
+
+.legend {
+    font-size: 1.5rem;
+    width: 100%;
+    padding: .5rem;
+    text-align: center;
+    border: 1px solid rgba(white, .7);
+}
+
+.formContainer {
+    margin-top: 4px;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.field {
+    border: 1px solid rgba(white, .7);
+    font-size: 1.2rem;
+    width: 100%;
+    padding: .5rem;
+}
+
+.field + .field {
+    margin-top: 4px;
+}
+
+.submit {
+    margin-top: 4px;
+    padding: 1rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: 1px solid rgba(white, .7);
+}

@@ -17,5 +17,5 @@ export default async (
 }
 
 function isValidatedCategory(category: string | string[]) {
-  return ['sum', 'essais', 'dev'].includes(category as string)
+  return ['sum', 'essais', 'dev', 'gallary'].includes(category as string)
 }

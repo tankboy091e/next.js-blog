@@ -211,7 +211,7 @@ export default function Editor({
         },
         method,
       }),
-      backPath: backPath || `/${category}/1`,
+      backPath: backPath || `/${category}`,
       needToValidate: [title],
       containerClassName: styles.container,
       innerClassName: styles.inner,
@@ -292,18 +292,18 @@ const contentStyle = `
   }
   pre {
     font-family : consolas;
-    background-color : #0e0e0e;
-    padding : 1rem 1.5rem;
+    background-color : white;
+    padding : .75rem 1rem;
   }
   pre + pre {
-    padding : 0rem 1.5rem 1rem 1.5rem;
+    padding : 0rem 1rem .75rem 1rem;
   }
   pre + div {
     margin-top: .5rem;
   }
   pre, blockquote {
     font-size: .9em;
-    color : #afaaaa;
+    color : black;
     width : 100%;
   }
   a {

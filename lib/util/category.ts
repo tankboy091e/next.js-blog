@@ -1,4 +1,4 @@
-export const writingCategories = ['sum', 'essais', 'dev']
+export const writingCategories = ['sum', 'essais', 'dev', 'gallary']
 
 export const categories = ['home', ...writingCategories, 'library', 'contact']
 

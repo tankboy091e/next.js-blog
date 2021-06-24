@@ -37,13 +37,16 @@
 }
 
 .content {
-    text-indent: 1rem;
+    width: 100%;
     padding-bottom: 2rem;
     line-height: 2;
     font-size: 1rem;
     text-align: justify;
-    >div {
-        margin-bottom : .5rem;
+    >* {
+      width: 100%;
+    }
+    div {
+      margin-bottom : .5rem;
     }
     h3 {
       letter-spacing: -.05rem;
@@ -56,30 +59,29 @@
         margin : 0 auto;
     }
     code {
-      line-height: 0;
+      display: block;
       font-family: consolas;
-    }
-    pre {
-      line-height: 1;
-      color: color.$darkenPrimary;
-      background-color : color.$darkenBackground;
-      padding : 1rem 1.5rem;
-      & + div {
-        margin-top: .5rem;
-      }
-    }
-    blockquote {
-      line-height: 2;
-      color : lighten(color.$darkenPrimary, 10%);
-      padding : 1rem;
     }
     pre, blockquote {
       text-indent: 0;
       font-size : .9em;
-      width : 100%;
+    }
+    pre {
+      line-height: 1;
+      color: black;
+      background-color : white;
+      padding: .75rem 1rem;
     }
     pre + pre {
-      padding : 0rem 0rem 1rem 1.5rem;
+      padding : 0rem 1rem .75rem 1rem;
+    }
+    pre + div {
+      margin-top: .5rem;
+    }
+    blockquote {
+      line-height: 2;
+      color : rgba(white, .7);
+      padding : 1rem;
     }
     blockquote + blockquote {
       padding : 0rem 1rem 1rem 1rem;

@@ -24,9 +24,16 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       return 0
     }))
     .then((docs) => docs.map((doc) => {
-      const { createdAt, title } = doc.data()
+      const { createdAt, ...data } = doc.data()
+      if (category === 'gallary') {
+        return {
+          ...data,
+          doc: doc.id,
+          createdAt: createdAt?.toDate().toDateString(),
+        }
+      }
       return {
-        title,
+        title: data.title,
         doc: doc.id,
         createdAt: createdAt?.toDate().toDateString(),
       }
@@ -40,7 +47,7 @@ handler.use(verifyUid)
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const { category } = req.query
   const {
-    title, subtitle, content, footnote,
+    title, subtitle = null, content, footnote = null,
   } = req.body
 
   const colRef = firestore.collection(category as string)
