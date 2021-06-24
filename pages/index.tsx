@@ -1,13 +1,14 @@
-import Title from 'components/title'
 import Layout from 'layouts/default'
 import getOrigin from 'lib/util/origin'
 import { GetServerSideProps } from 'next'
 import styles from 'sass/templates/home.module.scss'
-import About from 'templates/about'
-import Bookcase from 'templates/bookcase'
-import Posts from 'templates/posts'
+import dynamic from 'next/dynamic'
 
 function Page({ data } : any) {
+  const Title = dynamic(() => import('components/title'))
+  const About = dynamic(() => import('templates/about'))
+  const Bookcase = dynamic(() => import('templates/bookcase'))
+  const Posts = dynamic(() => import('templates/posts'))
   const { about, posts, books } = data
   return (
     <Layout>
