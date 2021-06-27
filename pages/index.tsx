@@ -1,14 +1,13 @@
 import Layout from 'layouts/default'
 import getOrigin from 'lib/util/origin'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import styles from 'sass/templates/home.module.scss'
-import dynamic from 'next/dynamic'
+import Title from 'components/title'
+import About from 'templates/about'
+import Bookcase from 'templates/bookcase'
+import Posts from 'templates/posts'
 
 function Page({ data } : any) {
-  const Title = dynamic(() => import('components/title'))
-  const About = dynamic(() => import('templates/about'))
-  const Bookcase = dynamic(() => import('templates/bookcase'))
-  const Posts = dynamic(() => import('templates/posts'))
   const { about, posts, books } = data
   return (
     <Layout>
@@ -24,7 +23,7 @@ function Page({ data } : any) {
 
 export default Page
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(`${getOrigin()}/api/home`)
   if (!res.ok) {
     return {
