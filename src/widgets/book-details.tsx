@@ -10,15 +10,17 @@ export default function BookDetails({ value }: { value: any }) {
   return (
     <>
       {title && <h3 className={styles.title}>{title}</h3>}
-      {author && <span className={styles.description}>{author}</span>}
-      {translator && (
-        <span className={styles.description}>{`${translator} 옮김`}</span>
-      )}
-      {editor && <span className={styles.description}>{`${editor} 엮음`}</span>}
-      {publisher && <span className={styles.description}>{publisher}</span>}
-      {pubDate && (
-        <time className={styles.description}>{convertBookDate(pubDate)}</time>
-      )}
+      <div className={styles.container}>
+        {author && <span className={styles.description}>{author}</span>}
+        {translator && (
+          <span className={styles.description}>{`${translator} 옮김`}</span>
+        )}
+        {editor && <span className={styles.description}>{`${editor} 엮음`}</span>}
+        {publisher && <span className={styles.description}>{publisher}</span>}
+        {pubDate && (
+          <time className={styles.description}>{convertBookDate(pubDate)}</time>
+        )}
+      </div>
     </>
   )
 }

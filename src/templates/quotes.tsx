@@ -18,21 +18,21 @@ export default function Quotes({ data } : { data : any}) {
   }
 
   return (
-    <section className={styles.container}>
-      <header className={styles.header}>
-        <section className={styles.window}>
-          <Book link={link} cover={cover} itemPage={itemPage} onload={onImageLoad} />
-        </section>
-        {load && (
+    <>
+      <section className={styles.container}>
+        <header className={styles.header}>
+          <section className={styles.window}>
+            <Book link={link} cover={cover} itemPage={itemPage} onload={onImageLoad} />
+          </section>
           <address className={styles.info}>
             <BookDetails value={data} />
           </address>
-        )}
-      </header>
-      {load && <Notes isbn={isbn} />}
+        </header>
+        {load && <Notes isbn={isbn} />}
+      </section>
       <Link href="/library">
         <a href="/library" className={styles.back}>Library</a>
       </Link>
-    </section>
+    </>
   )
 }

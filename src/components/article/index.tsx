@@ -59,23 +59,27 @@ export default function Article({ data }: { data: ArticleData }) {
 
   return (
     <article className={styles.container}>
-      <h1 className={styles.title}>{title}</h1>
-      {subtitle && (<h2 className={styles.subtitle}>{subtitle}</h2>)}
-      <section
-        className={styles.content}
-        ref={contentRef}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: contentHTML }}
-      />
-      {footnote && (
+      <div className={styles.header}>
+        <h1 className={styles.title}>{title}</h1>
+        {subtitle && (<h2 className={styles.subtitle}>{subtitle}</h2>)}
+      </div>
+      <div className={styles.body}>
         <section
-          className={styles.footnote}
-          ref={footnoteRef}
+          className={styles.content}
+          ref={contentRef}
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: footnoteHTML }}
+          dangerouslySetInnerHTML={{ __html: contentHTML }}
         />
-      )}
-      <Time className={styles.date} timeStamp={createdAt} />
+        {footnote && (
+          <section
+            className={styles.footnote}
+            ref={footnoteRef}
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: footnoteHTML }}
+          />
+        )}
+        <Time className={styles.date} timeStamp={createdAt} />
+      </div>
     </article>
   )
 }

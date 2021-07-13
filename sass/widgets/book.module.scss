@@ -29,6 +29,13 @@
     }
 }
 
+.content {
+    opacity: 0;
+    &.loaded {
+        opacity: 1;
+    }
+}
+
 .front {
     position: relative;
     width: 100%;

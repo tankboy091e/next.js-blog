@@ -5,8 +5,9 @@ import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
 import { deleteCookie, setCookie } from 'lib/util/cookie'
-import { useAlert } from './modal/alert'
+import { useAlert } from './dialog/alert/inner'
 
+export const ACCESS_TOKEN = 'oh_cogito'
 type User = firebase.User
 type UserCredential = firebase.auth.UserCredential
 type firebasePersistence = 'none' | 'session' | 'local'
@@ -65,7 +66,7 @@ export default function AuthProvider({
     })
     if (!res.ok) {
       createAlert({
-        message: 'Silent refresh has failed.',
+        text: 'Silent refresh has failed.',
       })
       return
     }

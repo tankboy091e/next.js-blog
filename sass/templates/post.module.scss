@@ -3,12 +3,19 @@
 
 .container {
     @include container.container('mobile');
-    min-height: 100vh;
-    padding: 1rem 0;
 }
 
 .back {
+    width: 100%;
+    color: white;
     font-size: 1.3rem;
     align-self: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: 4px;
+    border: 1px solid rgba(white, .7);
+    padding: .5rem;
+}
+
+* + .back {
+    margin-top: 4px;
+    margin-bottom: 0px;
 }

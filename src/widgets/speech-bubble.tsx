@@ -10,10 +10,10 @@ export default function SpeechBubble({
   onDelete,
   needsAuth = true,
 }: {
-  head: React.ReactNode
+  head?: React.ReactNode
   body: React.ReactNode
-  onEdit: () => Promise<void>
-  onDelete: () => Promise<void>
+  onEdit?: () => Promise<void>
+  onDelete?: () => Promise<void>
   needsAuth?: boolean
 }) {
   const { user } = useAuth()
@@ -25,7 +25,7 @@ export default function SpeechBubble({
       </section>
       <blockquote className={styles.body}>
         <section className={styles.content}>{body}</section>
-        {(needsAuth ? user : true) && (
+        {((needsAuth ? user : true) && (onEdit || onDelete)) && (
           <EditDeleteMenu
             onEdit={onEdit}
             onDelete={onDelete}

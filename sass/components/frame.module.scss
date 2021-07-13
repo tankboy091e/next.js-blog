@@ -1,0 +1,38 @@
+.container {
+    margin-top: 4px;
+    width: 100%;
+    border: 1px solid rgba(white, .7);
+    padding: 4px;
+}
+
+.caption {
+    padding: 1rem 0;
+    font-size: 1.8rem;
+    text-align: center;
+    border: 1px solid rgba(white, .7);
+}
+
+.video {
+    margin-top: 4px;
+    width: 100%;
+    height: 432px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(white, .7);
+}
+
+.dependencyContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 4px;
+    font-size: 1.1rem;
+}
+
+.dependency {
+    padding: .5rem;
+    border: 1px solid rgba(white, .7);
+    & + & {
+        margin-left: 4px;
+    }
+}

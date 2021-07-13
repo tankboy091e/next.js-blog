@@ -6,8 +6,8 @@ import hermes from 'lib/api/hermes'
 import { getValue, useForm } from 'providers/form'
 import { ArticleData } from 'components/article'
 import { useEditorPageQuery } from 'lib/hooks/page-query'
-import { useAlert } from 'providers/modal/alert'
-import { usePrompt } from 'providers/modal/prompt'
+import { useAlert } from 'providers/dialog/alert/inner'
+import { usePrompt } from 'providers/dialog/prompt/inner'
 import styles from 'sass/components/article-editor.module.scss'
 import getAuthor from 'lib/util/author'
 import ToolBar, { command, CommandState, tools } from './toolbar'
@@ -58,8 +58,8 @@ export default function Editor({
     } else {
       const { error } = await res.json()
       createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }
@@ -76,8 +76,8 @@ export default function Editor({
     const li = footnoteDocument.createElement('li')
 
     const book = await createPrompt({
-      code: '검색',
-      message: '책의 이름을 입력하세요',
+      title: '검색',
+      text: '책의 이름을 입력하세요',
     })
 
     if (book) {
@@ -87,8 +87,8 @@ export default function Editor({
           author: authorquery, title, publisher, pubDate,
         } = await res.json()
         const page = await createPrompt({
-          code: title,
-          message: '페이지 수를 입력하세요',
+          title,
+          text: '페이지 수를 입력하세요',
         })
         const { author, translator, editor } = getAuthor(authorquery)
         const [date] = pubDate.split('-')
@@ -96,8 +96,8 @@ export default function Editor({
       } else {
         const { error } = await res.json()
         await createAlert({
-          code: 'error',
-          message: error,
+          title: 'error',
+          text: error,
         })
       }
     }
@@ -118,10 +118,10 @@ export default function Editor({
   const onHyperlink = async () => {
     const document = content.current.contentDocument
     const href = await createPrompt({
-      message: '링크를 입력하세요',
+      text: '링크를 입력하세요',
     })
     const label = await createPrompt({
-      message: '내용을 입력하세요',
+      text: '내용을 입력하세요',
     })
     if (!label) {
       document.execCommand(
@@ -160,7 +160,7 @@ export default function Editor({
         document.execCommand(
           cmd,
           false,
-          prompt ? (await createPrompt({ message })) : message,
+          prompt ? (await createPrompt({ text: message })) : message,
         )
         break
     }
@@ -211,7 +211,7 @@ export default function Editor({
         },
         method,
       }),
-      backPath: backPath || `/${category}/1`,
+      backPath: backPath || `/${category}`,
       needToValidate: [title],
       containerClassName: styles.container,
       innerClassName: styles.inner,
@@ -228,7 +228,6 @@ export default function Editor({
     <>
       <input className={styles.title} ref={title} placeholder="제목" name="title" autoComplete="off" />
       <input className={styles.subtitle} ref={subtitle} placeholder="부제" autoComplete="off" />
-      <hr className={styles.divider} />
       <ToolBar
         imageUploader={imageUploader}
         onCommand={onCommand}
@@ -240,13 +239,6 @@ export default function Editor({
 }
 
 const commonStyle = `
-  @font-face {
-    font-family: 'Chosun';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -258,7 +250,7 @@ const commonStyle = `
   }
 
   html {
-    font-family: 'Chosun';
+    font-family: '바탕', sans-serif;
     font-size: 16px;
     width : 100%;
     height : 100%;
@@ -300,18 +292,18 @@ const contentStyle = `
   }
   pre {
     font-family : consolas;
-    background-color : #0e0e0e;
-    padding : 1rem 1.5rem;
+    background-color : white;
+    padding : .75rem 1rem;
   }
   pre + pre {
-    padding : 0rem 1.5rem 1rem 1.5rem;
+    padding : 0rem 1rem .75rem 1rem;
   }
   pre + div {
     margin-top: .5rem;
   }
   pre, blockquote {
     font-size: .9em;
-    color : #afaaaa;
+    color : black;
     width : 100%;
   }
   a {

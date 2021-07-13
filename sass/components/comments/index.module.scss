@@ -1,10 +1,33 @@
 .container {
     width: 100%;
-    padding: 1rem 0;
+}
+
+.header,
+.body {
+    width: 100%;
+    margin-top: 4px;
+    border: 1px solid rgba(white, .7);
 }
 
 .header {
-    width: 100%;
     display: flex;
+    padding: .5rem;
     justify-content: space-between;
+}
+
+.body {
+    padding: 4px;
+   figure:nth-child(1) {
+       padding-top: calc(.5rem - 4px);
+   }
+   figure {
+       margin-bottom: .5rem;
+       padding-left: .5rem;
+   }
+   form + figure {
+       margin-top: .5rem;
+   }
+   form + form {
+       margin-top: .5rem;
+   }
 }

@@ -1,8 +1,8 @@
 import hermes from 'lib/api/hermes'
 import usePageQuery from 'lib/hooks/page-query'
 import { useAuth } from 'providers/auth'
-import { useAlert } from 'providers/modal/alert'
-import { useConfirm } from 'providers/modal/confirm'
+import { useAlert } from 'providers/dialog/alert/inner'
+import { useConfirm } from 'providers/dialog/confirm/inner'
 import EditDeleteMenu from 'widgets/edit-delete-menu'
 
 export default function ArticleMenu() {
@@ -16,7 +16,7 @@ export default function ArticleMenu() {
   }
 
   const onDelete = async () => {
-    const confirm = await createConfirm({ message: '정말 삭제하시겠습니까?' })
+    const confirm = await createConfirm({ text: '정말 삭제하시겠습니까?' })
     if (!confirm) {
       return
     }
@@ -25,11 +25,11 @@ export default function ArticleMenu() {
     })
     if (res.ok) {
       const { message } = await res.json()
-      await createAlert({ message })
-      router.reload()
+      await createAlert({ text: message })
+      router.push(`/${category}`)
     } else {
       const { error } = await res.json()
-      await createAlert({ message: error })
+      await createAlert({ text: error })
     }
   }
 

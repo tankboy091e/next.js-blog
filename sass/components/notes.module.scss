@@ -2,7 +2,12 @@
 
 .container {
     width: 100%;
-    padding: 2rem 0;
+    padding: 1rem .5rem;
+    margin-top: 4px;
+    border: 1px solid rgba(white, .7);
+    figure + figure {
+        margin-top: 1rem
+    }
 }
 
 .page {

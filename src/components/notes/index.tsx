@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import ErrorMessage from 'widgets/error-message'
 import styles from 'sass/components/notes.module.scss'
 import { useAuth } from 'providers/auth'
-import Modal from 'providers/modal/modal'
+import Modal from 'components/modal'
 import AddButton from 'widgets/add-button'
 import NewQuotes from 'templates/new-quotes'
 import Note, { NoteProps } from './note'
@@ -20,15 +20,32 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
     )
   }
 
+  if (!data) {
+    return <></>
+  }
+
+  if (data.length === 0) {
+    return (
+      <>
+        {user && (
+          <Modal initializer={<AddButton />}>
+            <NewQuotes isbn={isbn} mutate={mutate} />
+          </Modal>
+        )}
+      </>
+    )
+  }
+
   return (
-    <section className={styles.container}>
-      {(data && data.length > 0)
-        && data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}
+    <>
+      <section className={styles.container}>
+        {data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}
+      </section>
       {user && (
         <Modal initializer={<AddButton />}>
           <NewQuotes isbn={isbn} mutate={mutate} />
         </Modal>
       )}
-    </section>
+    </>
   )
 }

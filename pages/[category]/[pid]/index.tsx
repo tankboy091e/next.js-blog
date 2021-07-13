@@ -52,20 +52,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const data = await res.json()
 
-  if (!res.ok) {
-    return {
-      props: {
-        error: 'oops',
-      },
-    }
-  }
-
   const { title, subtitle } = data
 
   return {
     props: {
-      titleHead: title || null,
-      descriptionHead: subtitle || null,
+      titleHead: `${title}${subtitle && `—${subtitle}`}` || null,
       typeHead: 'article',
       category,
       pid,

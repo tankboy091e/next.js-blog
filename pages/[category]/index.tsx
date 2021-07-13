@@ -5,13 +5,19 @@ import List from 'components/list'
 import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
 import usePageQuery from 'lib/hooks/page-query'
+import { communicateWithContext } from 'lib/api'
 
-function Page({ data } : any) {
+function Page({ data, titleHead } : any) {
   const { category } = usePageQuery()
   return (
     <Layout>
       <section className={styles.container}>
-        <List data={data} category={category} />
+        <section className={styles.header}>
+          <h1>{titleHead}</h1>
+        </section>
+        <section className={styles.body}>
+          <List data={data} category={category} />
+        </section>
       </section>
     </Layout>
   )
@@ -30,14 +36,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const res = await fetch(`${getOrigin()}/api/${category}`)
+  const res = await communicateWithContext(`/${category}`, context)
+
   if (!res.ok) {
     return {
-      props: {
-        error: 'oops',
+      redirect: {
+        destination: '/404',
+        permanent: false,
       },
     }
   }
+
   const data = await res.json()
 
   return {
@@ -47,16 +56,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   }
 }
-
-// export const getStaticProps: GetStaticProps = async () => ({
-//   props: {},
-// })
-
-// export const getStaticPaths: GetStaticPaths = async () => ({
-//   paths: [
-//     { params: { category: 'sum' } },
-//     { params: { category: 'essais' } },
-//     { params: { category: 'dev' } },
-//   ],
-//   fallback: false,
-// })

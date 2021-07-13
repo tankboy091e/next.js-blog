@@ -3,6 +3,8 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import getOrigin from 'lib/util/origin'
 import 'sass/global.scss'
+import IntegratedDialogProvider from 'providers/dialog/integrated'
+import Preload from 'components/preload'
 
 export const DEFAULT_TITLE = '오진수의 불면증'
 
@@ -29,9 +31,12 @@ export default function App({ Component, pageProps, router }: AppProps) {
         <meta property="og:image" content="https://www.ohjinsu.me/preview.png" />
       </Head>
       <ModalProvider>
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
+        <IntegratedDialogProvider>
+          <AuthProvider>
+            <Preload />
+            <Component {...pageProps} />
+          </AuthProvider>
+        </IntegratedDialogProvider>
       </ModalProvider>
     </>
   )

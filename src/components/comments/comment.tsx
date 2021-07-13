@@ -4,8 +4,8 @@ import SpeechBubble from 'widgets/speech-bubble'
 import FormProvider from 'providers/form'
 import hermes from 'lib/api/hermes'
 import usePageQuery from 'lib/hooks/page-query'
-import { usePrompt } from 'providers/modal/prompt'
-import { useAlert } from 'providers/modal/alert'
+import { usePrompt } from 'providers/dialog/prompt/inner'
+import { useAlert } from 'providers/dialog/alert/inner'
 import Input from './input'
 import { useComments } from './inner'
 
@@ -30,8 +30,8 @@ export default function Comment({ data }: { data: commentData }) {
 
   const onEdit = async () => {
     const password = await createPrompt({
-      message: '비밀번호를 입력하세요',
-      inputType: 'password',
+      text: '비밀번호를 입력하세요',
+      type: 'password',
     })
     if (!password) {
       return
@@ -52,17 +52,17 @@ export default function Comment({ data }: { data: commentData }) {
     } else {
       const { error } = await res.json()
       await createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }
 
   const onDelete = async () => {
     const password = await createPrompt({
-      message: '비밀번호를 입력하세요',
-      code: '주의',
-      inputType: 'password',
+      title: '주의',
+      text: '비밀번호를 입력하세요',
+      type: 'password',
     })
     if (!password) {
       return
@@ -80,15 +80,15 @@ export default function Comment({ data }: { data: commentData }) {
     if (res.ok) {
       const { message } = await res.json()
       await createAlert({
-        message,
-        code: 'success',
+        title: 'success',
+        text: message,
       })
       refresh()
     } else {
       const { error } = await res.json()
       await createAlert({
-        message: error,
-        code: 'error',
+        title: 'error',
+        text: error,
       })
     }
   }

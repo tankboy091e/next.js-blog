@@ -12,7 +12,10 @@ export function getCookie(name : string) : string {
   const prefix = `${name}=`
   const division = document.cookie.split(';')
   for (let i = 0; i < division.length; i++) {
-    const value = division[i]
+    const value = division[i].trim()
+    if (!value) {
+      continue
+    }
     if (value.indexOf(prefix) === 0) {
       return value.substring(prefix.length, value.length)
     }

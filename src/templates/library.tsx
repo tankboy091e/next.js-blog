@@ -1,11 +1,9 @@
 import styles from 'sass/templates/library.module.scss'
 import { useAuth } from 'providers/auth'
-import Modal from 'providers/modal/modal'
+import Modal from 'components/modal'
 import useSWR from 'swr'
 import fetcher from 'lib/api/fetcher'
 import Book, { BookProps } from 'widgets/book'
-import LoadingSection from 'templates/loading'
-import ErrorSection from 'templates/error-section'
 import AddButton from 'widgets/add-button'
 import {
   createContext, useContext,
@@ -23,15 +21,7 @@ export const useLibrary = () => useContext(LibraryContext)
 export default function Library() {
   const { user } = useAuth()
 
-  const { data, error, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
-
-  if (error) {
-    return <ErrorSection />
-  }
-
-  if (!data) {
-    return <LoadingSection />
-  }
+  const { data, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
 
   const value = {
     mutate,
@@ -45,12 +35,17 @@ export default function Library() {
             <Librarian />
           </Modal>
         )}
+        <h1 className={styles.header}>Library</h1>
         <section className={styles.bookcase}>
-          {data.map((value) => {
+          {data && data.map((value) => {
             const {
               id, cover, itemPage,
             } = value
-            return <Book key={id} cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+            return (
+              <div key={id} className={styles.wrapper}>
+                <Book cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+              </div>
+            )
           })}
         </section>
       </section>

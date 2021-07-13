@@ -5,7 +5,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background-color: color.$darkenBackground;
     padding-top: 1.5rem;
     padding-bottom: 1rem;
     font-size: .8rem;
@@ -17,7 +16,10 @@
 }
 
 .copyright {
+    width: 100%;
+    text-align: center;
     color: darken(color.$primary, 10%);
     letter-spacing: .25rem;
     margin-top: 1.5rem;
+    padding: 0 .5rem;
 }

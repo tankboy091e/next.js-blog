@@ -20,8 +20,9 @@ export const getServerSideProps : GetServerSideProps = async (context) => {
 
   if (!res.ok) {
     return {
-      props: {
-        error: 'oops',
+      redirect: {
+        destination: '/404',
+        permanent: false,
       },
     }
   }

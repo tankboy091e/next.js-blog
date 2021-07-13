@@ -2,6 +2,20 @@
 
 .container {
     @include container.container('mobile');
-    min-height: 100vh;
-    padding: 1rem 1rem 1rem 0rem;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(white, .7);
+    padding: .5rem;
+    font-size: 1.5rem;
+}
+
+.body {
+    display: block;
+    width: calc(100% - 1rem);
+    padding-right: 1rem;
+    margin: 0 1rem 0 0;
+    border-right: 1px dotted rgba(white, .7);
 }

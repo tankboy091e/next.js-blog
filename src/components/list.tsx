@@ -1,5 +1,6 @@
 import { getDateArray } from 'lib/util/date'
 import Link from 'next/link'
+import { useAuth } from 'providers/auth'
 import styles from 'sass/components/list.module.scss'
 import Time from 'widgets/time'
 
@@ -20,9 +21,17 @@ export default function List({
   category: string,
   monthDivider?: boolean
 }) {
+  const { user } = useAuth()
   const total = length || data.length
   return (
     <ol className={styles.container}>
+      {user && (
+        <li className={styles.doc}>
+          <Link href={`/${category}/new`}>
+            <a href={`/${category}/new`} className={styles.new}>+ New</a>
+          </Link>
+        </li>
+      )}
       {data.slice(0, total).map(({ title, doc, createdAt }, index) => {
         const href = `/${category}/${doc}`
         const { month } = getDateArray(createdAt)
@@ -31,7 +40,11 @@ export default function List({
           && month !== getDateArray(data[index + 1].createdAt).month
         return (
           <li key={doc} className={styles.doc}>
-            {needMonth && <div className={styles.month}>{`${month}월`}</div>}
+            {needMonth && (
+              <div className={styles.month}>
+                {`${month}월`}
+              </div>
+            )}
             <Link href={href}>
               <a href={href} className={styles.inner}>
                 <h3 className={styles.title}>{title}</h3>

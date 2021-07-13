@@ -1,3 +1,4 @@
+import Background from 'components/background'
 import Footer from 'components/footer'
 import React from 'react'
 import styles from 'sass/layouts/default.module.scss'
@@ -11,10 +12,13 @@ export default function Layout({
 }) {
   return (
     <>
-      <main id={mainContainerID} className={styles.main}>
-        {children}
-      </main>
-      <Footer />
+      {/* <Background /> */}
+      <div className={styles.container}>
+        <main id={mainContainerID} className={styles.main}>
+          {children}
+        </main>
+        <Footer />
+      </div>
     </>
   )
 }
