@@ -13,7 +13,7 @@ function Page({ data } : any) {
     <Layout>
       <section className={styles.container}>
         <Title />
-        <About data={about} />
+        {/* <About data={about} /> */}
         <Bookcase data={books} />
         <Posts data={posts} />
       </section>
