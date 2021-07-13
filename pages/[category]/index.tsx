@@ -5,6 +5,7 @@ import List from 'components/list'
 import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
 import usePageQuery from 'lib/hooks/page-query'
+import { communicateWithContext } from 'lib/api'
 
 function Page({ data, titleHead } : any) {
   const { category } = usePageQuery()
@@ -35,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  const res = await fetch(`${getOrigin()}/api/${category}`)
+  const res = await communicateWithContext(`/${category}`, context)
 
   if (!res.ok) {
     return {
