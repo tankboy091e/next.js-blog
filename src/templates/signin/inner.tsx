@@ -6,7 +6,6 @@ import styles from 'sass/templates/signin.module.scss'
 export default function SigninInner() {
   const email = useRef<HTMLInputElement>()
   const password = useRef<HTMLInputElement>()
-  const remember = useRef<HTMLInputElement>()
 
   const { signin } = useAuth()
 
@@ -18,7 +17,6 @@ export default function SigninInner() {
         await signin(
           getValue(email, true),
           getValue(password, true),
-          remember.current.checked ? 'local' : 'session',
         )
       },
       backPath: '/admin',
@@ -41,10 +39,6 @@ export default function SigninInner() {
         placeholder="password"
         autoComplete="off"
       />
-      <label htmlFor="remember" className={styles.checkboxLabel}>
-        <input className={styles.checkbox} type="checkbox" ref={remember} name="remember" />
-        remember
-      </label>
     </>
   )
 }

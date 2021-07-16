@@ -1,28 +1,20 @@
 /* eslint-disable camelcase */
-import firebase from 'lib/db'
 import 'firebase/auth'
 import React, {
   createContext, useContext, useEffect, useState,
 } from 'react'
+import communicate from 'lib/api'
 import { deleteCookie, setCookie } from 'lib/util/cookie'
 import { useAlert } from './dialog/alert/inner'
 
-export const ACCESS_TOKEN = 'oh_cogito'
-type User = firebase.User
-type UserCredential = firebase.auth.UserCredential
-type firebasePersistence = 'none' | 'session' | 'local'
+export const ACCESS_TOKEN = 'oh_t_cogito'
 
 interface authProps {
-  user?: User
+  user?: boolean
   signin?: (
     email: string,
     password: string,
-    remember: firebasePersistence,
-  ) => Promise<UserCredential>
-  register?: (
-    email: string,
-    password: string,
-  ) => Promise<UserCredential>
+  ) => Promise<void>
   signout?: () => Promise<void>
 }
 
@@ -35,70 +27,58 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [user, setUser] = useState<User>(null)
+  const [user, setUser] = useState<boolean>(false)
   const { createAlert } = useAlert()
 
-  const signin = (
-    email: string,
-    password: string,
-    remember: firebasePersistence,
-  ) => firebase
-    .auth()
-    .setPersistence(remember)
-    .then((_) => firebase.auth().signInWithEmailAndPassword(email, password))
-
-  const register = (email: string, password: string) => firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-
-  const signout = () => firebase.auth().signOut()
-
-  const silentRefresh = async (user : User) => {
-    const res = await fetch('https://securetoken.googleapis.com/v1/token?key=AIzaSyCjXzzfZnv7AbJIqO_qM9oG1fxi3G2oRRs', {
-      body: JSON.stringify({
-        grant_type: 'refresh_token',
-        refresh_token: user.refreshToken,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
+  const signin = async (email: string, password: string) => {
+    const res = await communicate('/auth/signin', {
+      payload: {
+        email,
+        password,
       },
       method: 'POST',
     })
-    if (!res.ok) {
-      createAlert({
-        text: 'Silent refresh has failed.',
-      })
+    if (res.status !== 200) {
+      createAlert({ text: '오류가 발생했습니다' })
       return
     }
-    const data = await res.json()
-    const {
-      id_token = await user.getIdToken(),
-      expires_in = 3600,
-    } = data
-    setCookie('token', id_token, expires_in * 1000)
-    setTimeout(silentRefresh, (parseInt(expires_in, 10) - 60) * 1000, user)
+    const { access_token, expiresIn } = await res.json()
+    onResponse(access_token, expiresIn)
+  }
+
+  const signout = async () => {
+    const res = await communicate('/auth/signout')
+    if (!res.ok) {
+      createAlert({ text: '오류가 발생했습니다' })
+      return
+    }
+    deleteCookie(ACCESS_TOKEN)
+    setUser(false)
+  }
+
+  const silentRefresh = async () => {
+    const res = await communicate('/auth/token')
+    if (res.status !== 200) {
+      deleteCookie(ACCESS_TOKEN)
+      setUser(false)
+      return
+    }
+    const { access_token, expiresIn } = await res.json()
+    onResponse(access_token, expiresIn)
+  }
+
+  const onResponse = (accessToken: string, expiresIn: string) => {
+    setCookie(ACCESS_TOKEN, accessToken)
+    setUser(true)
+    setTimeout(silentRefresh, parseInt(expiresIn, 10) - 60 * 1000)
   }
 
   useEffect(() => {
-    firebase.auth().onIdTokenChanged(async (firebaseUser) => {
-      if (!firebaseUser) {
-        setUser(null)
-        deleteCookie('token')
-        return
-      }
-      setUser(firebaseUser)
-    })
+    silentRefresh()
   }, [])
 
-  useEffect(() => {
-    if (!user) {
-      return
-    }
-    silentRefresh(user)
-  }, [user])
-
   const value = {
-    user, signin, register, signout,
+    user, signin, signout,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { getDateArray } from 'lib/util/date'
 import Link from 'next/link'
 import { useAuth } from 'providers/auth'
@@ -6,8 +7,8 @@ import Time from 'widgets/time'
 
 export interface Data {
   title: string
-  doc: string
-  createdAt: string
+  id: string
+  created_at: string
 }
 
 export default function List({
@@ -32,12 +33,12 @@ export default function List({
           </Link>
         </li>
       )}
-      {data.slice(0, total).map(({ title, doc, createdAt }, index) => {
+      {data.slice(0, total).map(({ title, id: doc, created_at: createdAt }, index) => {
         const href = `/${category}/${doc}`
         const { month } = getDateArray(createdAt)
         const needMonth = monthDivider
           && index !== total - 1
-          && month !== getDateArray(data[index + 1].createdAt).month
+          && month !== getDateArray(data[index + 1].created_at).month
         return (
           <li key={doc} className={styles.doc}>
             {needMonth && (

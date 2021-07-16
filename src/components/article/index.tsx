@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useEffect, useRef } from 'react'
 import styles from 'sass/components/article/index.module.scss'
 import Time from 'widgets/time'
@@ -8,12 +9,12 @@ export interface ArticleData {
   subtitle: string
   content: string
   footnote: string
-  createdAt: string
+  created_at: string
 }
 
 export default function Article({ data }: { data: ArticleData }) {
   const {
-    title, subtitle, content, footnote, createdAt,
+    title, subtitle, content, footnote, created_at: createdAt,
   } = data
   const contentRef = useRef<HTMLElement>()
   const footnoteRef = useRef<HTMLElement>()

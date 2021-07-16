@@ -21,7 +21,7 @@ export const useLibrary = () => useContext(LibraryContext)
 export default function Library() {
   const { user } = useAuth()
 
-  const { data, mutate } = useSWR<BookProps[]>('/api/books', fetcher)
+  const { data, mutate } = useSWR<BookProps[]>(`${process.env.API_URL}/library`, fetcher)
 
   const value = {
     mutate,

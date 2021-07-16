@@ -23,21 +23,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       if (createdA < createdB) return 1
       return 0
     }))
-    .then((docs) => docs.map((doc) => {
-      const { createdAt, ...data } = doc.data()
-      if (category === 'gallary') {
-        return {
-          ...data,
-          doc: doc.id,
-          createdAt: createdAt?.toDate().toDateString(),
-        }
-      }
-      return {
-        title: data.title,
-        doc: doc.id,
-        createdAt: createdAt?.toDate().toDateString(),
-      }
-    }))
+    .then((docs) => docs.map((doc) => doc.data()))
     .then((data) => res.status(200).json(data))
     .catch((error) => res.status(500).json({ error: error.message }))
 })

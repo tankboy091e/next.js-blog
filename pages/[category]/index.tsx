@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next'
 import isValidCategory from 'lib/util/category'
 import styles from 'sass/templates/list.module.scss'
 import List from 'components/list'
-import getOrigin from 'lib/util/origin'
 import Layout from 'layouts/default'
 import usePageQuery from 'lib/hooks/page-query'
 import { communicateWithContext } from 'lib/api'
@@ -38,13 +37,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const res = await communicateWithContext(`/${category}`, context)
 
-  if (!res.ok) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
-    }
+  if (res.status !== 200) {
+    throw new Error()
   }
 
   const data = await res.json()
