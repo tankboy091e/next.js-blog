@@ -20,10 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category, pid } = context.params
   if (!isValidCategory(category)) {
     return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
+      notFound: true,
     }
   }
   const token = context.req.cookies[ACCESS_TOKEN]
@@ -39,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const res = await communicateWithContext(`/${category}/${pid}`, context)
 
-  if (res.status !== 200) {
+  if (res.status !== 200 && res.status !== 304) {
     throw new Error()
   }
 

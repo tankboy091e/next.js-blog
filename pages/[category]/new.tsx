@@ -18,10 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category } = context.params
   if (!isValidCategory(category)) {
     return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
+      notFound: true,
     }
   }
 

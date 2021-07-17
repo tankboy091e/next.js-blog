@@ -28,16 +28,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { category } = context.params
   if (!isValidCategory(category)) {
     return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
+      notFound: true,
     }
   }
 
   const res = await communicateWithContext(`/${category}`, context)
 
-  if (res.status !== 200) {
+  if (res.status !== 200 && res.status !== 304) {
     throw new Error()
   }
 

@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const res = await communicateWithContext(`/${category}/${pid}`, context)
 
-  if (res.status !== 200) {
+  if (res.status !== 200 && res.status !== 304) {
     throw new Error()
   }
 
