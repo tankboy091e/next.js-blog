@@ -1,5 +1,5 @@
-import Background from 'components/background'
 import Footer from 'components/footer'
+import AuthProvider from 'providers/auth'
 import React from 'react'
 import styles from 'sass/layouts/default.module.scss'
 
@@ -11,15 +11,14 @@ export default function Layout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      {/* <Background /> */}
+    <AuthProvider>
       <div className={styles.container}>
         <main id={mainContainerID} className={styles.main}>
           {children}
         </main>
         <Footer />
       </div>
-    </>
+    </AuthProvider>
   )
 }
 

@@ -5,7 +5,7 @@ import { useModal } from 'components/modal'
 import { NoteProps } from 'components/notes/note'
 
 interface DefaultQuotesProps {
-  isbn: string | string[]
+  library: string | string[]
   mutate?: Function
 }
 
@@ -29,7 +29,7 @@ export default function GallaryWriterInner() {
 
   useEffect(() => {
     setOptions({
-      input: '/api/gallary',
+      input: '/gallary',
       init: () => ({
         body: JSON.stringify({
           title: titleRef.current.value,

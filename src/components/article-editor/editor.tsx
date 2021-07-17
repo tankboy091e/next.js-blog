@@ -2,7 +2,6 @@ import {
   ChangeEvent, MutableRefObject, useEffect, useRef, useState,
 } from 'react'
 import getUuidv4 from 'lib/api/uuid'
-import hermes from 'lib/api/hermes'
 import { getValue, useForm } from 'providers/form'
 import { ArticleData } from 'components/article'
 import { useEditorPageQuery } from 'lib/hooks/page-query'
@@ -10,12 +9,13 @@ import { useAlert } from 'providers/dialog/alert/inner'
 import { usePrompt } from 'providers/dialog/prompt/inner'
 import styles from 'sass/components/article-editor.module.scss'
 import getAuthor from 'lib/util/author'
+import communicate from 'lib/api'
 import ToolBar, { command, CommandState, tools } from './toolbar'
 
 export interface ArticleEditorProps {
   data?: ArticleData
   input?: RequestInfo
-  method?: 'POST' | 'PUT'
+  method?: 'POST' | 'PATCH'
   backPath?: string
 }
 
@@ -48,9 +48,11 @@ export default function Editor({
     const formData = new FormData()
     formData.append('id', getUuidv4())
     formData.append('file', file)
-    const res = await hermes('/api/images', {
-      body: formData,
-      method: 'POST',
+    const res = await communicate('/api/images', {
+      options: {
+        body: formData,
+        method: 'POST',
+      },
     })
     if (res.ok) {
       const { url } = await res.json()
@@ -81,7 +83,7 @@ export default function Editor({
     })
 
     if (book) {
-      const res = await hermes(`/api/books/search?value=${book}&from=library`)
+      const res = await communicate(`/library/search?value=${book}&from=library`)
       if (res.ok) {
         const {
           author: authorquery, title, publisher, pubDate,
@@ -197,10 +199,9 @@ export default function Editor({
 
   useEffect(() => {
     setOptions({
-      input: input || `/api/${category}/`,
+      input: input || `/${category}`,
       init: () => ({
         body: JSON.stringify({
-          doc: data?.doc,
           title: getValue(title),
           subtitle: subtitle.current.value,
           content: content.current.contentDocument.body.innerHTML,

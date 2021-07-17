@@ -14,8 +14,8 @@ export default function ArticleEditor({
     <FormProvider>
       <Editor
         data={data}
-        input={`/api/${category}/${current}`}
-        method="PUT"
+        input={`/${category}/${current}`}
+        method="PATCH"
         backPath={`/${category}/${current}`}
       />
     </FormProvider>

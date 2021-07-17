@@ -1,10 +1,10 @@
 export function getDateArray(timestamp: string) {
-  const [dow, month, date, year] = timestamp.split(' ')
+  const date = new Date(timestamp)
   return {
-    dow: dayOfWeek[dow],
-    month: months.indexOf(month) + 1,
-    date: parseInt(date, 10),
-    year,
+    dow: dayOfWeek[date.getDay()],
+    month: date.getMonth() + 1,
+    date: date.getDate(),
+    year: date.getFullYear(),
   }
 }
 
@@ -44,12 +44,12 @@ const months = [
   'Dec',
 ]
 
-const dayOfWeek = {
-  Sun: '일',
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-}
+const dayOfWeek = [
+  '일',
+  '월',
+  '화',
+  '수',
+  '목',
+  '금',
+  '토',
+]

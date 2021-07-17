@@ -6,11 +6,11 @@ import Notes from 'components/notes'
 import Link from 'next/link'
 import ErrorSection from './error-section'
 
-export default function Quotes({ data } : { data : any}) {
+export default function Quotes({ id, data } : { id: number, data : any}) {
   const { load, onImageLoad } = useImageLoad(1)
 
   const {
-    isbn, itemPage, cover, link,
+    itemPage, cover, link,
   } = data
 
   if (!cover) {
@@ -28,7 +28,7 @@ export default function Quotes({ data } : { data : any}) {
             <BookDetails value={data} />
           </address>
         </header>
-        {load && <Notes isbn={isbn} />}
+        {load && <Notes id={id} />}
       </section>
       <Link href="/library">
         <a href="/library" className={styles.back}>Library</a>

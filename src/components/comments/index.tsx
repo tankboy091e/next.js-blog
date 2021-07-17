@@ -5,10 +5,12 @@ import Button from './button'
 import Inner from './inner'
 
 export default function Comments({
-  doc,
+  article,
+  data,
   sideWidget,
 } : {
-  doc: string,
+  article: number,
+  data: any
   sideWidget?: React.ReactChild
 }) {
   const router = useRouter()
@@ -26,7 +28,7 @@ export default function Comments({
       </section>
       {active && (
         <section className={styles.body}>
-          <Inner doc={doc} />
+          <Inner article={article} data={data} />
         </section>
       )}
     </section>

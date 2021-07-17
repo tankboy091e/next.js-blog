@@ -3,8 +3,12 @@ import { GetServerSidePropsContext } from 'next'
 import { ACCESS_TOKEN } from 'providers/auth'
 import { ParsedUrlQuery } from 'querystring'
 
-export function getApiUrl(url: string): string {
+export function getApiUrl(url: RequestInfo): RequestInfo {
   return `${process.env.API_URL}${url}`
+}
+
+export function getInteralApiUrl(url: RequestInfo) : RequestInfo {
+  return `${process.env.INTERNAL_API_URL}${url}`
 }
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -16,7 +20,7 @@ interface Protocol {
 }
 
 async function fetcher(
-  url: string,
+  url: RequestInfo,
   {
     payload,
     options,
@@ -28,7 +32,9 @@ async function fetcher(
 ) {
   const headers: any = options?.headers || {}
 
-  const init: RequestInit = {}
+  const init: RequestInit = {
+    credentials: 'include',
+  }
 
   if (method !== 'GET') {
     init.method = method
@@ -55,30 +61,30 @@ async function fetcher(
   }
 
   if (Object.keys(requestInit).length === 0) {
-    return fetch(getApiUrl(url))
+    return fetch(url)
   }
 
-  return fetch(getApiUrl(url), requestInit)
+  return fetch(url, requestInit)
 }
 
 export default async function communicate(
-  url: string,
+  url: RequestInfo,
   options?: Protocol,
 ): Promise<Response> {
   const token = getCookie(ACCESS_TOKEN)
-  return fetcher(url, {
+  return fetcher(getApiUrl(url), {
     ...options,
     token,
   })
 }
 
 export async function communicateWithContext(
-  url: string,
+  url: RequestInfo,
   context: GetServerSidePropsContext<ParsedUrlQuery>,
   options?: Protocol,
 ) {
   const token = context.req.cookies[ACCESS_TOKEN]
-  return fetcher(url, {
+  return fetcher(getInteralApiUrl(url), {
     ...options,
     token,
   })
