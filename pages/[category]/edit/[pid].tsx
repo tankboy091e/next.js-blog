@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       titleHead: 'edit',
-      data,
+      data: data.article,
       category,
       pid,
     },
