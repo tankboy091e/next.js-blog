@@ -1,8 +1,8 @@
-import { verifyIdToken } from 'lib/db/admin'
 import { GetServerSideProps } from 'next'
 import Layout from 'layouts/default'
 import ArticleWriter from 'templates/article-writer'
 import isValidCategory from 'lib/util/category'
+import { ACCESS_TOKEN } from 'providers/auth'
 
 function Page() {
   return (
@@ -24,20 +24,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
-  try {
-    const { cookies } = context.req
-    await verifyIdToken(cookies.token)
-    return {
-      props: {
-        titleHead: 'new',
-      },
-    }
-  } catch {
+
+  const token = context.req.cookies[ACCESS_TOKEN]
+
+  if (!token) {
     return {
       redirect: {
         destination: '/',
         permanent: false,
       },
     }
+  }
+
+  return {
+    props: {
+      titleHead: 'new',
+    },
   }
 }

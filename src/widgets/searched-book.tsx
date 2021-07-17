@@ -4,7 +4,7 @@ import Book from 'widgets/book'
 import BookDetails from 'widgets/book-details'
 import { useModal } from 'components/modal'
 import { useAlert } from 'providers/dialog/alert/inner'
-import hermes from 'lib/api/hermes'
+import communicate from 'lib/api'
 
 export default function SearchedBook({ value }: { value: any }) {
   const {
@@ -17,12 +17,9 @@ export default function SearchedBook({ value }: { value: any }) {
   const { close } = useModal()
 
   const onClick = async () => {
-    const res = await hermes('/api/books', {
-      body: JSON.stringify({
+    const res = await communicate('/book', {
+      payload: {
         isbn: isbn13 || isbn,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
       },
       method: 'POST',
     })

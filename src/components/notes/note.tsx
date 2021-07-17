@@ -6,10 +6,10 @@ import Modal from 'components/modal'
 import SpeechBubble from 'widgets/speech-bubble'
 import { useAlert } from 'providers/dialog/alert/inner'
 import { useConfirm } from 'providers/dialog/confirm/inner'
-import hermes from 'lib/api/hermes'
+import communicate from 'lib/api'
 
 export interface NoteProps {
-  id: string
+  id: number
   page: string
   paragraph: string
   annotation: string
@@ -18,11 +18,9 @@ export interface NoteProps {
 type NoteState = 'default' | 'edit'
 
 export default function Note({
-  isbn,
   mutate,
   value,
 }: {
-  isbn: string | string[]
   mutate: Function
   value: NoteProps
 }) {
@@ -47,13 +45,7 @@ export default function Note({
     if (!confirm) {
       return
     }
-    const res = await hermes(`/api/quotes/${isbn}`, {
-      body: JSON.stringify({
-        id,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const res = await communicate(`/quote/${id}`, {
       method: 'DELETE',
     })
 
@@ -65,10 +57,10 @@ export default function Note({
       })
       mutate()
     } else {
-      const { error } = await res.json()
+      const { message } = await res.json()
       createAlert({
         title: 'error',
-        text: error,
+        text: message,
       })
     }
   }
@@ -81,7 +73,7 @@ export default function Note({
     return (
       <Modal immediate onClose={onOff}>
         <NewQuotes
-          isbn={isbn}
+          library={id}
           id={id}
           page={page}
           paragraph={paragraph}

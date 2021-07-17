@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { useForm } from 'providers/form'
 import { useEffect, useRef } from 'react'
 import styles from 'sass/templates/new-quotes.module.scss'
@@ -5,7 +6,7 @@ import { useModal } from 'components/modal'
 import { NoteProps } from 'components/notes/note'
 
 interface DefaultQuotesProps {
-  isbn: string | string[]
+  library: number
   mutate?: Function
 }
 
@@ -15,7 +16,7 @@ interface EditQuotesProps extends DefaultQuotesProps {
 
 export type NewQuotesProps = DefaultQuotesProps | (EditQuotesProps & NoteProps)
 
-export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
+export default function NewQuotesInner({ value }: { value: NewQuotesProps }) {
   const { setOptions } = useForm()
   const { close } = useModal()
 
@@ -23,7 +24,7 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
   const paragraphRef = useRef<HTMLTextAreaElement>()
   const annotationRef = useRef<HTMLTextAreaElement>()
 
-  const { isbn, mutate } = value
+  const { mutate } = value
 
   const getResponse = () => {
     close()
@@ -41,30 +42,40 @@ export default function NewQuotesInner({ value } : { value : NewQuotesProps }) {
       annotationRef.current.value = annotation
     }
 
-    const extraBody = 'id' in value ? { id: value.id } : { isbn }
-    const method = 'id' in value ? 'PUT' : 'POST'
+    const isEdit = 'id' in value
+
+    const input = 'id' in value ? `/quote/${value.id}` : '/quote'
+
+    const method = isEdit ? 'PATCH' : 'POST'
 
     setOptions({
-      input: `/api/quotes/${isbn}`,
-      init: () => ({
-        body: JSON.stringify({
-          ...extraBody,
+      input,
+      init: () => {
+        const payload = {
           page: pageRef.current.value,
           paragraph: paragraphRef.current.value,
           annotation: annotationRef.current.value,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method,
-      }),
+        }
+
+        if (!isEdit) {
+          payload['library'] = value.library
+        }
+
+        return {
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method,
+        }
+      },
       getResponse,
       needToValidate: [pageRef, paragraphRef],
       containerClassName: styles.formContainer,
       innerClassName: styles.inner,
       submitClassName: styles.submit,
     })
-  }, [])
+  }, [value])
 
   return (
     <>

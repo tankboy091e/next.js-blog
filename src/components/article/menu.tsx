@@ -1,4 +1,4 @@
-import hermes from 'lib/api/hermes'
+import communicate from 'lib/api'
 import usePageQuery from 'lib/hooks/page-query'
 import { useAuth } from 'providers/auth'
 import { useAlert } from 'providers/dialog/alert/inner'
@@ -20,12 +20,10 @@ export default function ArticleMenu() {
     if (!confirm) {
       return
     }
-    const res = await hermes(`/api/${category}/${current}`, {
+    const res = await communicate(`/${category}/${current}`, {
       method: 'DELETE',
     })
     if (res.ok) {
-      const { message } = await res.json()
-      await createAlert({ text: message })
       router.push(`/${category}`)
     } else {
       const { error } = await res.json()

@@ -2,25 +2,23 @@ import React, { useEffect, useState } from 'react'
 import styles from 'sass/components/comments/comment.module.scss'
 import SpeechBubble from 'widgets/speech-bubble'
 import FormProvider from 'providers/form'
-import hermes from 'lib/api/hermes'
-import usePageQuery from 'lib/hooks/page-query'
 import { usePrompt } from 'providers/dialog/prompt/inner'
 import { useAlert } from 'providers/dialog/alert/inner'
+import communicate from 'lib/api'
 import Input from './input'
 import { useComments } from './inner'
 
 type commentState = 'default' | 'edit' | 'pending'
 
 export interface commentData {
-  id: string
-  name: string
+  id: number
+  username: string
   content: string
   createdAt: string
 }
 
 export default function Comment({ data }: { data: commentData }) {
-  const { category, current } = usePageQuery()
-  const { id, name, content } = data
+  const { id, username, content } = data
   const [state, setState] = useState<commentState>()
   const [password, setPassword] = useState(null)
   const { refresh } = useComments()
@@ -36,13 +34,10 @@ export default function Comment({ data }: { data: commentData }) {
     if (!password) {
       return
     }
-    const res = await hermes('/api/comments/validate', {
-      body: JSON.stringify({
+    const res = await communicate('/comment/validate', {
+      payload: {
         id,
         password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
       },
       method: 'POST',
     })
@@ -67,28 +62,20 @@ export default function Comment({ data }: { data: commentData }) {
     if (!password) {
       return
     }
-    const res = await hermes(`/api/comments/${category}/${current}`, {
-      body: JSON.stringify({
-        id,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const res = await communicate(`/comment/${id}`, {
       method: 'DELETE',
     })
     if (res.ok) {
-      const { message } = await res.json()
       await createAlert({
         title: 'success',
-        text: message,
+        text: 'request successed',
       })
       refresh()
     } else {
-      const { error } = await res.json()
+      const { message } = await res.json()
       await createAlert({
         title: 'error',
-        text: error,
+        text: message,
       })
     }
   }
@@ -104,7 +91,7 @@ export default function Comment({ data }: { data: commentData }) {
           id={id}
           method="PUT"
           submitValue="Edit"
-          name={name}
+          name={username}
           password={password}
           content={content}
           nameDisabled
@@ -115,7 +102,7 @@ export default function Comment({ data }: { data: commentData }) {
   }
   return (
     <SpeechBubble
-      head={<span className={styles.name}>{name}</span>}
+      head={<span className={styles.name}>{username}</span>}
       body={content}
       onEdit={onEdit}
       onDelete={onDelete}

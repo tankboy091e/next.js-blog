@@ -2,7 +2,7 @@ import { useForm } from 'providers/form'
 import React, { SetStateAction, useEffect, useRef } from 'react'
 import styles from 'sass/templates/librarian/search.module.scss'
 import { GoSearch } from 'react-icons/go'
-import hermes from 'lib/api/hermes'
+import communicate from 'lib/api'
 
 export default function Search({
   setData,
@@ -15,7 +15,7 @@ export default function Search({
   useEffect(() => {
     setOptions({
       onSubmit: async () => {
-        const res = await hermes(`/api/books/search?value=${inputRef.current.value}`)
+        const res = await communicate(`/library/search?value=${inputRef.current.value}`)
         const data = await res.json()
         setData(data)
       },

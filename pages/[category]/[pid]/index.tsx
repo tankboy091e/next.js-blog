@@ -8,19 +8,17 @@ import isValidCategory from 'lib/util/category'
 import Link from 'next/link'
 import { communicateWithContext } from 'lib/api'
 
-function Page(props: any) {
-  const {
-    doc, category,
-  } = props
-
+function Page({ comments, article, category }: any) {
   return (
     <Layout>
       <section className={styles.container}>
         <Link href={`/${category}`}>
-          <a href={`/${category}`} className={styles.back}>{category}</a>
+          <a href={`/${category}`} className={styles.back}>
+            {category}
+          </a>
         </Link>
-        <Article data={props} />
-        <Comments doc={doc} sideWidget={<ArticleMenu />} />
+        <Article data={article} />
+        <Comments article={article.id} data={comments} sideWidget={<ArticleMenu />} />
       </section>
     </Layout>
   )
@@ -44,14 +42,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const data = await res.json()
 
-  const { title, subtitle } = data
+  const { title, subtitle } = data.article
 
   return {
     props: {
       titleHead: `${title}${subtitle && `—${subtitle}`}` || null,
       typeHead: 'article',
       category,
-      pid,
       ...data,
     },
   }

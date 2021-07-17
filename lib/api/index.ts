@@ -3,7 +3,7 @@ import { GetServerSidePropsContext } from 'next'
 import { ACCESS_TOKEN } from 'providers/auth'
 import { ParsedUrlQuery } from 'querystring'
 
-export function getApiUrl(url: string): string {
+export function getApiUrl(url: RequestInfo): string {
   return `${process.env.API_URL}${url}`
 }
 
@@ -16,7 +16,7 @@ interface Protocol {
 }
 
 async function fetcher(
-  url: string,
+  url: RequestInfo,
   {
     payload,
     options,
@@ -28,7 +28,9 @@ async function fetcher(
 ) {
   const headers: any = options?.headers || {}
 
-  const init: RequestInit = {}
+  const init: RequestInit = {
+    credentials: 'include',
+  }
 
   if (method !== 'GET') {
     init.method = method
@@ -62,7 +64,7 @@ async function fetcher(
 }
 
 export default async function communicate(
-  url: string,
+  url: RequestInfo,
   options?: Protocol,
 ): Promise<Response> {
   const token = getCookie(ACCESS_TOKEN)
@@ -73,7 +75,7 @@ export default async function communicate(
 }
 
 export async function communicateWithContext(
-  url: string,
+  url: RequestInfo,
   context: GetServerSidePropsContext<ParsedUrlQuery>,
   options?: Protocol,
 ) {

@@ -1,11 +1,11 @@
+/* eslint-disable dot-notation */
 import React, { useEffect, useRef } from 'react'
-import usePageQuery from 'lib/hooks/page-query'
 import styles from 'sass/components/comments/input.module.scss'
 import { useForm } from 'providers/form'
 import { useComments } from './inner'
 
 export default function Input({
-  doc,
+  article,
   id,
   name = '',
   password = '',
@@ -15,8 +15,8 @@ export default function Input({
   submitValue,
   method = 'POST',
 }: {
-  doc?: string
-  id?: string
+  article?: number
+  id?: number
   name?: string
   password?: string
   content?: string
@@ -25,7 +25,6 @@ export default function Input({
   submitValue?: string
   method?: string
 }) {
-  const { category, current } = usePageQuery()
   const { setOptions } = useForm()
   const { refresh } = useComments()
   const nameRef = useRef<HTMLInputElement>()
@@ -37,21 +36,33 @@ export default function Input({
     passwordRef.current.value = password
     contentRef.current.value = content
 
+    const isEdit = id !== undefined
+
+    const input = isEdit ? `/comment/${id}` : '/comment'
+
     setOptions({
-      input: `/api/comments/${category}/${current}`,
-      init: () => ({
-        body: JSON.stringify({
-          doc,
-          id,
-          name: nameRef.current.value,
+      input,
+      init: () => {
+        const payload: {
+          [key: string]: any
+        } = {
           password: passwordRef.current.value,
           content: contentRef.current.value,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method,
-      }),
+        }
+
+        if (!isEdit) {
+          payload['article'] = article
+          payload['username'] = nameRef.current.value
+        }
+
+        return {
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method,
+        }
+      },
       needToValidate: [nameRef, passwordRef, contentRef],
       transitionInterval: 2000,
       getResponse: () => refresh(),
@@ -60,7 +71,7 @@ export default function Input({
       innerClassName: styles.formInner,
       submitClassName: styles.submit,
     })
-  }, [])
+  }, [id])
 
   return (
     <section className={styles.container}>

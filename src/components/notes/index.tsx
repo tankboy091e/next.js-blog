@@ -8,8 +8,8 @@ import AddButton from 'widgets/add-button'
 import NewQuotes from 'templates/new-quotes'
 import Note, { NoteProps } from './note'
 
-export default function Notes({ isbn }: { isbn: string | string[] }) {
-  const { data, error, mutate } = useSWR<NoteProps[]>(`/api/quotes/${isbn}`, fetcher)
+export default function Notes({ id }: { id: number}) {
+  const { data, error, mutate } = useSWR<NoteProps[]>(`${process.env.API_URL}/quote?library=${id}`, fetcher)
   const { user } = useAuth()
 
   if (error) {
@@ -29,7 +29,7 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
       <>
         {user && (
           <Modal initializer={<AddButton />}>
-            <NewQuotes isbn={isbn} mutate={mutate} />
+            <NewQuotes library={id} mutate={mutate} />
           </Modal>
         )}
       </>
@@ -39,11 +39,11 @@ export default function Notes({ isbn }: { isbn: string | string[] }) {
   return (
     <>
       <section className={styles.container}>
-        {data.map((value) => <Note key={value.id} isbn={isbn} value={value} mutate={mutate} />)}
+        {data.map((value) => <Note key={value.id} value={value} mutate={mutate} />)}
       </section>
       {user && (
         <Modal initializer={<AddButton />}>
-          <NewQuotes isbn={isbn} mutate={mutate} />
+          <NewQuotes library={id} mutate={mutate} />
         </Modal>
       )}
     </>

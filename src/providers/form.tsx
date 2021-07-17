@@ -1,4 +1,4 @@
-import hermes from 'lib/api/hermes'
+import communicate from 'lib/api'
 import { getClassName } from 'lib/util'
 import Router from 'next/router'
 import React, {
@@ -89,7 +89,7 @@ export default function FormProvider({
       await onSubmit(e)
       setState({
         state: 'success',
-        message: successDescription || 'Processed Sucessfully.',
+        message: successDescription || 'request successed',
       })
     } catch (error) {
       const message = error instanceof VailidationError
@@ -103,19 +103,27 @@ export default function FormProvider({
   }
 
   const handleFetch = async (input: RequestInfo, init?: RequestInit) => {
-    const res = await hermes(input, init)
+    const res = await communicate(input, {
+      options: init,
+    })
     if (res.ok) {
-      const { data, message } = await res.json()
+      if (res.status === 204) {
+        setState({
+          state: 'success',
+        })
+        return
+      }
+      const { data } = await res.json()
       setData(() => data)
       setState(() => ({
         state: 'success',
-        message,
+        message: 'request successed',
       }))
     } else {
-      const { error } = await res.json()
+      const { message } = await res.json()
       setState({
         state: 'error',
-        message: error,
+        message,
       })
     }
   }

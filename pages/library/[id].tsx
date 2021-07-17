@@ -1,12 +1,12 @@
 import Layout from 'layouts/default'
-import getOrigin from 'lib/util/origin'
+import { communicateWithContext } from 'lib/api'
 import { GetServerSideProps } from 'next'
 import Quotes from 'templates/quotes'
 
-function Page({ data } : any) {
+function Page({ id, data } : any) {
   return (
     <Layout>
-      <Quotes data={data} />
+      <Quotes id={parseInt(id, 10)} data={data} />
     </Layout>
   )
 }
@@ -14,29 +14,23 @@ function Page({ data } : any) {
 export default Page
 
 export const getServerSideProps : GetServerSideProps = async (context) => {
-  const { isbn } = context.query
+  const { id } = context.query
 
-  const res = await fetch(`${getOrigin()}/api/books/${isbn}`)
+  const res = await communicateWithContext(`/library/${id}`, context)
 
-  if (!res.ok) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false,
-      },
-    }
+  if (res.status !== 200) {
+    throw new Error()
   }
 
   const data = await res.json()
 
   const { title } = data
+
   return {
     props: {
       titleHead: title || null,
-      data: {
-        isbn,
-        ...data,
-      },
+      id,
+      data,
     },
   }
 }

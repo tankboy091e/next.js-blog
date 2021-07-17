@@ -5,7 +5,7 @@ export function setCookie(name: string, value: any, ms?: number) : void {
     date.setTime(date.getTime() + ms)
     expires = `; expires=${date.toUTCString()};`
   }
-  document.cookie = `${name}=${value || ''}${expires} path=/`
+  document.cookie = `${name}=${value || ''}${expires}`
 }
 
 export function getCookie(name : string) : string {

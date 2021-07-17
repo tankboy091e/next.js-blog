@@ -1,13 +1,12 @@
 import styles from 'sass/templates/library.module.scss'
 import { useAuth } from 'providers/auth'
 import Modal from 'components/modal'
-import useSWR from 'swr'
-import fetcher from 'lib/api/fetcher'
-import Book, { BookProps } from 'widgets/book'
+import Book from 'widgets/book'
 import AddButton from 'widgets/add-button'
 import {
-  createContext, useContext,
+  createContext, useContext, useState,
 } from 'react'
+import communicate from 'lib/api'
 import Librarian from './librarian'
 
 interface LibraryContextProps {
@@ -18,10 +17,22 @@ const LibraryContext = createContext<LibraryContextProps>(null)
 
 export const useLibrary = () => useContext(LibraryContext)
 
-export default function Library() {
+export default function Library({ data } : { data: any[]}) {
   const { user } = useAuth()
 
-  const { data, mutate } = useSWR<BookProps[]>(`${process.env.API_URL}/library`, fetcher)
+  const [books, setBooks] = useState<any[]>(data)
+
+  const mutate = async () => {
+    const res = await communicate('/library')
+
+    if (res.status !== 200) {
+      return
+    }
+
+    const data = await res.json()
+
+    setBooks(data)
+  }
 
   const value = {
     mutate,
@@ -37,7 +48,7 @@ export default function Library() {
         )}
         <h1 className={styles.header}>Library</h1>
         <section className={styles.bookcase}>
-          {data && data.map((value) => {
+          {books && books.map((value) => {
             const {
               id, cover, itemPage,
             } = value
