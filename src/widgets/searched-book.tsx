@@ -17,7 +17,7 @@ export default function SearchedBook({ value }: { value: any }) {
   const { close } = useModal()
 
   const onClick = async () => {
-    const res = await communicate('/book', {
+    const res = await communicate('/library', {
       payload: {
         isbn: isbn13 || isbn,
       },
