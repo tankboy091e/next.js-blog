@@ -10,7 +10,7 @@ export default function Quotes({ id, data } : { id: number, data : any}) {
   const { load, onImageLoad } = useImageLoad(1)
 
   const {
-    itemPage, cover, link,
+    page, cover, link,
   } = data
 
   if (!cover) {
@@ -22,7 +22,7 @@ export default function Quotes({ id, data } : { id: number, data : any}) {
       <section className={styles.container}>
         <header className={styles.header}>
           <section className={styles.window}>
-            <Book link={link} cover={cover} itemPage={itemPage} onload={onImageLoad} />
+            <Book link={link} cover={cover} page={page} onload={onImageLoad} />
           </section>
           <address className={styles.info}>
             <BookDetails value={data} />

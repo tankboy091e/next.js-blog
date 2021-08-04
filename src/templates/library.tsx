@@ -50,11 +50,11 @@ export default function Library({ data } : { data: any[]}) {
         <section className={styles.bookcase}>
           {books && books.map((value) => {
             const {
-              id, cover, itemPage,
+              id, cover, page,
             } = value
             return (
               <div key={id} className={styles.wrapper}>
-                <Book cover={cover} itemPage={itemPage} link={`/library/${id}`} />
+                <Book cover={cover} page={page} link={`/library/${id}`} />
               </div>
             )
           })}

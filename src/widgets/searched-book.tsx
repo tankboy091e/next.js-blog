@@ -8,7 +8,7 @@ import communicate from 'lib/api'
 
 export default function SearchedBook({ value }: { value: any }) {
   const {
-    link, cover, isbn13, isbn, itemPage,
+    link, cover, isbn13, isbn, page,
   } = value
 
   const { createAlert } = useAlert()
@@ -17,7 +17,7 @@ export default function SearchedBook({ value }: { value: any }) {
   const { close } = useModal()
 
   const onClick = async () => {
-    const res = await communicate('/book', {
+    const res = await communicate('/library', {
       payload: {
         isbn: isbn13 || isbn,
       },
@@ -43,7 +43,7 @@ export default function SearchedBook({ value }: { value: any }) {
   return (
     <section className={styles.container}>
       <button className={styles.showcase} type="button" onClick={onClick}>
-        <Book link={link} cover={cover} itemPage={itemPage} />
+        <Book link={link} cover={cover} page={page} />
       </button>
       <address className={styles.info}>
         <BookDetails value={value} />
