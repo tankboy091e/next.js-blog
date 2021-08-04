@@ -5,7 +5,7 @@ import Book from 'widgets/book'
 interface Data {
   id: string,
   cover: string,
-  itemPage: number,
+  page: number,
 }
 
 export default function Bookcase({ data } : { data: Data[]}) {
@@ -13,9 +13,9 @@ export default function Bookcase({ data } : { data: Data[]}) {
     <section className={styles.container}>
       <SectionHeader category="library" />
       <section className={styles.window}>
-        {data.map(({ id, cover, itemPage }) => (
+        {data.map(({ id, cover, page }) => (
           <div key={id} className={styles.case}>
-            <Book cover={cover} itemPage={itemPage} link={`/library/${id}`} tilt />
+            <Book cover={cover} page={page} link={`/library/${id}`} tilt />
           </div>
         ))}
       </section>

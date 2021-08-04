@@ -13,18 +13,18 @@ export interface BookProps {
   cover: string
   link: string
   id: string
-  itemPage: number
+  page: number
 }
 
 export default function Book({
   cover,
-  itemPage = 100,
+  page = 100,
   link,
   tilt,
   onload,
 }: {
   cover: string
-  itemPage?: number
+  page?: number
   link: string
   tilt?: boolean
   onload?: () => void
@@ -34,7 +34,7 @@ export default function Book({
     pageWidth: number
     back: string
   } => {
-    const pageWidth = Math.round(itemPage / 8)
+    const pageWidth = Math.round(page / 8)
     if (cover.includes('firebasestorage')) {
       return {
         front: cover,
